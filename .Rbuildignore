@@ -3,3 +3,5 @@
 ^Makefile$
 ^Readme\\.$
 ^README\..*$
+^inst$
+^tmp$

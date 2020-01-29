@@ -8,33 +8,53 @@
 #' @return invisibly \code{TRUE} when completed successful
 #'
 #' @importFrom R.utils bzip2
+#' @importFrom parallel mclapply
+#'
 #' @export
 #'
-pre_processor_bemovi <- function( input, output ) {
+pre_processor_bemovi <- function(
+  input,
+  output
+) {
   message("\n########################################################\n")
-  message("\nProcessing bemovi...\n")
-  cxd <- list.files(
+  message("Processing bemovi...\n")
+  ##
+  cxds <- list.files(
     path = file.path( input, "bemovi" ),
-    pattern = "*.cxd",
-    full.names = TRUE
+    pattern = "*.cxd"
   )
-  for (fn in cxd) {
-    cmd <- file.path( system.file(package = utils::packageName()), "tools", "bftools", "bfconvert" )
-    arguments = paste(
-      "-overwrite",
-      "-no-upgrade",
-      fn,
-      gsub(".cxd", ".avi", fn),
-      sep = " "
-    )
-    system2(
-      command = cmd,
-      args = arguments
-    )
-    unlink(fn)
-  }
-  message("done\n")
-  message("\n########################################################\n")
+  ##
+  dir.create(
+    file.path(output, "bemovi"),
+    showWarnings = FALSE,
+    recursive = TRUE
+  )
+  ##
+  parallel::mclapply(
+    cxds,
+    function(cxd) {
+      cmd <- file.path( system.file(package = "LEEF.bemovi", "tools", "bftools", "bfconvert" ))
+      arguments = paste(
+        "-overwrite",
+        "-no-upgrade",
+        file.path( input, "bemovi", cxd ),
+        file.path( output, "bemovi", gsub(".cxd", ".avi", cxd) ),
+        sep = " "
+      )
+      system2(
+        command = cmd,
+        args = arguments
+      )
+    }
+  )
+  ##
+  file.copy(
+    from = file.path( input,  "bemovi", "bemovi_extract.yml"),
+    to   = file.path( output, "bemovi", "bemovi_extract.yml"),
+    overwrite = TRUE
+  )
+  message("\ndone\n")
+  message("########################################################\n")
 
   invisible(TRUE)
 }

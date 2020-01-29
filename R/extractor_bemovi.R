@@ -17,9 +17,18 @@
 #' @importFrom utils write.table
 #' @export
 
-extractor_bemovi <- function( input, output ) {
+extractor_bemovi <- function(
+  input,
+  output
+) {
   message("\n########################################################\n")
   message("Extracting bemovi...\n")
+
+  dir.create(
+    file.path(output, "bemovi"),
+    showWarnings = FALSE,
+    recursive = TRUE
+  )
 
   # Get avi file names ------------------------------------------------------
 
@@ -39,21 +48,22 @@ extractor_bemovi <- function( input, output ) {
   }
 
 
-# Load behove_extract.yml parameter ---------------------------------------
+# Load bemovi_extract.yml parameter ---------------------------------------
 
-  bemovi::load_parameter( file.path(raw, "bemovi", "bemovi_extract.yml") )
+  bemovi::load_parameter( file.path(input, "bemovi", "bemovi_extract.yml") )
+  bemovi::par_IJ.path( system.file(package = "LEEF.bemovi", "tools", "Fiji.app", "Contents", "MacOS" ) )
+  bemovi::par_to.data( file.path(output, "bemovi") )
+  bemovi::par_to.particlelinker( system.file(package = "LEEF.bemovi", "tools", "ParticleLinker" ) )
 
-# Define and create folder structure -------------------------------------------------
+# Define and create temporary folder structure -------------------------------------------------
 
   bemovi::par_to.data( tempfile( pattern = "bemovi.") )
 
   bemovi::Create_folder_structure()
-  file.copy(
-    from = bemovi_files,
-    to = file.path( bemovi::par_to.data(), bemovi::par_raw.video.folder() ),
-    recursive = TRUE
+  file.symlink(
+    from = normalizePath(bemovi_files),
+    to = file.path( bemovi::par_to.data(), bemovi::par_raw.video.folder() )
   )
-
 
 # Create video.description.file -------------------------------------------
 
