@@ -33,7 +33,7 @@ pre_processor_bemovi <- function(
   parallel::mclapply(
     cxds,
     function(cxd) {
-      cmd <- file.path( system.file(package = "LEEF.bemovi", "tools", "bftools", "bfconvert" ))
+      cmd <- file.path( system.file(package = "LEEF.measurement.bemovi", "tools", "bftools", "bfconvert" ))
       arguments = paste(
         "-overwrite",
         "-no-upgrade",
