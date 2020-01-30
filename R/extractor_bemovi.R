@@ -105,8 +105,9 @@ extractor_bemovi <- function(
   # temporary files, which are subsequently deleted.
   #
   # RESULT: file.path( trajectory.data.older, "trajectory.rds")
-  bemovi::link_particles( start_vid = 1 )
-
+  if ( length(list.files( file.path(bemovi::par_to.data(), bemovi::par_particle.data.folder()) ) ) > 0 ) {
+    bemovi::link_particles( start_vid = 1 )
+  }
 
 # Merge Morphological data and Trajectories in single data.frame ----------
 
@@ -117,8 +118,9 @@ extractor_bemovi <- function(
   # to the locate_and_measure_particles() and link_particles() functions.
   #
   # RESULT: file.path( merged.data.folder, "Master.rds")
-  bemovi::merge_data()
-
+  if ( length(list.files( file.path(bemovi::par_to.data(), bemovi::par_particle.data.folder()) ) ) > 0 ) {
+    bemovi::merge_data()
+  }
 
 #   stop("Until here and no further!!!")
 # # Filter trajectory data --------------------------------------------------
