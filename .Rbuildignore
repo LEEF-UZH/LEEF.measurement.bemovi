@@ -3,5 +3,13 @@
 ^Makefile$
 ^Readme\\.$
 ^README\..*$
-^inst$
+
+## Temporary folder
 ^tmp$
+^temp$
+
+## Example Data Folder
+^inst/0.raw.data$
+
+## Tools Folder
+^inst/tools$

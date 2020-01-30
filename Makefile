@@ -77,13 +77,13 @@ clean_vignettes:
 
 ####
 
-build:
+build: docs
 	cd ..;\
 	R CMD build $(PKGSRC)
 
 ####
 
-build-cran:
+build-cran: docs
 	cd ..;\
 	R CMD build $(PKGSRC)
 
