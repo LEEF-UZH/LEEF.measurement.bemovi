@@ -24,11 +24,8 @@ pre_processor_bemovi <- function(
     pattern = "*.cxd"
   )
   ##
-  dir.create(
-    file.path(output, "bemovi"),
-    showWarnings = FALSE,
-    recursive = TRUE
-  )
+  tmpdir <- tempfile()
+  dir.create( tmpdir, recursive = TRUE )
   ##
   parallel::mclapply(
     cxds,
@@ -38,7 +35,7 @@ pre_processor_bemovi <- function(
         "-overwrite",
         "-no-upgrade",
         file.path( input, "bemovi", cxd ),
-        file.path( output, "bemovi", gsub(".cxd", ".avi", cxd) ),
+        file.path( tmpdir, gsub(".cxd", ".avi", cxd) ),
         sep = " "
       )
       system2(
@@ -50,9 +47,23 @@ pre_processor_bemovi <- function(
   ##
   file.copy(
     from = file.path( input,  "bemovi", "bemovi_extract.yml"),
-    to   = file.path( output, "bemovi", "bemovi_extract.yml"),
+    to   = file.path( tmpdir, "bemovi_extract.yml"),
     overwrite = TRUE
   )
+  ##
+  dir.create(
+    file.path(output, "bemovi"),
+    showWarnings = FALSE,
+    recursive = TRUE
+  )
+  file.copy(
+    from   = file.path( tmpdir, "."),
+    to = file.path( output,  "bemovi"),
+    recursive = TRUE,
+    overwrite = TRUE
+  )
+  unlink( tmpdir, recursive = TRUE )
+  ##
   message("\ndone\n")
   message("########################################################\n")
 
