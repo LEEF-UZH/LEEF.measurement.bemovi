@@ -11,6 +11,7 @@
 ## Example Data Folder
 ^inst/0.raw.data$
 ^inst/1.pre-processed.data$
+^inst/2.extracted.data$
 
 ## Tools Folder
 ^inst/tools$
