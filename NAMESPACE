@@ -3,8 +3,6 @@
 export(extractor_bemovi)
 export(pre_processor_bemovi)
 export(register)
-importFrom(LEEF.Data,add_extractor)
-importFrom(LEEF.Data,add_pre_processor)
 importFrom(R.utils,bzip2)
 importFrom(bemovi,check_video_file_names)
 importFrom(bemovi,link_particles)

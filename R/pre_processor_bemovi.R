@@ -31,17 +31,29 @@ pre_processor_bemovi <- function(
     cxds,
     function(cxd) {
       cmd <- file.path( system.file(package = "LEEF.measurement.bemovi", "tools", "bftools", "bfconvert" ))
-      arguments = paste(
+      if (is.null(cmd)) {
+        stop("bftools not available in expected path!")
+      }
+      arguments <-  paste(
         "-overwrite",
         "-no-upgrade",
         file.path( input, "bemovi", cxd ),
         file.path( tmpdir, gsub(".cxd", ".avi", cxd) ),
         sep = " "
       )
-      system2(
-        command = cmd,
-        args = arguments
-      )
+      if (options()$LEEF.measurement.bemovi$debug) {
+        system2(
+          command = cmd,
+          args = arguments
+        )
+      } else {
+        system2(
+          command = cmd,
+          args = arguments,
+          stdout = NULL
+        )
+
+      }
     }
   )
   ##

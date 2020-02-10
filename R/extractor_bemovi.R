@@ -52,6 +52,7 @@ extractor_bemovi <- function(
 
   bemovi::load_parameter( file.path(input, "bemovi", "bemovi_extract.yml") )
   bemovi::par_IJ.path( system.file(package = "LEEF.measurement.bemovi", "tools", "Fiji.app", "Contents", "MacOS" ) )
+  bemovi::par_java.path( file.path( bemovi::par_IJ.path(), "..", "..", "java", "macosx", "jdk1.8.0_172.jre", "jre", "Contents", "Home", "bin") )
   bemovi::par_to.data( file.path(output, "bemovi") )
   bemovi::par_to.particlelinker( system.file(package = "LEEF.measurement.bemovi", "tools", "ParticleLinker" ) )
 
