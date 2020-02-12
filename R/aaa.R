@@ -4,5 +4,5 @@
   opt <-  list(
     debug = FALSE
   )
-  options(LEEF.measurement.bemovi = opt)
+  options(LEEF.measurement.flowcam = opt)
 }
