@@ -30,7 +30,7 @@ pre_processor_bemovi <- function(
   parallel::mclapply(
     cxds,
     function(cxd) {
-      cmd <- file.path( system.file(package = "LEEF.measurement.bemovi", "tools", "bftools", "bfconvert" ))
+      cmd <- file.path( file.path( tools_path(), "bftools", "bfconvert" ))
       if (is.null(cmd)) {
         stop("bftools not available in expected path!")
       }

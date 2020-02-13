@@ -49,12 +49,11 @@ extractor_bemovi <- function(
 
 
 # Load bemovi_extract.yml parameter ---------------------------------------
-
   bemovi::load_parameter( file.path(input, "bemovi", "bemovi_extract.yml") )
-  bemovi::par_IJ.path( system.file(package = "LEEF.measurement.bemovi", "tools", "Fiji.app", "Contents", "MacOS" ) )
-  bemovi::par_java.path( file.path( bemovi::par_IJ.path(), "..", "..", "java", "macosx", "jdk1.8.0_172.jre", "jre", "Contents", "Home", "bin") )
+  bemovi::par_IJ.path(file.path( tools_path(), "Fiji.app", "Contents", "MacOS" ) )
+  bemovi::par_java.path( file.path( tools_path(),  "Fiji.app", "java", "macosx", "jdk1.8.0_172.jre", "jre", "Contents", "Home", "bin") )
   bemovi::par_to.data( file.path(output, "bemovi") )
-  bemovi::par_to.particlelinker( system.file(package = "LEEF.measurement.bemovi", "tools", "ParticleLinker" ) )
+  bemovi::par_to.particlelinker( file.path( tools_path(), "ParticleLinker" ) )
 
 # Define and create temporary folder structure -------------------------------------------------
 
@@ -309,7 +308,12 @@ extractor_bemovi <- function(
     )
   )
 
-  bemovi::save_parameter( file.path( add_path, "bemovi_extract.yml") )
+  file.copy(
+    from = file.path(input, "bemovi", "bemovi_extract.yml"),
+    to = file.path( add_path, "bemovi_extract.yml" ),
+    overwrite = TRUE
+  )
+  # bemovi::save_parameter( file.path( add_path, "bemovi_extract.yml") )
 
 # Finalize ----------------------------------------------------------------
 

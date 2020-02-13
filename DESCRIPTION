@@ -1,7 +1,7 @@
 Package: LEEF.measurement.bemovi
 Type: Package
 Title: Prepares movies for analysis with bemovi and extracts data
-Version: 0.5.0
+Version: 0.5.1
 Author: Rainer M Krug <Rainer.Krug@uzh.ch>
 Maintainer: Rainer M Krug <Rainer.Krug@uzh.ch>
 Description: More about what it does (maybe more than one line)

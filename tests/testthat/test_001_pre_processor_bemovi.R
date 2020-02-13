@@ -41,7 +41,7 @@ test_that(
   "pre_processor_bemovi() returns correct result",
   expect_known_hash(
     hash( file.path(pre_processed, "bemovi") ),
-    hash = "3bde47ee55"
+    hash = "871d4c1f6b"
   )
 )
 
@@ -60,10 +60,10 @@ test_that(
 )
 
 test_that(
-  "pre_processor_bemovi() returns correct result",
+  "extractor_bemovi() returns correct result",
   expect_known_hash(
     hash( file.path(extracted, "bemovi") ),
-    hash = "fdddbcb760"
+    hash = "096eb5ba0f"
   )
 )
 

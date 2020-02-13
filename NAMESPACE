@@ -3,6 +3,7 @@
 export(extractor_bemovi)
 export(pre_processor_bemovi)
 export(register)
+export(tools_path)
 importFrom(R.utils,bzip2)
 importFrom(bemovi,check_video_file_names)
 importFrom(bemovi,link_particles)
