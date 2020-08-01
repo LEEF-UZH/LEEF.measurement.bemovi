@@ -1,7 +1,7 @@
 Package: LEEF.measurement.bemovi
 Type: Package
 Title: Prepares movies for analysis with bemovi and extracts data
-Version: 0.5.1
+Version: 0.5.2
 Author: Rainer M Krug <Rainer.Krug@uzh.ch>
 Maintainer: Rainer M Krug <Rainer.Krug@uzh.ch>
 Description: More about what it does (maybe more than one line)
@@ -10,14 +10,14 @@ License: MIT + file LICENSE
 Depends: 
     R (>= 3.5.0)
 Imports: 
-    bemovi (>= 1.0.1), 
+    bemovi.LEEF (>= 1.0.1), 
     R.utils, 
     utils, 
     parallel
 Additional_repositories: https://leef-uzh.github.io/drat/
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.1.9000
 Suggests: 
     LEEF.Data,
     testthat,

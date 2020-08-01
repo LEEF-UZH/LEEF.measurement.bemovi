@@ -10,10 +10,10 @@
 #'
 #' @return invisibly \code{TRUE} when completed successful
 #'
-#' @importFrom bemovi check_video_file_names locate_and_measure_particles link_particles merge_data
-#' @importFrom bemovi par_to.data par_video.description.folder par_raw.video.folder par_particle.data.folder par_trajectory.data.folder
-#' @importFrom bemovi par_temp.overlay.folder par_overlay.folder par_merged.data.folder par_ijmacs.folder par_to.particlelinker
-#' @importFrom bemovi par_memory par_pixel_to_scale par_difference.lag par_thresholds par_min_size
+#' @importFrom bemovi.LEEF check_video_file_names locate_and_measure_particles link_particles merge_data
+#' @importFrom bemovi.LEEF par_to.data par_video.description.folder par_raw.video.folder par_particle.data.folder par_trajectory.data.folder
+#' @importFrom bemovi.LEEF par_temp.overlay.folder par_overlay.folder par_merged.data.folder par_ijmacs.folder par_to.particlelinker
+#' @importFrom bemovi.LEEF par_memory par_pixel_to_scale par_difference.lag par_thresholds par_min_size
 #' @importFrom utils write.table
 #' @export
 
@@ -49,20 +49,20 @@ extractor_bemovi <- function(
 
 
 # Load bemovi_extract.yml parameter ---------------------------------------
-  bemovi::load_parameter( file.path(input, "bemovi", "bemovi_extract.yml") )
-  bemovi::par_IJ.path(file.path( tools_path(), "Fiji.app", "Contents", "MacOS" ) )
-  bemovi::par_java.path( file.path( tools_path(),  "Fiji.app", "java", "macosx", "jdk1.8.0_172.jre", "jre", "Contents", "Home", "bin") )
-  bemovi::par_to.data( file.path(output, "bemovi") )
-  bemovi::par_to.particlelinker( file.path( tools_path(), "ParticleLinker" ) )
+  bemovi.LEEF::load_parameter( file.path(input, "bemovi", "bemovi_extract.yml") )
+  bemovi.LEEF::par_IJ.path(file.path( tools_path(), "Fiji.app", "Contents", "MacOS" ) )
+  bemovi.LEEF::par_java.path( file.path( tools_path(),  "Fiji.app", "java", "macosx", "jdk1.8.0_172.jre", "jre", "Contents", "Home", "bin") )
+  bemovi.LEEF::par_to.data( file.path(output, "bemovi") )
+  bemovi.LEEF::par_to.particlelinker( file.path( tools_path(), "ParticleLinker" ) )
 
 # Define and create temporary folder structure -------------------------------------------------
 
-  bemovi::par_to.data( tempfile( pattern = "bemovi.") )
+  bemovi.LEEF::par_to.data( tempfile( pattern = "bemovi.") )
 
-  bemovi::Create_folder_structure()
+  bemovi.LEEF::Create_folder_structure()
   file.symlink(
     from = normalizePath(bemovi_files),
-    to = file.path( bemovi::par_to.data(), bemovi::par_raw.video.folder() )
+    to = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_raw.video.folder() )
   )
 
 # Create video.description.file -------------------------------------------
@@ -73,7 +73,7 @@ extractor_bemovi <- function(
   nbm <- data.frame( file = nbm )
   utils::write.table(
     x = nbm,
-    file = file.path(bemovi::par_to.data(), bemovi::par_video.description.folder(), bemovi::par_video.description.file()),
+    file = file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_video.description.folder(), bemovi.LEEF::par_video.description.file()),
     row.names = FALSE
   )
 
@@ -83,7 +83,7 @@ extractor_bemovi <- function(
   # contain periods except before the file type extension
   #
   # RESULT: returns an error message and a list with unsupported files or names
-  bemovi::check_video_file_names()
+  bemovi.LEEF::check_video_file_names()
 
 
 # Identify moving particles and extract morphological data ----------------
@@ -94,7 +94,7 @@ extractor_bemovi <- function(
   # are analyses, separately.
   #
   # RESULT: file.path( particle.data.older, "particle.rds)
-  bemovi::locate_and_measure_particles()
+  bemovi.LEEF::locate_and_measure_particles()
 
 
 # Identify Trajectories ---------------------------------------------------
@@ -105,8 +105,8 @@ extractor_bemovi <- function(
   # temporary files, which are subsequently deleted.
   #
   # RESULT: file.path( trajectory.data.older, "trajectory.rds")
-  if ( length(list.files( file.path(bemovi::par_to.data(), bemovi::par_particle.data.folder()) ) ) > 0 ) {
-    bemovi::link_particles( start_vid = 1 )
+  if ( length(list.files( file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_particle.data.folder()) ) ) > 0 ) {
+    bemovi.LEEF::link_particles( start_vid = 1 )
   }
 
 # Merge Morphological data and Trajectories in single data.frame ----------
@@ -118,8 +118,8 @@ extractor_bemovi <- function(
   # to the locate_and_measure_particles() and link_particles() functions.
   #
   # RESULT: file.path( merged.data.folder, "Master.rds")
-  if ( length(list.files( file.path(bemovi::par_to.data(), bemovi::par_particle.data.folder()) ) ) > 0 ) {
-    bemovi::merge_data()
+  if ( length(list.files( file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_particle.data.folder()) ) ) > 0 ) {
+    bemovi.LEEF::merge_data()
   }
 
 #   stop("Until here and no further!!!")
@@ -127,7 +127,7 @@ extractor_bemovi <- function(
 #
 #   trajectory.data <- readRDS(file.path(to.data,merged.data.folder,"Master.rds"))
 #
-#   trajectory.data.filtered <- bemovi::filter_data(
+#   trajectory.data.filtered <- bemovi.LEEF::filter_data(
 #     raw_data = trajectory.data,
 #     net_filter = 50,
 #     duration_filter = 1,
@@ -137,7 +137,7 @@ extractor_bemovi <- function(
 #   trajectory.data.filtered$type <- "filtered data"
 #   trajectory.data$type <- "raw data"
 #
-#   morph_mvt <- bemovi::summarize_trajectories(
+#   morph_mvt <- bemovi.LEEF::summarize_trajectories(
 #     data = trajectory.data.filtered,
 #     write = FALSE,
 #     calculate.median = FALSE,
@@ -297,9 +297,9 @@ extractor_bemovi <- function(
   dir.create( add_path, showWarnings = FALSE )
   file.copy(
     from = c(
-      file.path( bemovi::par_to.data(), bemovi::par_particle.data.folder(), "particle.rds"),
-      file.path( bemovi::par_to.data(), bemovi::par_trajectory.data.folder(), "trajectory.rds"),
-      file.path( bemovi::par_to.data(), bemovi::par_merged.data.folder(), "Master.rds")
+      file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_particle.data.folder(), "particle.rds"),
+      file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_trajectory.data.folder(), "trajectory.rds"),
+      file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Master.rds")
     ),
     to = c(
       file.path( add_path, "particle.rds"),
@@ -313,7 +313,7 @@ extractor_bemovi <- function(
     to = file.path( add_path, "bemovi_extract.yml" ),
     overwrite = TRUE
   )
-  # bemovi::save_parameter( file.path( add_path, "bemovi_extract.yml") )
+  # bemovi.LEEF::save_parameter( file.path( add_path, "bemovi_extract.yml") )
 
 # Finalize ----------------------------------------------------------------
 
