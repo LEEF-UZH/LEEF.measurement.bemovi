@@ -1,9 +1,14 @@
 Package: LEEF.measurement.bemovi
 Type: Package
 Title: Prepares movies for analysis with bemovi and extracts data
-Version: 0.5.2
-Author: Rainer M Krug <Rainer.Krug@uzh.ch>
-Maintainer: Rainer M Krug <Rainer.Krug@uzh.ch>
+Version: 0.8.0
+Authors@R: c(
+  person(given = "Rainer M.", family = "Krug", email = "Rainer.Krug@uzh.zch", role = c("aut", "cre")),
+  person(given = "Owen L.", family = "Petchey", email = "Owen.Petchey@uzh.zch", role = c("aut"))
+  )
+Maintainer: Rainer M. Krug <Rainer.Krug@uzh.ch>
+BugReports: https://github.com/LEEF-UZH/LEEF.measurement.bemovi/issues
+URL: https://github.com/LEEF-UZH/LEEF.measurement.bemovi
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: MIT + file LICENSE

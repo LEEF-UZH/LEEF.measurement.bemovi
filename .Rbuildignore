@@ -14,4 +14,7 @@
 ^inst/2.extracted.data$
 
 ## Tools Folder
-^inst/tools$
+^tools$
+^01\.output$
+^02\.extracted$
+^codemeta\.json$

@@ -14,8 +14,8 @@ directory where the tools are located}
 tools directory. If values have set, the value before the change.
 }
 \description{
-Read or write the tools path twhere the tools are located in. If no parameter
-is given, the path will be returned a a list.
+Read or write the tools path where the tools are located in. If no parameter
+is given, the path will be returned as a list.
 }
 \examples{
 tools_path()

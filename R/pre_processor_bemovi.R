@@ -41,6 +41,7 @@ pre_processor_bemovi <- function(
         file.path( tmpdir, gsub(".cxd", ".avi", cxd) ),
         sep = " "
       )
+      message( "Processing ", cxd )
       if (options()$LEEF.measurement.bemovi$debug) {
         system2(
           command = cmd,

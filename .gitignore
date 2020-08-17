@@ -13,12 +13,11 @@
 #
 inst
 tmp
-
 ## Example Data Folder
 0.raw.data
 1.pre-processed.data
 2.extracted.data
-
 temp
-
-
+01.output
+02.extracted
+tools

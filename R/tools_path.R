@@ -1,7 +1,7 @@
 #' Read and write tools_path
 #'
-#' Read or write the tools path twhere the tools are located in. If no parameter
-#' is given, the path will be returned a a list.
+#' Read or write the tools path where the tools are located in. If no parameter
+#' is given, the path will be returned as a list.
 #' @param tools_path  \code{character} \code{vector} of length one containing the
 #'   directory where the tools are located
 #'
@@ -31,12 +31,9 @@ tools_path <- function(
       stop("length of the vector has to be one!")
     }
     opt$tools_path <- tools_path
-    read <- FALSE
-  }
-  ##
-  if (!read) {
     options(LEEF.measurement.bemovi = opt)
+    return(invisible( tp ))
+  } else {
+    return( tp )
   }
-  ##
-  invisible( tp )
 }
