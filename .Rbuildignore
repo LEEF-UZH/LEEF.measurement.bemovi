@@ -8,11 +8,6 @@
 ^tmp$
 ^temp$
 
-## Example Data Folder
-^inst/0.raw.data$
-^inst/1.pre-processed.data$
-^inst/2.extracted.data$
-
 ## Tools Folder
 ^tools$
 ^01\.output$

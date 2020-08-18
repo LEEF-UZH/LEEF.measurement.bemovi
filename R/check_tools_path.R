@@ -74,7 +74,6 @@ check_tools_path <- function(
 # extractor ---------------------------------------------------------------
 
   fiji <- file.path( tools_path(), "Fiji.app" )
-  particlelinker <- file.path( tools_path(), "ParticleLinker" )
 
   # IJ.path <- file.path( tools_path(), "Fiji.app", "Contents", "MacOS" )
   # java.path <- file.path( tools_path(),  "Fiji.app", "java", "macosx", "jdk1.8.0_172.jre", "jre", "Contents", "Home", "bin")
