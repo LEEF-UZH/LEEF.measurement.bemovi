@@ -21,12 +21,6 @@
       "givenName": "Rainer M.",
       "familyName": "Krug",
       "email": "Rainer.Krug@uzh.zch"
-    },
-    {
-      "@type": "Person",
-      "givenName": "Owen L.",
-      "familyName": "Petchey",
-      "email": "Owen.Petchey@uzh.zch"
     }
   ],
   "contributor": {},

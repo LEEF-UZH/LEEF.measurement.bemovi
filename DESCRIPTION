@@ -3,8 +3,7 @@ Type: Package
 Title: Prepares movies for analysis with bemovi and extracts data
 Version: 0.8.0
 Authors@R: c(
-  person(given = "Rainer M.", family = "Krug", email = "Rainer.Krug@uzh.zch", role = c("aut", "cre")),
-  person(given = "Owen L.", family = "Petchey", email = "Owen.Petchey@uzh.zch", role = c("aut"))
+  person(given = "Rainer M.", family = "Krug", email = "Rainer.Krug@uzh.zch", role = c("aut", "cre"))
   )
 Maintainer: Rainer M. Krug <Rainer.Krug@uzh.ch>
 BugReports: https://github.com/LEEF-UZH/LEEF.measurement.bemovi/issues
@@ -22,7 +21,7 @@ Imports:
 Additional_repositories: https://leef-uzh.github.io/drat/
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1.9000
+RoxygenNote: 7.1.1
 Suggests: 
     LEEF.Data,
     testthat,
