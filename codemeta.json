@@ -37,8 +37,8 @@
   "softwareSuggestions": [
     {
       "@type": "SoftwareApplication",
-      "identifier": "LEEF.Data",
-      "name": "LEEF.Data"
+      "identifier": "LEEF",
+      "name": "LEEF"
     },
     {
       "@type": "SoftwareApplication",
