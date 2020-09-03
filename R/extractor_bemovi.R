@@ -97,8 +97,9 @@ extractor_bemovi <- function(
   # are analyses, separately.
   #
   # RESULT: file.path( particle.data.older, "particle.rds)
-  bemovi.LEEF::locate_and_measure_particles()
 
+  message("### Locate and measure particles ...")
+  bemovi.LEEF::locate_and_measure_particles()
 
 # Identify Trajectories ---------------------------------------------------
 
@@ -108,6 +109,8 @@ extractor_bemovi <- function(
   # temporary files, which are subsequently deleted.
   #
   # RESULT: file.path( trajectory.data.older, "trajectory.rds")
+
+  message("### Identify trajectories ...")
   if ( length(list.files( file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_particle.data.folder()) ) ) > 0 ) {
     bemovi.LEEF::link_particles( start_vid = 1 )
   }
@@ -121,9 +124,13 @@ extractor_bemovi <- function(
   # to the locate_and_measure_particles() and link_particles() functions.
   #
   # RESULT: file.path( merged.data.folder, "Master.rds")
+
+  message("### Merging datas ...")
   if ( length(list.files( file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_particle.data.folder()) ) ) > 0 ) {
     bemovi.LEEF::merge_data()
   }
+
+  message("### Done.")
 
 #   stop("Until here and no further!!!")
 # # Filter trajectory data --------------------------------------------------
