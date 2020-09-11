@@ -7,6 +7,7 @@
 #'
 #' @return invisibly \code{TRUE} when completed successful
 #'
+#' @importFrom utils write.table
 #' @importFrom R.utils bzip2
 #' @importFrom parallel mclapply
 #'
@@ -19,9 +20,17 @@ pre_processor_bemovi <- function(
   message("\n########################################################\n")
   message("Processing bemovi...\n")
   ##
+  dir.create(
+    file.path(output, "bemovi"),
+    showWarnings = FALSE,
+    recursive = TRUE
+  )
+  ##
   cxds <- list.files(
     path = file.path( input, "bemovi" ),
-    pattern = "*.cxd"
+    pattern = "*.cxd",
+    full.names = FALSE,
+    recursive = FALSE
   )
   ##
   tmpdir <- tempfile()
@@ -30,6 +39,20 @@ pre_processor_bemovi <- function(
   parallel::mclapply(
     cxds,
     function(cxd) {
+      processing <- file.path(output, "bemovi", paste0("PROCESSING.", cxd, ".PROCESSING"))
+      error <- file.path(output, "bemovi", paste0("ERROR.", cxd, ".ERROR"))
+      on.exit(
+        {
+          if (file.exists(processing)) {
+            unlink(processing)
+            file.create(error)
+          }
+        }
+      )
+      ##
+      file.create( processing )
+      ##
+      outfile <- file.path( tmpdir, gsub(".cxd", ".avi", cxd) )
       cmd <- file.path( file.path( tools_path(), "bftools", "bfconvert" ))
       if (is.null(cmd)) {
         stop("bftools not available in expected path!")
@@ -38,7 +61,7 @@ pre_processor_bemovi <- function(
         "-overwrite",
         "-no-upgrade",
         file.path( input, "bemovi", cxd ),
-        file.path( tmpdir, gsub(".cxd", ".avi", cxd) ),
+        outfile,
         sep = " "
       )
       message( "Processing ", cxd )
@@ -53,29 +76,60 @@ pre_processor_bemovi <- function(
           args = arguments,
           stdout = NULL
         )
-
       }
-    }
+      if (file.exists(outfile)) {
+        file.copy(
+          from   = file.path( tmpdir, gsub(".cxd", ".avi", cxd) ),
+          to = file.path( output,  "bemovi"),
+          recursive = FALSE,
+          overwrite = TRUE
+        )
+      } else {
+        file.create( error )
+      }
+      unlink(processing)
+    },
+    mc.preschedule = FALSE
   )
+
   ##
   file.copy(
     from = file.path( input,  "bemovi", "bemovi_extract.yml"),
-    to   = file.path( tmpdir, "bemovi_extract.yml"),
-    overwrite = TRUE
-  )
-  ##
-  dir.create(
-    file.path(output, "bemovi"),
-    showWarnings = FALSE,
-    recursive = TRUE
-  )
-  file.copy(
-    from   = file.path( tmpdir, "."),
-    to = file.path( output,  "bemovi"),
-    recursive = TRUE,
+    to   = file.path( output, "bemovi", "bemovi_extract.yml"),
     overwrite = TRUE
   )
   unlink( tmpdir, recursive = TRUE )
+  ##
+  if (file.exists(file.path( input, "bemovi", "video.description.txt" ))) {
+    file.copy(
+      from = file.path( input,  "bemovi", "video.description.txt" ),
+      to   = file.path( output, "bemovi", "video.description.txt" )
+    )
+  } else {
+    avis <- list.files(
+      file.path(output, "bemovi"),
+      pattern = "\\.avi"
+    )
+    fn <- basename(avis)
+    fn <- gsub(".avi", "", fn)
+    tmp <- strsplit(fn, "_")
+    d <- sapply(tmp, "[[", 1)
+    d <- as.Date(d, "%Y%m%d")
+    no <- sapply(tmp, "[[", 2)
+    no <- as.integer(no)
+    vd <- data.frame(
+      file = fn,
+      date = d,
+      no = no
+    )
+    utils::write.table(
+      x = vd,
+      file = file.path( output, "bemovi", "video.description.txt"),
+      row.names = FALSE,
+      sep = "\t"
+    )
+
+  }
   ##
   message("\ndone\n")
   message("########################################################\n")
