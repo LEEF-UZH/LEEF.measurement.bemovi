@@ -78,12 +78,38 @@ pre_processor_bemovi <- function(
         )
       }
       if (file.exists(outfile)) {
-        file.copy(
-          from   = file.path( tmpdir, gsub(".cxd", ".avi", cxd) ),
-          to = file.path( output,  "bemovi"),
-          recursive = FALSE,
-          overwrite = TRUE
+        cmd <- file.path( file.path( tools_path(), "ffmpeg", "bin", "ffmpeg" ))
+        if (is.null(cmd)) {
+          stop("ffmpeg not available in expected path!")
+        }
+        arguments <-  paste(
+          "-i", file.path( outfile ),
+          "-vcodec png",
+          "-compression_level 10",
+          "-vtag 'PNG '",
+          file.path( output,  "bemovi", basename(outfile) ),
+          sep = " "
         )
+        message( "Processing ", outfile )
+        if (options()$LEEF.measurement.bemovi$debug) {
+          system2(
+            command = cmd,
+            args = arguments
+          )
+        } else {
+          system2(
+            command = cmd,
+            args = arguments,
+            stdout = NULL
+          )
+        }
+
+        # file.copy(
+        #   from   = file.path( tmpdir, gsub(".cxd", ".avi", cxd) ),
+        #   to = file.path( output,  "bemovi"),
+        #   recursive = FALSE,
+        #   overwrite = TRUE
+        # )
       } else {
         file.create( error )
       }

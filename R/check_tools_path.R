@@ -37,7 +37,7 @@ check_tools_path <- function(
     }
   }
 
-# pre_processor -----------------------------------------------------------
+# pre_processor - bfconvert -----------------------------------------------------------
 
   bfconvert <- file.path( path, "bftools", "bfconvert" )
   message( "### checking path to bfconvert '", bfconvert, " ###" )
@@ -71,7 +71,52 @@ check_tools_path <- function(
     }
   }
 
-# extractor ---------------------------------------------------------------
+  # pre_processor - ffmpeg -----------------------------------------------------------
+
+  ffmpeg <- file.path( path, "bftools", "ffmpeg" )
+  message( "### checking path to ffmpeg '", ffmpeg, " ###" )
+  if (!file.exists( ffmpeg )) {
+    if (download) {
+      link <- switch(
+        Sys.info()['sysname'],
+        Darwin = "https://ffmpeg.zeranoe.com/builds/macos64/static/ffmpeg-4.3.1-macos64-static.zip",
+        Windows = "https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-20200831-4a11a6f-win64-static.zip",
+        Linux = "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz",
+        stop("OS not supported by Fiji!")
+      )
+      utils::download.file(
+        url = link,
+        destfile = file.path(path, "ffmpeg.zip"),
+        mode = "wb"
+      )
+      message("Extracting...")
+      x <- utils::unzip(
+        zipfile = file.path(path, "ffmpeg.zip"),
+        exdir = file.path( path )
+      )
+      file.rename(
+        from = file.path(path, strsplit(x[[1]], .Platform$file.sep)[[1]][[3]]),
+        to = file.path(path, "ffmpeg")
+      )
+
+      Sys.chmod(
+        paths = list.files( file.path( path, "ffmpeg"), full.names = TRUE, recursive = TRUE),
+        mode = "555"
+      )
+
+      unlink(file.path(path, "ffmpeg.zip"))
+    } else {
+      warning(
+        "File ffmpeg does not exist at '", ffmpeg, "'.\n",
+        "  To download, run the command\n",
+        "    `check_tools_dir`(download = TRUE)`\n",
+        "### end checking ###"
+      )
+      result$ffmpeg <- FALSE
+    }
+  }
+
+  # extractor - fiji ---------------------------------------------------------------
 
   fiji <- file.path( tools_path(), "Fiji.app" )
 
