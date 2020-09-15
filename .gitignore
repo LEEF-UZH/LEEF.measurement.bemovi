@@ -16,8 +16,9 @@ tmp
 0.raw.data
 1.pre-processed.data
 2.extracted.data
-
 temp
 tools
-
 !*.jar
+1.pre_processed
+3.archived.data
+9.backend
