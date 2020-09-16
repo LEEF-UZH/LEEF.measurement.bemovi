@@ -73,7 +73,7 @@ check_tools_path <- function(
 
   # pre_processor - ffmpeg -----------------------------------------------------------
 
-  ffmpeg <- file.path( path, "bftools", "ffmpeg" )
+  ffmpeg <- file.path( path, "ffmpeg", "bin", "ffmpeg" )
   message( "### checking path to ffmpeg '", ffmpeg, " ###" )
   if (!file.exists( ffmpeg )) {
     if (download) {

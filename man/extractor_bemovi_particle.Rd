@@ -15,8 +15,5 @@ extractor_bemovi_particle(input, output)
 invisibly \code{TRUE} when completed successful
 }
 \description{
-Extractor bemovi data particles
-}
-\details{
 This function extracts the particles.
 }

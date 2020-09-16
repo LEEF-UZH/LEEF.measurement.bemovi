@@ -78,6 +78,9 @@ pre_processor_bemovi <- function(
         )
       }
       if (file.exists(outfile)) {
+
+        # Compress ----------------------------------------------------------------
+
         cmd <- file.path( file.path( tools_path(), "ffmpeg", "bin", "ffmpeg" ))
         if (is.null(cmd)) {
           stop("ffmpeg not available in expected path!")
@@ -90,7 +93,7 @@ pre_processor_bemovi <- function(
           file.path( output,  "bemovi", basename(outfile) ),
           sep = " "
         )
-        message( "Processing ", outfile )
+        message( "Compressing ", outfile )
         if (options()$LEEF.measurement.bemovi$debug) {
           system2(
             command = cmd,
@@ -104,12 +107,24 @@ pre_processor_bemovi <- function(
           )
         }
 
-        # file.copy(
-        #   from   = file.path( tmpdir, gsub(".cxd", ".avi", cxd) ),
-        #   to = file.path( output,  "bemovi"),
-        #   recursive = FALSE,
-        #   overwrite = TRUE
-        # )
+        # Extract Metadata --------------------------------------------------------
+
+        cmd <- file.path( file.path( tools_path(), "bftools", "showinf" ))
+        if (is.null(cmd)) {
+          stop("bftools not available in expected path!")
+        }
+        arguments <-  paste(
+          "-nopix",
+          file.path( input, "bemovi", cxd ),
+          sep = " "
+        )
+        message( "Extracting Metadata ", outfile )
+        system2(
+          command = cmd,
+          args = arguments,
+          stdout = file.path( output,  "bemovi", paste0(basename(cxd), ".metadata") )
+        )
+
       } else {
         file.create( error )
       }

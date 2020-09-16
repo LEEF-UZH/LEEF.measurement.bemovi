@@ -1,9 +1,6 @@
 #' Extractor bemovi data particles
 #'
-#'
-#'
 #' This function extracts the particles.
-#'
 #' @param input directory from which to read the data
 #' @param output directory to which to write the data
 #'
