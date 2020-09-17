@@ -95,7 +95,7 @@ check_tools_path <- function(
         exdir = file.path( path )
       )
       file.rename(
-        from = file.path(path, strsplit(x[[1]], .Platform$file.sep)[[1]][[3]]),
+        from = file.path(path, strsplit(x[[1]], .Platform$file.sep)[[1]][[2]]),
         to = file.path(path, "ffmpeg")
       )
 
