@@ -73,14 +73,14 @@ check_tools_path <- function(
 
   # pre_processor - ffmpeg -----------------------------------------------------------
 
-  ffmpeg <- file.path( path, "ffmpeg", "bin", "ffmpeg" )
+  ffmpeg <- file.path( path, "ffmpeg" )
   message( "### checking path to ffmpeg '", ffmpeg, " ###" )
   if (!file.exists( ffmpeg )) {
     if (download) {
       link <- switch(
         Sys.info()['sysname'],
-        Darwin = "https://ffmpeg.zeranoe.com/builds/macos64/static/ffmpeg-4.3.1-macos64-static.zip",
-        Windows = "https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-20200831-4a11a6f-win64-static.zip",
+        Darwin = "https://evermeet.cx/ffmpeg/ffmpeg-4.3.1.zip",
+        Windows = "https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2020-09-20-14-26/ffmpeg-n4.3.1-17-gdae6d75a31-win64-gpl-4.3.zip",
         Linux = "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz",
         stop("OS not supported by Fiji!")
       )
@@ -94,13 +94,8 @@ check_tools_path <- function(
         zipfile = file.path(path, "ffmpeg.zip"),
         exdir = file.path( path )
       )
-      file.rename(
-        from = file.path(path, strsplit(x[[1]], .Platform$file.sep)[[1]][[2]]),
-        to = file.path(path, "ffmpeg")
-      )
-
       Sys.chmod(
-        paths = list.files( file.path( path, "ffmpeg"), full.names = TRUE, recursive = TRUE),
+        paths = file.path( path, "ffmpeg"),
         mode = "555"
       )
 

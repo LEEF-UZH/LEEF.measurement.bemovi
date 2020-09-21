@@ -81,7 +81,7 @@ pre_processor_bemovi <- function(
 
         # Compress ----------------------------------------------------------------
 
-        cmd <- file.path( file.path( tools_path(), "ffmpeg", "bin", "ffmpeg" ))
+        cmd <- file.path( file.path( tools_path(), "ffmpeg" ))
         if (is.null(cmd)) {
           stop("ffmpeg not available in expected path!")
         }
@@ -115,6 +115,7 @@ pre_processor_bemovi <- function(
         }
         arguments <-  paste(
           "-nopix",
+          "-no-upgrade",
           file.path( input, "bemovi", cxd ),
           sep = " "
         )

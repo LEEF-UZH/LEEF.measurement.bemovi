@@ -21,49 +21,8 @@ raw_data_ok <- function(input) {
     }
   )
 
-  ok$bemovi_extract <- file.exists( file.path(input, "bemovi_extract.yml") )
-  ok$video_description <- file.exists( file.path(input, "video.description.txt") )
+  ok$bemovi_extract <- file.exists( file.path(input, "bemovi", "bemovi_extract.yml") )
+  ok$video_description <- file.exists( file.path(input, "bemovi", "video.description.txt") )
 
-  cxds <- list.files(
-    path = input,
-    pattern = ".cxd",
-    full.names = TRUE
-  )
-
-  ok$cxd <- lapply(
-    cxds,
-    function(cxd) {
-      result <- list()
-
-      cmd <- file.path( file.path( tools_path(), "bftools", "showinf" ))
-      if (is.null(cmd)) {
-        stop("bftools not available in expected path!")
-      }
-      arguments <-  paste(
-        "-nopix",
-        file.path( input, cxd ),
-        sep = " "
-      )
-      md <- system2(
-        command = cmd,
-        args = arguments,
-        stdout = TRUE
-      )
-
-      result$filesize <-  file.size(cxd) == 525639680
-
-      if (result$filesize) {
-        tfl <- grep("Field \\d+ Time_From_Last", md, value = TRUE)
-        tfl <- read.delim(text = tfl, sep = " ", header = FALSE)
-
-        result$noframes = nrow(tfl) == 125
-        meantfl <- sum(tfl$V4) / (nrow(tfl)-1)
-        result$framerate <-  meantfl > 0.035 & meantfl <= 0.045
-      }
-
-      return(result)
-    }
-  )
-
-  names(ok$cxd) <- basename(cxds)
+  return(ok)
 }
