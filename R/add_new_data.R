@@ -11,7 +11,7 @@
 #' @importFrom parallel mclapply
 #' @export
 #'
-add_new_cxd <- function(input, output) {
+add_new_data <- function(input, output) {
   ##
   dir.create(
     file.path(output, "bemovi"),
