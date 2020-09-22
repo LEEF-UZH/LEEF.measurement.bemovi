@@ -77,29 +77,68 @@ check_tools_path <- function(
   message( "### checking path to ffmpeg '", ffmpeg, " ###" )
   if (!file.exists( ffmpeg )) {
     if (download) {
-      link <- switch(
+
+      switch(
         Sys.info()['sysname'],
-        Darwin = "https://evermeet.cx/ffmpeg/ffmpeg-4.3.1.zip",
-        Windows = "https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2020-09-20-14-26/ffmpeg-n4.3.1-17-gdae6d75a31-win64-gpl-4.3.zip",
-        Linux = "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz",
+        Darwin = {
+          utils::download.file(
+            url = "https://evermeet.cx/ffmpeg/ffmpeg-4.3.1.zip",
+            destfile = file.path(path, "ffmpeg.zip"),
+            mode = "wb"
+          )
+          message("Extracting...")
+          x <- utils::unzip(
+            zipfile = file.path(path, "ffmpeg.zip"),
+            exdir = file.path( path )
+          )
+          Sys.chmod(
+            paths = file.path( path, "ffmpeg"),
+            mode = "555"
+          )
+          unlink(file.path(path, "ffmpeg.zip"))
+        },
+        Windows = {
+          utils::download.file(
+            url = "https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2020-09-20-14-26/ffmpeg-n4.3.1-17-gdae6d75a31-win64-gpl-4.3.zip",
+            destfile = file.path(path, "ffmpeg.zip"),
+            mode = "wb"
+          )
+          message("Extracting...")
+          x <- utils::unzip(
+            zipfile = file.path(path, "ffmpeg.zip"),
+            exdir = file.path( path )
+          )
+          Sys.chmod(
+            paths = file.path( path, "ffmpeg"),
+            mode = "555"
+          )
+          unlink(file.path(path, "ffmpeg.zip"))
+        },
+        Linux = {
+          utils::download.file(
+            url = "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz",
+            destfile = file.path(path, "ffmpeg.tar.xz"),
+            mode = "wb"
+          )
+          message("Extracting...")
+          x <- utils::untar(
+            tarfile = file.path(path, "ffmpeg.tar.xz"),
+            files = file.path("ffmpeg-4.3.1-amd64-static", "ffmpeg"),
+            exdir = file.path( path )
+          )
+          file.copy(
+            from = file.path( path, "ffmpeg-4.3.1-amd64-static", "ffmpeg"),
+            to = file.path( path, "ffmpeg" )
+          )
+          Sys.chmod(
+            paths = file.path( path, "ffmpeg"),
+            mode = "555"
+          )
+          unlink(file.path(path, "ffmpeg-4.3.1-amd64-static"), recursive = TRUE)
+          unlink(file.path(path, "ffmpeg.tar.xz"))
+        },
         stop("OS not supported by Fiji!")
       )
-      utils::download.file(
-        url = link,
-        destfile = file.path(path, "ffmpeg.zip"),
-        mode = "wb"
-      )
-      message("Extracting...")
-      x <- utils::unzip(
-        zipfile = file.path(path, "ffmpeg.zip"),
-        exdir = file.path( path )
-      )
-      Sys.chmod(
-        paths = file.path( path, "ffmpeg"),
-        mode = "555"
-      )
-
-      unlink(file.path(path, "ffmpeg.zip"))
     } else {
       warning(
         "File ffmpeg does not exist at '", ffmpeg, "'.\n",
