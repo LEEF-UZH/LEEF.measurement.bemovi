@@ -33,10 +33,25 @@ extractor_bemovi_merge <- function(
 
   # Load bemovi_extract.yml parameter ---------------------------------------
   bemovi.LEEF::load_parameter( file.path(input, "bemovi", "bemovi_extract.yml") )
-  bemovi.LEEF::par_IJ.path(file.path( tools_path(), "Fiji.app", "Contents", "MacOS" ) )
-  # bemovi.LEEF::par_IJ.path(file.path( tools_path(), "ImageJ.app", "Contents", "MacOS" ) )
-  bemovi.LEEF::par_java.path( file.path( tools_path(),  "Fiji.app", "java", "macosx", "adoptopenjdk-8.jdk", "jre", "Contents", "Home", "bin") )
-  # bemovi.LEEF::par_java.path( file.path( tools_path(),  "ImageJ.app", "jre", "bin") )
+
+  # Paths for different OS
+  switch(
+    Sys.info()['sysname'],
+    Darwin = {
+      bemovi.LEEF::par_java.path( file.path( tools_path(),  "Fiji.app", "java", "macosx",      "adoptopenjdk-8.jdk",  "jre", "Contents", "Home", "bin") )
+      bemovi.LEEF::par_IJ.path( file.path( tools_path(),    "Fiji.app", "Contents", "MacOS" ) )
+    },
+    Windows = {
+      bemovi.LEEF::par_java.path( file.path( tools_path(),  "Fiji.app", "java", "win64",       "jdk1.8.0_172", "jre", "bin") )
+      bemovi.LEEF::par_IJ.path( file.path( tools_path(),    "Fiji.app", "Contents", "Resources" ) )
+    },
+    Linux = {
+      bemovi.LEEF::par_java.path( file.path( tools_path(),  "Fiji.app", "java", "linux-amd64", "jdk1.8.0_172", "jre", "bin" ) )
+      bemovi.LEEF::par_IJ.path( file.path( tools_path(),    "Fiji.app", "Contents", "Resources" ) )
+    },
+    stop("OS not supported by bemoviu!")
+  )
+
   bemovi.LEEF::par_to.data( file.path(output, "bemovi") )
   bemovi.LEEF::par_to.particlelinker( system.file( package = "LEEF.measurement.bemovi", "ParticleLinker" ) )
 
