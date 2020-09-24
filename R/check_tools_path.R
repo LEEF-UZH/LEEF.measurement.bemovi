@@ -18,6 +18,24 @@ check_tools_path <- function(
 
   result <- list()
 
+# We need it below --------------------------------------------------------
+
+  switch(
+    Sys.info()['sysname'],
+    Darwin = {
+      bemovi.LEEF::par_java.path( file.path( tools_path(),  "Fiji.app", "java", "macosx",      "adoptopenjdk-8.jdk",  "jre", "Contents", "Home", "bin") )
+      bemovi.LEEF::par_IJ.path( file.path( tools_path(),    "Fiji.app", "Contents", "MacOS" ) )
+    },
+    Windows = {
+      bemovi.LEEF::par_java.path( file.path( tools_path(),  "Fiji.app", "java", "win64",       "jdk1.8.0_172", "jre", "bin") )
+      bemovi.LEEF::par_IJ.path( file.path( tools_path(),    "Fiji.app", "Contents", "Resources" ) )
+    },
+    Linux = {
+      bemovi.LEEF::par_java.path( file.path( tools_path(),  "Fiji.app", "java", "linux-amd64", "jdk1.8.0_172", "jre", "bin" ) )
+      bemovi.LEEF::par_IJ.path( file.path( tools_path(),    "Fiji.app", "Contents", "Resources" ) )
+    },
+    stop("OS not supported by bemoviu!")
+  )
 
 # tools dir ---------------------------------------------------------------
 
@@ -154,9 +172,6 @@ check_tools_path <- function(
 
   fiji <- file.path( tools_path(), "Fiji.app" )
 
-  # IJ.path <- file.path( tools_path(), "Fiji.app", "Contents", "MacOS" )
-  # java.path <- file.path( tools_path(),  "Fiji.app", "java", "macosx", "jdk1.8.0_172.jre", "jre", "Contents", "Home", "bin")
-
   message( "### checking path to Fiji.app '", fiji, " ###" )
   if (!file.exists( fiji )) {
     if (download) {
@@ -180,28 +195,17 @@ check_tools_path <- function(
 
       Sys.chmod(
         paths = list.files(
-          file.path(
-            path,
-            "Fiji.app",
-            "Contents",
-            "MacOS"
-          ), full.names = TRUE),
+          bemovi.LEEF::par_IJ.path(),
+          full.names = TRUE
+        ),
         mode = "555"
       )
 
       Sys.chmod(
         paths = list.files(
-          file.path(
-            path,
-            "Fiji.app",
-            "java",
-            "macosx",
-            "adoptopenjdk-8.jdk",
-            "jre",
-            "Contents",
-            "Home",
-            "bin"
-          ), full.names = TRUE),
+          bemovi.LEEF::par_java.path(),
+          full.names = TRUE
+        ),
         mode = "555"
       )
 
