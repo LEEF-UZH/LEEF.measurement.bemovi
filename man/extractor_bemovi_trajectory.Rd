@@ -7,7 +7,7 @@
 extractor_bemovi_trajectory(input, output)
 }
 \arguments{
-\item{input}{directory from which to read the data}
+\item{input}{only for compatibility - not used}
 
 \item{output}{directory to which to write the data}
 }

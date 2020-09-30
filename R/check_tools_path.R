@@ -20,6 +20,7 @@ check_tools_path <- function(
 
 # We need it below --------------------------------------------------------
 
+  # Paths for different OS
   switch(
     Sys.info()['sysname'],
     Darwin = {
@@ -28,11 +29,11 @@ check_tools_path <- function(
     },
     Windows = {
       bemovi.LEEF::par_java.path( file.path( tools_path(),  "Fiji.app", "java", "win64",       "jdk1.8.0_172", "jre", "bin") )
-      bemovi.LEEF::par_IJ.path( file.path( tools_path(),    "Fiji.app", "Contents", "Resources" ) )
+      bemovi.LEEF::par_IJ.path( file.path( tools_path(),    "Fiji.app" ) )
     },
     Linux = {
       bemovi.LEEF::par_java.path( file.path( tools_path(),  "Fiji.app", "java", "linux-amd64", "jdk1.8.0_172", "jre", "bin" ) )
-      bemovi.LEEF::par_IJ.path( file.path( tools_path(),    "Fiji.app", "Contents", "Resources" ) )
+      bemovi.LEEF::par_IJ.path( file.path( tools_path(),    "Fiji.app" ) )
     },
     stop("OS not supported by bemoviu!")
   )

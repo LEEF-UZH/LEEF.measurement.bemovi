@@ -5,7 +5,7 @@
 #' This function is extracting data to be added to the database (and therefore make accessible for further analysis and forecasting)
 #' from \code{.avi} files.
 #'
-#' @param input directory from which to read the data
+#' @param input only for compatibility - not used
 #' @param output directory to which to write the data
 #'
 #' @return invisibly \code{TRUE} when completed successful
@@ -32,7 +32,6 @@ extractor_bemovi_merge <- function(
   )
 
   # Load bemovi_extract.yml parameter ---------------------------------------
-  bemovi.LEEF::load_parameter( file.path(input, "bemovi", "bemovi_extract.yml") )
 
   # Paths for different OS
   switch(
@@ -43,11 +42,11 @@ extractor_bemovi_merge <- function(
     },
     Windows = {
       bemovi.LEEF::par_java.path( file.path( tools_path(),  "Fiji.app", "java", "win64",       "jdk1.8.0_172", "jre", "bin") )
-      bemovi.LEEF::par_IJ.path( file.path( tools_path(),    "Fiji.app", "Contents", "Resources" ) )
+      bemovi.LEEF::par_IJ.path( file.path( tools_path(),    "Fiji.app" ) )
     },
     Linux = {
       bemovi.LEEF::par_java.path( file.path( tools_path(),  "Fiji.app", "java", "linux-amd64", "jdk1.8.0_172", "jre", "bin" ) )
-      bemovi.LEEF::par_IJ.path( file.path( tools_path(),    "Fiji.app", "Contents", "Resources" ) )
+      bemovi.LEEF::par_IJ.path( file.path( tools_path(),    "Fiji.app" ) )
     },
     stop("OS not supported by bemoviu!")
   )
@@ -91,12 +90,6 @@ extractor_bemovi_merge <- function(
 
 
 # Finalize ----------------------------------------------------------------
-
-  file.copy(
-    from = file.path(input, "bemovi", "bemovi_extract.yml"),
-    to = file.path( output, "bemovi", "bemovi_extract.yml" ),
-    overwrite = TRUE
-  )
 
   file.copy(
     from = file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Master.rds"),
