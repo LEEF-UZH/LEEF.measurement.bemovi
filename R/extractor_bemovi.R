@@ -16,9 +16,9 @@ extractor_bemovi <- function(
   input,
   output
 ) {
-  if ( Sys.info()['sysname'] != "Linux" ) {
+  # if ( Sys.info()['sysname'] != "Linux" ) {
     extractor_bemovi_particle(input, output)
-  }
+  # }
   extractor_bemovi_trajectory(input, output)
   extractor_bemovi_merge(input, output)
   ##
