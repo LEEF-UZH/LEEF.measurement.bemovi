@@ -50,8 +50,6 @@ extractor_bemovi_trajectory <- function(
     stop("OS not supported by bemovi!")
   )
 
-  bemovi.LEEF::par_to.data( file.path(output, "bemovi") )
-
   bemovi.LEEF::par_to.particlelinker( system.file( package = "LEEF.measurement.bemovi", "ParticleLinker" ) )
 
 
@@ -124,6 +122,8 @@ extractor_bemovi_trajectory <- function(
 
   processing <- file.path(normalizePath(output), "bemovi", paste0("PROCESSING.MERGING.", "particleLinker", ".PROCESSING"))
   error <- file.path(normalizePath(output), "bemovi", paste0("ERROR.MERGING.", "particleLinker", ".ERROR"))
+
+  bemovi.LEEF::par_to.data( file.path(output, "bemovi") )
 
   tryCatch(
     {
