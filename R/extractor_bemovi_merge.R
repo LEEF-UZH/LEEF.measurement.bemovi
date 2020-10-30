@@ -33,6 +33,8 @@ extractor_bemovi_merge <- function(
 
   # Load bemovi_extract.yml parameter ---------------------------------------
 
+  bemovi.LEEF::load_parameter( file.path(output, "bemovi", "bemovi_extract.yml") )
+
   # Paths for different OS
   switch(
     Sys.info()['sysname'],
