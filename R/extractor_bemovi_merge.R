@@ -93,11 +93,11 @@ extractor_bemovi_merge <- function(
 
 # Finalize ----------------------------------------------------------------
 
-  file.copy(
-    from = file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Master.rds"),
-    to = file.path( output, "bemovi", "Master.rds" ),
-    overwrite = TRUE
-  )
+  # file.copy(
+  #   from = file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Master.rds"),
+  #   to = file.path( output, "bemovi", "Master.rds" ),
+  #   overwrite = TRUE
+  # )
 
 
   message("\ndone\n")
