@@ -20,6 +20,7 @@ extractor_bemovi <- function(
   extractor_bemovi_trajectory(input, output)
   extractor_bemovi_merge(input, output)
   extractor_bemovi_filter(input, output)
+  extractor_bemovi_id_species(input, output)
   ##
   invisible(TRUE)
 }
