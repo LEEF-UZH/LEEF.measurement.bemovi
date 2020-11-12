@@ -93,12 +93,12 @@ extractor_bemovi_id_species <- function(
   # calculate species densities -------------------------------------------------------------------------
   # density for each frame in each sample
 
-  extrapolation.factor <- 13.84 # to be updated WILL THI BE CONSTANT??
+  # extrapolation.factor <- 13.84 # to be updated WILL THI BE CONSTANT??
 
   count_per_frame <- trajectory.data.filtered %>%
     dplyr::group_by(file, date, predict_spec, species.composition, microcosm.nr, temperature, magnification, sample, video, frame) %>%
     dplyr::summarise(count = dplyr::n()) %>%
-    dplyr::mutate(dens.ml = count * extrapolation.factor) # change!
+    dplyr::mutate(dens.ml = count * bemovi.LEEF::par_extrapolation.factor()) # change!
 
   mean_density_per_ml <- count_per_frame %>%
     dplyr::group_by(date, predict_spec, species.composition, microcosm.nr, temperature, magnification, sample) %>%
