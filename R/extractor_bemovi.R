@@ -21,8 +21,21 @@ extractor_bemovi <- function(
   extractor_bemovi_merge(input, output)
   extractor_bemovi_filter(input, output)
   extractor_bemovi_id_species(input, output)
+
+  # Copy RRD ----------------------------------------------------------------
+
+  file.copy(
+    from = list.files(
+      path = file.path(output, "bemovi", bemovi.LEEF::par_merged.data.folder()),
+      pattern = "\\.rds$"
+    ),
+    to = file.path(output, "bemovi")
+  )
+
   ##
   invisible(TRUE)
 }
+
+
 
 
