@@ -25,6 +25,11 @@ extractor_bemovi <- function(
   # Copy RRD ----------------------------------------------------------------
 
   file.copy(
+    from = file.path(input, "sample_metadata.yml"),
+    to = file.path(output, "sample_metadata.yml")
+  )
+
+  file.copy(
     from = list.files(
       path = file.path(output, "bemovi", bemovi.LEEF::par_merged.data.folder()),
       pattern = "\\.rds$"
