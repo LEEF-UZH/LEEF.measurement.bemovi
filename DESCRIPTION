@@ -1,9 +1,9 @@
 Package: LEEF.measurement.bemovi
 Type: Package
-Title: Prepares movies for analysis with bemovi and extracts data
-Version: 0.8.0
+Title: Prepares Movies for Analysis With Bemovi and Extracts Data
+Version: 0.8.5
 Authors@R: c(
-  person(given = "Rainer M.", family = "Krug", email = "Rainer.Krug@uzh.zch", role = c("aut", "cre"))
+  person(given = "Rainer M.", family = "Krug", email = "Rainer.Krug@uzh.ch", role = c("aut", "cre"))
   )
 Maintainer: Rainer M. Krug <Rainer.Krug@uzh.ch>
 BugReports: https://github.com/LEEF-UZH/LEEF.measurement.bemovi/issues
@@ -17,7 +17,12 @@ Imports:
     bemovi.LEEF (>= 1.0.1), 
     R.utils, 
     utils, 
-    parallel
+    parallel,
+    data.table,
+    dplyr,
+    magrittr,
+    yaml,
+    rlang
 Additional_repositories: https://leef-uzh.github.io/drat/
 Encoding: UTF-8
 LazyData: true
