@@ -22,11 +22,11 @@ extractor_bemovi <- function(
   extractor_bemovi_particle(input, output)
   extractor_bemovi_trajectory(input, output)
   extractor_bemovi_merge(input, output)
-  final_files <- c(final_files, "Master.rds")
+  final_files <- c(final_files, "Master.csv")
   extractor_bemovi_filter(input, output)
-  final_files <- c(final_files, "Master.rds", "Master.filtered.rds", "Morph_mvt.F1.rds", "Morph_mvt.F2.rds")
+  final_files <- c(final_files, "Master.csv", "Master.filtered.csv", "Morph_mvt.F1.csv", "Morph_mvt.F2.csv")
   # extractor_bemovi_id_species(input, output)
-  # final_files <- c(final_files, "Morph_mvt.F2.rds", "Master.filtered.rds", "Mean_density_per_ml.rds")
+  # final_files <- c(final_files, "Morph_mvt.F2.rds", "Master.filtered.csv", "Mean_density_per_ml.csv")
 
   # Copy RRD ----------------------------------------------------------------
 
@@ -39,7 +39,10 @@ extractor_bemovi <- function(
   for (fn in final_files) {
     dat <- readRDS( file.path(output, "bemovi", bemovi.LEEF::par_merged.data.folder(), fn) )
     dat <- cbind(timestamp = timestamp, dat)
-    saveRDS( dat, file.path(output, "bemovi", fn))
+    write.csv( 
+    	dat, 
+    	file.path(output, "bemovi", fn)
+    )
   }
 
   ##

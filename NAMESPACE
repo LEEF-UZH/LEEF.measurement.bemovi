@@ -2,7 +2,6 @@
 
 export(add_new_data)
 export(check_tools_path)
-export(extractor_bemovi)
 export(extractor_bemovi_filter)
 export(extractor_bemovi_id_species)
 export(extractor_bemovi_merge)
@@ -47,4 +46,3 @@ importFrom(utils,read.delim)
 importFrom(utils,read.table)
 importFrom(utils,unzip)
 importFrom(utils,write.table)
-importFrom(yaml,read_yaml)
