@@ -50,6 +50,8 @@ extractor_bemovi_filter <- function(
 
   bemovi.LEEF::par_to.data( tempfile( pattern = "bemovi.") )
   bemovi.LEEF::Create_folder_structure()
+  bemovi.LEEF::load_parameter( file.path(output, "bemovi", "bemovi_extract.yml") )
+
   file.copy(
     from = file.path( output, "bemovi", bemovi.LEEF::par_video.description.folder(), bemovi.LEEF::par_video.description.file() ),
     to   = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_video.description.folder(), bemovi.LEEF::par_video.description.file() ),
@@ -58,6 +60,11 @@ extractor_bemovi_filter <- function(
   # Load Data ---------------------------------------------------------------
 
   master <- file.path(output, "bemovi", bemovi.LEEF::par_merged.data.folder(), "Master.rds")
+  dir.create( file.path( bemovi.LEEF::par_to.data(), "6 - merged data unfiltered" ) )
+  file.copy(
+    from = master,
+    to = file.path( bemovi.LEEF::par_to.data(), "6 - merged data unfiltered" )
+  )
 
   trajectory.data.unfiltered <- readRDS(master)
   trajectory.data.unfiltered$type <- "raw data"
@@ -72,7 +79,7 @@ extractor_bemovi_filter <- function(
     median_step_filter = bemovi.LEEF::par_median_step_filter()
   )
   trajectory.data.filtered$type <- "filtered data"
-  master.filtered <- file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Master.filtered.rds")
+  master.filtered <- file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Master.rds")
   saveRDS( trajectory.data.filtered, file = master.filtered )
 
 
@@ -92,10 +99,10 @@ extractor_bemovi_filter <- function(
     # merged.data.folder
   )
 
-  file.rename(
-    from = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.rds" ),
-    to = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.F1.rds" )
-  )
+  # file.rename(
+  #   from = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.rds" ),
+  #   to = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.F1.rds" )
+  # )
 
   # Filter data (2nd time) --------------------------------------------------
 
@@ -119,18 +126,19 @@ extractor_bemovi_filter <- function(
     # merged.data.folder
   )
 
-  file.rename(
-    from = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.rds" ),
-    to = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.F2.rds" )
-  )
+  # file.rename(
+  #   from = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.rds" ),
+  #   to = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.F2.rds" )
+  # )
 
   # Finalize ----------------------------------------------------------------
 
   outfiles <- c(
     file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Master.rds"),
-    file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Master.filtered.rds"),
-    file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.F1.rds" ),
-    file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.F2.rds" )
+    # # file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Master.filtered.rds"),
+    # file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.F1.rds" ),
+    # file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.F2A.rds" ),
+    file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.rds" )
   )
 
 
@@ -138,6 +146,11 @@ extractor_bemovi_filter <- function(
     file.copy(
       from = file.path( outfiles ),
       to   = file.path( output, "bemovi", bemovi.LEEF::par_merged.data.folder() )
+    )
+    dir.create( file.path( output, "bemovi", "6 - merged data unfiltered" ) )
+    file.copy(
+      from = file.path( bemovi.LEEF::par_to.data(), "6 - merged data unfiltered" ),
+      to = file.path( output, "6 - merged data unfiltered" )
     )
   } else {
     file.create( error )
