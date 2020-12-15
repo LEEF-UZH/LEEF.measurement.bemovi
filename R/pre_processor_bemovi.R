@@ -174,7 +174,7 @@ pre_processor_bemovi <- function(
   }
   file.copy(
     from = file.path(input, "sample_metadata.yml"),
-    to = file.path(output, "sample_metadata.yml")
+    to = file.path(output, "bemovi", "sample_metadata.yml")
   )
   ##
   message("\ndone\n")

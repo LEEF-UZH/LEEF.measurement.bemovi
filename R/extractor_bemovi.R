@@ -11,6 +11,7 @@
 #' @return invisibly \code{TRUE} when completed successful
 #' 
 #' @importFrom  yaml read_yaml
+#' @importFrom utils write.csv
 #' 
 #' @export
 
@@ -31,15 +32,15 @@ extractor_bemovi <- function(
   # Copy RRD ----------------------------------------------------------------
 
   file.copy(
-    from = file.path(input, "sample_metadata.yml"),
-    to = file.path(output, "sample_metadata.yml")
+    from = file.path(input, "bemovi", "sample_metadata.yml"),
+    to = file.path(output, "bemovi", "sample_metadata.yml")
   )
 
-  timestamp <- yaml::read_yaml(file.path(input, "sample_metadata.yml"))$timestamp
+  timestamp <- yaml::read_yaml(file.path(input, "bemovi", "sample_metadata.yml"))$timestamp
   for (fn in final_files) {
     dat <- readRDS( file.path(output, "bemovi", bemovi.LEEF::par_merged.data.folder(), fn) )
     dat <- cbind(timestamp = timestamp, dat)
-    write.csv( 
+    utils::write.csv( 
     	dat, 
     	file.path(output, "bemovi", fn)
     )
