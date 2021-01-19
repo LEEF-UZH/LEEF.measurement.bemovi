@@ -167,8 +167,8 @@ extractor_bemovi_id_species <- function(
     dplyr::summarise(mean.dens.ml = mean(dens.ml))
 
   outfiles <- c(
-    morph_file         = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.rds" ),
-    traj.filtered_file = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Master.rds"),
+    morph_file         = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(),  bemovi.LEEF::par_morph_mvt() ),
+    traj.filtered_file = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(),  bemovi.LEEF::par_master()),
     mean.dens_file     = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Mean_density_per_ml.rds" )
   )
 

@@ -16,6 +16,15 @@ check_tools_path <- function(
   download = FALSE
 ) {
 
+  on.exit(
+    {
+      options(timeout = 60)
+    }
+  )
+
+  options(timeout = 240)
+
+
   result <- list()
 
 # We need it below --------------------------------------------------------

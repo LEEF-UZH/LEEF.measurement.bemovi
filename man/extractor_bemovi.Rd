@@ -21,4 +21,5 @@ Analyse all \code{.avi} files in \code{bemovi} folder and save as \code{.rds} fi
 This function is executing \code{extractor_bemovi_particle()},
 \code{extractor_bemovi_trajectory()} and finally
 \code{extractor_bemovi_merge()}
+for all parameter files in the format \code{bemovi_extract*.yml}
 }

@@ -48,9 +48,9 @@ extractor_bemovi_filter <- function(
 
   # Define and create temporary folder structure -------------------------------------------------
 
+  bemovi.LEEF::load_parameter( file.path(output, "bemovi", "bemovi_extract.yml") )
   bemovi.LEEF::par_to.data( tempfile( pattern = "bemovi.") )
   bemovi.LEEF::Create_folder_structure()
-  bemovi.LEEF::load_parameter( file.path(output, "bemovi", "bemovi_extract.yml") )
 
   file.copy(
     from = file.path( output, "bemovi", bemovi.LEEF::par_video.description.folder(), bemovi.LEEF::par_video.description.file() ),
@@ -59,7 +59,7 @@ extractor_bemovi_filter <- function(
 
   # Load Data ---------------------------------------------------------------
 
-  master <- file.path(output, "bemovi", bemovi.LEEF::par_merged.data.folder(), "Master.rds")
+  master <- file.path(output, "bemovi", bemovi.LEEF::par_merged.data.folder(), bemovi.LEEF::par_master())
   dir.create( file.path( bemovi.LEEF::par_to.data(), "6 - merged data unfiltered" ) )
   file.copy(
     from = master,
@@ -68,7 +68,7 @@ extractor_bemovi_filter <- function(
 
   trajectory.data.unfiltered <- readRDS(master)
   trajectory.data.unfiltered$type <- "raw data"
-  master <- file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Master.rds")
+  master <- file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), bemovi.LEEF::par_master())
   saveRDS( trajectory.data.unfiltered, file = master )
 
   trajectory.data.filtered <- bemovi.LEEF::filter_data(
@@ -79,7 +79,7 @@ extractor_bemovi_filter <- function(
     median_step_filter = bemovi.LEEF::par_median_step_filter()
   )
   trajectory.data.filtered$type <- "filtered data"
-  master.filtered <- file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Master.rds")
+  master.filtered <- file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), bemovi.LEEF::par_master())
   saveRDS( trajectory.data.filtered, file = master.filtered )
 
 
@@ -109,7 +109,7 @@ extractor_bemovi_filter <- function(
   min_area <- bemovi.LEEF::par_min_area()
   max_area <- bemovi.LEEF::par_max_area()
 
-  index <- which( morph_mvt$mean_area>min_area & morph_mvt$mean_area<max_area ) #change!
+  index <- which( (morph_mvt$mean_area > min_area) & (morph_mvt$mean_area < max_area) ) #change!
   ids <- morph_mvt$id[index]
 
   trajectory.data.filtered <- trajectory.data.filtered %>%
@@ -134,11 +134,11 @@ extractor_bemovi_filter <- function(
   # Finalize ----------------------------------------------------------------
 
   outfiles <- c(
-    file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Master.rds"),
+    file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(),  bemovi.LEEF::par_master()),
     # # file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Master.filtered.rds"),
     # file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.F1.rds" ),
     # file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.F2A.rds" ),
-    file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.rds" )
+    file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(),  bemovi.LEEF::par_morph_mvt() )
   )
 
 
@@ -147,10 +147,10 @@ extractor_bemovi_filter <- function(
       from = file.path( outfiles ),
       to   = file.path( output, "bemovi", bemovi.LEEF::par_merged.data.folder() )
     )
-    dir.create( file.path( output, "bemovi", "6 - merged data unfiltered" ) )
     file.copy(
-      from = file.path( bemovi.LEEF::par_to.data(), "6 - merged data unfiltered" ),
-      to = file.path( output, "6 - merged data unfiltered" )
+      from = file.path( bemovi.LEEF::par_to.data(), "6 - merged data unfiltered", "" ),
+      to = file.path( output, "bemovi" ),
+      recursive = TRUE
     )
   } else {
     file.create( error )

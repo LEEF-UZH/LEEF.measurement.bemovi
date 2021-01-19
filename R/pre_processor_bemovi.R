@@ -135,47 +135,32 @@ pre_processor_bemovi <- function(
   )
 
   ##
-  file.copy(
-    from = file.path( input,  "bemovi", "bemovi_extract.yml"),
-    to   = file.path( output, "bemovi", "bemovi_extract.yml"),
-    overwrite = TRUE
-  )
   unlink( tmpdir, recursive = TRUE )
   ##
-  if (file.exists(file.path( input, "bemovi", "video.description.txt" ))) {
-    file.copy(
-      from = file.path( input,  "bemovi", "video.description.txt" ),
-      to   = file.path( output, "bemovi", "video.description.txt" )
-    )
-  } else {
-    avis <- list.files(
-      file.path(output, "bemovi"),
-      pattern = "\\.avi"
-    )
-    fn <- basename(avis)
-    fn <- gsub(".avi", "", fn)
-    tmp <- strsplit(fn, "_")
-    d <- sapply(tmp, "[[", 1)
-    d <- as.Date(d, "%Y%m%d")
-    no <- sapply(tmp, "[[", 2)
-    no <- as.integer(no)
-    vd <- data.frame(
-      file = fn,
-      date = d,
-      no = no
-    )
-    utils::write.table(
-      x = vd,
-      file = file.path( output, "bemovi", "video.description.txt"),
-      row.names = FALSE,
-      sep = "\t"
-    )
 
-  }
   file.copy(
     from = file.path(input, "sample_metadata.yml"),
     to = file.path(output, "bemovi", "sample_metadata.yml")
   )
+
+  fn <- list.files(
+    path = file.path( input,  "bemovi" ),
+    recursive = FALSE,
+    full.names = TRUE
+  )
+  fn <- grep(
+    pattern = "\\.cxd$",
+    x = fn,
+    invert = TRUE,
+    value = TRUE
+  )
+
+  file.copy(
+    from = fn,
+    to = file.path( output, "bemovi" ),
+    overwrite = TRUE
+  )
+
   ##
   message("\ndone\n")
   message("########################################################\n")
