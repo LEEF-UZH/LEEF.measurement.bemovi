@@ -16,6 +16,8 @@
 ^codemeta\.json$
 
 ## Example Data Folder
+^LEEF$
+^00\.general\.parameter$
 ^0\.raw\.data$
 ^1\.pre-processed\.data$
 ^2\.extracted\.data$
