@@ -25,6 +25,12 @@ pre_processor_bemovi <- function(
     showWarnings = FALSE,
     recursive = TRUE
   )
+  file.copy(
+  	file.path( input, "..", "00.general.parameter", "." ),
+  	file.path( output, "bemovi" ),
+  	recursive = TRUE,
+  	overwrite = TRUE
+  )
   ##
   cxds <- list.files(
     path = file.path( input, "bemovi" ),
