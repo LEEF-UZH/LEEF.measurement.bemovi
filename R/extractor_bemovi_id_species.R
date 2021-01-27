@@ -1,4 +1,4 @@
-#' Extractor bemovi to fid species and calculate density
+#' Extractor bemovi to id species and calculate density
 #'
 #' This function id's the species and calculates the densities.
 #' @param input directory from which to read the data
