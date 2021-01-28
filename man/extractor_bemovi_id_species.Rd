@@ -2,7 +2,7 @@
 % Please edit documentation in R/extractor_bemovi_id_species.R
 \name{extractor_bemovi_id_species}
 \alias{extractor_bemovi_id_species}
-\title{Extractor bemovi to fid species and calculate density}
+\title{Extractor bemovi to id species and calculate density}
 \usage{
 extractor_bemovi_id_species(input, output)
 }

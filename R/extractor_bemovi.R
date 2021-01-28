@@ -30,6 +30,7 @@ extractor_bemovi <- function(
           from = bmc_org,
           to = bmc
         )
+	      unlink( bmc_org )
       }
     }
   )

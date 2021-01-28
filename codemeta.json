@@ -8,7 +8,7 @@
   "description": "More about what it does (maybe more than one line)\n    Use four spaces when indenting paragraphs within the Description.",
   "name": "LEEF.measurement.bemovi: Prepares Movies for Analysis With Bemovi and Extracts Data",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.8.6",
+  "version": "0.8.7",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
