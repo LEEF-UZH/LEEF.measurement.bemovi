@@ -84,7 +84,8 @@ extractor_bemovi <- function(
       dat <- cbind(timestamp = timestamp, dat)
       utils::write.csv(
         dat,
-        file.path(output, "bemovi", fn)
+        file.path(output, "bemovi", fn),
+        row.names = FALSE
       )
     }
   }
