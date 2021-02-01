@@ -134,13 +134,9 @@ extractor_bemovi <- function(
         row.names = FALSE
       )
     }
+    unlink(bmc)
   }
 
-
-  file.copy(
-    from = file.path(input, "bemovi", "sample_metadata.yml"),
-    to = file.path(output, "bemovi", "sample_metadata.yml")
-  )
 
   ##
   invisible(TRUE)
