@@ -9,7 +9,8 @@
 #' @import bemovi.LEEF
 #' @importFrom  stats predict
 #' @importFrom  data.table as.data.table setkey
-#' @importFrom dplyr group_by summarise mutate n
+#' @importFrom dplyr group_by summarise mutate n filter
+#' @import randomForest
 #'
 #' @export
 
@@ -207,20 +208,20 @@ extractor_bemovi_id_species <- function(
   }
 
   mean_density_per_ml <- do.call("rbind", mean_density_per_ml_list) %>%
-    filter(species %in% species.tracked)
+    dplyr::filter(species %in% bemovi.LEEF::par_species_tracked())
   morph_mvt <- morph_mvt %>%
-    filter(species %in% species.tracked)
+    dplyr::filter(species %in% bemovi.LEEF::par_species_tracked())
   trajectory.data <- trajectory.data %>%
-    filter(species %in% species.tracked)
+    dplyr::filter(species %in% bemovi.LEEF::par_species_tracked())
 
 
 # Script end --------------------------------------------------------------
 
   outfiles <- c(
-    morph_file           = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), bemovi.LEEF::par_morph_mvt() ),
-    traj.unfiltered_file = file.path( bemovi.LEEF::par_to.data(), "/6 - merged data unfiltered",         bemovi.LEEF::par_master()),
-    traj.filtered_file   = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), bemovi.LEEF::par_master()),
-    mean.dens_file       = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), beomvi.LEEF::par_mean_density() )
+    morph_file           = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), bemovi.LEEF::par_morph_mvt()    ),
+#    traj.unfiltered_file = file.path( bemovi.LEEF::par_to.data(), "/6 - merged data unfiltered",         bemovi.LEEF::par_master()),
+    traj.filtered_file   = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), bemovi.LEEF::par_master()       ),
+    mean.dens_file       = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), bemovi.LEEF::par_mean_density() )
   )
 
   saveRDS(

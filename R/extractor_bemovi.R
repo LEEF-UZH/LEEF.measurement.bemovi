@@ -20,8 +20,49 @@ extractor_bemovi <- function(
   input,
   output
 ) {
-  bmc_org <- file.path(input, "bemovi", "bemovi_extract.ORGORGORG.yml")
-  bmc <- file.path(input, "bemovi", "bemovi_extract.yml")
+
+
+  # prepare output folder ---------------------------------------------------
+
+
+  dir.create(
+    file.path(output, "bemovi"),
+    showWarnings = FALSE,
+    recursive = TRUE
+  )
+
+  to_copy <- list.files( file.path(input, "bemovi"), full.names = TRUE )
+  to_copy <- grep(
+    "\\.avi$|\\.metadata",
+    to_copy,
+    value = TRUE,
+    invert = TRUE
+  )
+  file.copy(
+    to_copy,
+    file.path(output, "bemovi"),
+    overwrite = TRUE
+  )
+
+  dir.create(file.path(output, "bemovi", bemovi.LEEF::par_video.description.folder()), showWarnings = FALSE)
+  file.copy(
+    from = file.path(input, "bemovi", bemovi.LEEF::par_video.description.file()),
+    to   = file.path(output, "bemovi", bemovi.LEEF::par_video.description.folder(), bemovi.LEEF::par_video.description.file())
+  )
+
+
+  # handle multiple bemovi_extract files ------------------------------------
+
+
+  bmc_org <- file.path(output, "bemovi", "bemovi_extract.ORGORGORG.yml")
+  bmc <- file.path(output, "bemovi", "bemovi_extract.yml")
+  if ( file.exists( bmc ) ) {
+    file.rename(
+      from = bmc,
+      to = bmc_org
+    )
+  }
+
   on.exit(
     {
       unlink( bmc )
@@ -35,12 +76,7 @@ extractor_bemovi <- function(
     }
   )
 
-  if ( file.exists( bmc ) ) {
-    file.rename(
-      from = bmc,
-      to = bmc_org
-    )
-  }
+
 
   bmcs <- list.files(
     path = file.path(input, "bemovi"),
@@ -49,7 +85,7 @@ extractor_bemovi <- function(
     full.names = TRUE
   )
 
-  timestamp <- yaml::read_yaml(file.path(input, "bemovi", "sample_metadata.yml"))$timestamp
+  timestamp <- yaml::read_yaml(file.path(output, "bemovi", "sample_metadata.yml"))$timestamp
 
   for (bconf in bmcs) {
     file.copy(
@@ -71,8 +107,18 @@ extractor_bemovi <- function(
       gsub(pattern = "\\.rds$", replacement = ".csv", bemovi.LEEF::par_master()),
       gsub(pattern = "\\.rds$", replacement = ".csv", bemovi.LEEF::par_morph_mvt())
     )
-    # extractor_bemovi_id_species(input, output)
-    # final_files <- c(final_files, "Morph_mvt.F2.rds", "Master.filtered.csv", "Mean_density_per_ml.csv")
+    extractor_bemovi_id_species(input, output)
+    final_files <- c(
+      final_files,
+      gsub(pattern = "\\.rds$", replacement = ".csv", bemovi.LEEF::par_morph_mvt()),
+      gsub(pattern = "\\.rds$", replacement = ".csv", bemovi.LEEF::par_master()),
+      gsub(pattern = "\\.rds$", replacement = ".csv", bemovi.LEEF::par_mean_density())
+    )
+    final_files <- unique(final_files)
+
+    # DOEX NOT WORK YET!
+    # extractor_bemovi_overlay(input, output)
+    #
 
     # Copy RRD ----------------------------------------------------------------
 

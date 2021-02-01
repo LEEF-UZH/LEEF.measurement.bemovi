@@ -21,17 +21,6 @@ extractor_bemovi_particle <- function(
   message("\n########################################################\n")
   message("Identifying Particle bemovi...\n")
 
-  dir.create(
-    file.path(output, "bemovi"),
-    showWarnings = FALSE,
-    recursive = TRUE
-  )
-
-  dir.create(file.path(output, "bemovi", bemovi.LEEF::par_video.description.folder()), showWarnings = FALSE)
-  file.copy(
-    from = file.path(input, "bemovi", bemovi.LEEF::par_video.description.file()),
-    to   = file.path(output, "bemovi", bemovi.LEEF::par_video.description.folder(), bemovi.LEEF::par_video.description.file())
-  )
 
   # Get avi file names ------------------------------------------------------
 
@@ -52,7 +41,7 @@ extractor_bemovi_particle <- function(
 
 
   # Load bemovi_extract.yml parameter ---------------------------------------
-  bemovi.LEEF::load_parameter( file.path(input, "bemovi", "bemovi_extract.yml") )
+  bemovi.LEEF::load_parameter( file.path(output, "bemovi", "bemovi_extract.yml") )
 
   # Paths for different OS
   switch(
@@ -171,12 +160,6 @@ extractor_bemovi_particle <- function(
   )
 
 # Finalize ----------------------------------------------------------------
-
-  file.copy(
-    from = file.path(input, "bemovi", "bemovi_extract.yml"),
-    to = file.path( output, "bemovi", "bemovi_extract.yml" ),
-    overwrite = TRUE
-  )
 
   message("\ndone\n")
   message("\n########################################################\n")
