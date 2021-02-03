@@ -20,7 +20,15 @@ extractor_bemovi <- function(
   input,
   output
 ) {
+  message("\n########################################################\n")
+  message("\nExtracting bemovi...\n")
 
+  if ( length( list.files( file.path(input, "bemovi") ) ) == 0 ) {
+    message("\nEmpty or missing bemovi directory - nothing to do.\n")
+    message("\ndone\n")
+    message("########################################################\n")
+    return(invisible(TRUE))
+  } 
 
   # prepare output folder ---------------------------------------------------
 
@@ -137,6 +145,8 @@ extractor_bemovi <- function(
     unlink(bmc)
   }
 
+  message("\ndone\n")
+  message("########################################################\n")
 
   ##
   invisible(TRUE)
