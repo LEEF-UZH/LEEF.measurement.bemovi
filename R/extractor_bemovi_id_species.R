@@ -229,7 +229,8 @@ extractor_bemovi_id_species <- function(
     file = outfiles["morph_file"]
   )
   saveRDS(
-    trajectory.data.filtered,
+    # trajectory.data.filtered,
+    trajectory.data ,
     file = outfiles["traj.filtered_file"]
   )
   saveRDS(

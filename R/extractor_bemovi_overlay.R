@@ -19,21 +19,22 @@ extractor_bemovi_overlay <- function(
   input,
   output
 ) {
-  # -------------------------------------------------------------------------
-  stop("Not Ipmplemented Yet!!!!!!!")
-  # -------------------------------------------------------------------------
 
   message("\n########################################################\n")
   message("Creating overlays bemovi...\n")
 
   processing <- file.path(normalizePath(output), "bemovi", "CREATING.OVERLAYS.CREATING")
   error <- file.path(normalizePath(output), "bemovi", "ERROR.OVERLAYS.ERROR")
+
+  old_ijmacs.folder <- bemovi.LEEF::par_ijmacs.folder()
+
   on.exit(
     {
       if (file.exists(processing)) {
         unlink(processing)
         file.create(error)
       }
+      bemovi.LEEF::par_ijmacs.folder(old_ijmacs.folder)
     }
   )
 
@@ -42,6 +43,7 @@ extractor_bemovi_overlay <- function(
 
   # Load bemovi_extract.yml parameter ---------------------------------------
   bemovi.LEEF::load_parameter( file.path(output, "bemovi", "bemovi_extract.yml") )
+  bemovi.LEEF::par_ijmacs.folder(bemovi.LEEF::par_temp.overlay.folder())
 
   # Paths for different OS
   switch(
@@ -73,23 +75,17 @@ extractor_bemovi_overlay <- function(
 
   # Create overlays ---------------------------------------------------------
 
-
-  ## copy input folder to tmp folder
-
-  bemovi.LEEF::create_overlays()
-  create_overlays(
-    to.data = par_to.data(),
-    difference.lag,
+  bemovi.LEEF::create_overlays(
+    to.data = file.path(output, "bemovi"),
+    difference.lag = bemovi.LEEF::par_difference.lag(),
     type = "label",
-    predict_spec = TRUE,
+    predict_spec = "species",
     contrast.enhancement = 1.0,
   )
 
-random
-
   # Copy results to output --------------------------------------------------
 
-  processing
+
 
 
 
