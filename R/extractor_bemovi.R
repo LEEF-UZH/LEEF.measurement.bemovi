@@ -28,7 +28,7 @@ extractor_bemovi <- function(
     message("\ndone\n")
     message("########################################################\n")
     return(invisible(TRUE))
-  } 
+  }
 
   # prepare output folder ---------------------------------------------------
 
@@ -101,44 +101,32 @@ extractor_bemovi <- function(
       to = bmc,
       overwrite = TRUE
     )
-    final_files <- NULL
     extractor_bemovi_particle(input, output)
     extractor_bemovi_trajectory(input, output)
     extractor_bemovi_merge(input, output)
-    final_files <- c(
-      final_files,
-      gsub(pattern = "\\.rds$", replacement = ".csv", bemovi.LEEF::par_master())
-    )
     extractor_bemovi_filter(input, output)
-    final_files <- c(
-      final_files,
-      gsub(pattern = "\\.rds$", replacement = ".csv", bemovi.LEEF::par_master()),
-      gsub(pattern = "\\.rds$", replacement = ".csv", bemovi.LEEF::par_morph_mvt())
-    )
     extractor_bemovi_id_species(input, output)
-    final_files <- c(
-      final_files,
-      gsub(pattern = "\\.rds$", replacement = ".csv", bemovi.LEEF::par_morph_mvt()),
-      gsub(pattern = "\\.rds$", replacement = ".csv", bemovi.LEEF::par_master()),
-      gsub(pattern = "\\.rds$", replacement = ".csv", bemovi.LEEF::par_mean_density())
-    )
-    final_files <- unique(final_files)
 
-    # DOEX NOT WORK YET!
+    # DOES NOT WORK YET!
     # extractor_bemovi_overlay(input, output)
     #
 
     # Copy RRD ----------------------------------------------------------------
 
-    for (fn in final_files) {
-      csv <- file.path(output, "bemovi", bemovi.LEEF::par_merged.data.folder(), fn)
-      rds <- gsub("\\.csv$", ".rds", csv)
+    final_files <- c(
+      gsub(pattern = bemovi.LEEF::par_morph_mvt()),
+      gsub(pattern = bemovi.LEEF::par_master()),
+      gsub(pattern = bemovi.LEEF::par_mean_density())
+    )
+    for (rds in final_files) {
       ##
-      dat <- readRDS( rds )
+      dat <- readRDS( file.path(output, "bemovi", bemovi.LEEF::par_merged.data.folder(), rds) )
       dat <- cbind(timestamp = timestamp, dat)
+      ##
+      csv <- gsub("\\.rds$", ".csv", rds)
       utils::write.csv(
         dat,
-        file.path(output, "bemovi", fn),
+        file.path(output, "bemovi", csv),
         row.names = FALSE
       )
     }

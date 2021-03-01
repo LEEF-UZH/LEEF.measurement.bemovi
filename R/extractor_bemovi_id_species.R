@@ -134,8 +134,8 @@ extractor_bemovi_id_species <- function(
   # 5. Add species identity to trajectory.data
   take_all <- as.data.table(morph_mvt)
   take_all <- take_all[, list(id, species)]
-  setkey(take_all, id)
-  setkey(trajectory.data.filtered, id)
+  data.table::setkey(take_all, id)
+  data.table::setkey(trajectory.data.filtered, id)
   trajectory.data.filtered <- trajectory.data.filtered[take_all]
   trajectory.data <- trajectory.data.filtered
 
@@ -243,7 +243,8 @@ extractor_bemovi_id_species <- function(
   if ( all(file.exists( outfiles )) ) {
     file.copy(
       from = file.path( outfiles ),
-      to   = file.path( output, "bemovi", bemovi.LEEF::par_merged.data.folder() )
+      to   = file.path( output, "bemovi", bemovi.LEEF::par_merged.data.folder() ),
+      overwrite = TRUE
     )
   } else {
     file.create( error )

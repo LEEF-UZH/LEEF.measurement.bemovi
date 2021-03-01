@@ -145,12 +145,14 @@ extractor_bemovi_filter <- function(
   if ( all(file.exists( outfiles )) ) {
     file.copy(
       from = file.path( outfiles ),
-      to   = file.path( output, "bemovi", bemovi.LEEF::par_merged.data.folder() )
+      to   = file.path( output, "bemovi", bemovi.LEEF::par_merged.data.folder() ),
+      overwrite = TRUE
     )
     file.copy(
       from = file.path( bemovi.LEEF::par_to.data(), "6 - merged data unfiltered", "" ),
       to = file.path( output, "bemovi" ),
-      recursive = TRUE
+      recursive = TRUE,
+      overwrite = TRUE
     )
   } else {
     file.create( error )
