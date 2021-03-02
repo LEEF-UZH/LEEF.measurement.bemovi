@@ -114,9 +114,9 @@ extractor_bemovi <- function(
     # Copy RRD ----------------------------------------------------------------
 
     final_files <- c(
-      gsub(pattern = bemovi.LEEF::par_morph_mvt()),
-      gsub(pattern = bemovi.LEEF::par_master()),
-      gsub(pattern = bemovi.LEEF::par_mean_density())
+      bemovi.LEEF::par_morph_mvt(),
+      bemovi.LEEF::par_master(),
+      bemovi.LEEF::par_mean_density()
     )
     for (rds in final_files) {
       ##
