@@ -8,7 +8,7 @@ Authors@R: c(
   )
 Maintainer: Rainer M. Krug <Rainer.Krug@uzh.ch>
 BugReports: https://github.com/LEEF-UZH/LEEF.measurement.bemovi/issues
-URL: https://github.com/LEEF-UZH/LEEF.measurement.bemovi
+URL: https://leef-uzh.github.io/LEEF.measurement.bemovi, https://github.com/LEEF-UZH/LEEF.measurement.bemovi
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: MIT + file LICENSE
