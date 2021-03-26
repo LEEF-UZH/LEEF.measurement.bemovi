@@ -25,7 +25,12 @@
   ],
   "contributor": {},
   "copyrightHolder": {},
-  "funder": {},
+  "funder": [
+    {
+      "@type": "Organization",
+      "name": "SNF Project 310030_188431"
+    }
+  ],
   "maintainer": [
     {
       "@type": "Person",

@@ -3,7 +3,8 @@ Type: Package
 Title: Prepares Movies for Analysis With Bemovi and Extracts Data
 Version: 0.8.14
 Authors@R: c(
-  person(given = "Rainer M.", family = "Krug", email = "Rainer.Krug@uzh.ch", role = c("aut", "cre"))
+  person(given = "Rainer M.", family = "Krug", email = "Rainer.Krug@uzh.ch", role = c("aut", "cre")),
+  person("SNF Project 310030_188431", role = "fnd")
   )
 Maintainer: Rainer M. Krug <Rainer.Krug@uzh.ch>
 BugReports: https://github.com/LEEF-UZH/LEEF.measurement.bemovi/issues
