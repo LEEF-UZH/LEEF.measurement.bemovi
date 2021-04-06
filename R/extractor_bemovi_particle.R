@@ -127,6 +127,11 @@ extractor_bemovi_particle <- function(
           from = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_particle.data.folder(), outfile ),
           to   = file.path( output, "bemovi", bemovi.LEEF::par_particle.data.folder(), outfile )
         )
+
+        # Delete input video ------------------------------------------------------
+
+        # unlink(video)
+
       } else {
         file.create( error )
       }

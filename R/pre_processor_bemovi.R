@@ -140,10 +140,15 @@ pre_processor_bemovi <- function(
           stdout = file.path( output,  "bemovi", paste0(basename(cxd), ".metadata") )
         )
 
+        unlink( file.path( input, "bemovi", cxd ) )
+
       } else {
         file.create( error )
       }
-      unlink(processing)
+
+      # Delete cxd file ---------------------------------------------------------
+
+      # unlink(processing)
     },
     mc.preschedule = FALSE
   )
