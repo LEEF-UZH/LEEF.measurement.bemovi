@@ -106,9 +106,7 @@ extractor_bemovi <- function(
     extractor_bemovi_merge(input, output)
     extractor_bemovi_filter(input, output)
     extractor_bemovi_id_species(input, output)
-
-    # DOES NOT WORK YET!
-    # extractor_bemovi_overlay(input, output)
+    extractor_bemovi_overlay(input, output)
     #
 
     # Copy RRD ----------------------------------------------------------------

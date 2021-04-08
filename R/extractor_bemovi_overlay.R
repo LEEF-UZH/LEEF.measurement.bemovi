@@ -42,51 +42,22 @@ extractor_bemovi_overlay <- function(
   file.create( processing )
 
   # Load bemovi_extract.yml parameter ---------------------------------------
+
   bemovi.LEEF::load_parameter( file.path(output, "bemovi", "bemovi_extract.yml") )
   bemovi.LEEF::par_ijmacs.folder(bemovi.LEEF::par_temp.overlay.folder())
-
-  # Paths for different OS
-  switch(
-    Sys.info()['sysname'],
-    Darwin = {
-      bemovi.LEEF::par_java.path( file.path( tools_path(),  "Fiji.app", "java", "macosx",      "adoptopenjdk-8.jdk",  "jre", "Contents", "Home", "bin") )
-      bemovi.LEEF::par_IJ.path( file.path( tools_path(),    "Fiji.app", "Contents", "MacOS" ) )
-    },
-    Windows = {
-      bemovi.LEEF::par_java.path( file.path( tools_path(),  "Fiji.app", "java", "win64",       "jdk1.8.0_172", "jre", "bin") )
-      bemovi.LEEF::par_IJ.path( file.path( tools_path(),    "Fiji.app" ) )
-    },
-    Linux = {
-      bemovi.LEEF::par_java.path( file.path( tools_path(),  "Fiji.app", "java", "linux-amd64", "jdk1.8.0_172", "jre", "bin" ) )
-      bemovi.LEEF::par_IJ.path( file.path( tools_path(),    "Fiji.app" ) )
-    },
-    stop("OS not supported by bemovi!")
-  )
-
-  bemovi.LEEF::par_to.particlelinker( system.file( package = "LEEF.measurement.bemovi", "ParticleLinker" ) )
-
-
-# Create temporary directory structure ------------------------------------
-
-  tmpdir <- tempfile()
-  dir.create(tmpdir)
-
 
 
   # Create overlays ---------------------------------------------------------
 
+
   bemovi.LEEF::create_overlays(
     to.data = file.path(output, "bemovi"),
+    raw.video.folder = "1.pre-processed.data/bemovi/",
     difference.lag = bemovi.LEEF::par_difference.lag(),
     type = "label",
     predict_spec = "species",
-    contrast.enhancement = 1.0,
+    ffmpeg = file.path(tools_path(), "ffmpeg")
   )
-
-  # Copy results to output --------------------------------------------------
-
-
-
 
 
   # Finalize ----------------------------------------------------------------
