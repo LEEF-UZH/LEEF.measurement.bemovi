@@ -148,7 +148,7 @@ pre_processor_bemovi <- function(
 
       # Delete cxd file ---------------------------------------------------------
 
-      # unlink(processing)
+      unlink(processing)
     },
     mc.preschedule = FALSE
   )
