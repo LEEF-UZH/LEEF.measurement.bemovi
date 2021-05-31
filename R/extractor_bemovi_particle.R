@@ -7,8 +7,10 @@
 #' @return invisibly \code{TRUE} when completed successful
 #'
 #' @importFrom bemovi.LEEF check_video_file_names locate_and_measure_particles link_particles merge_data
-#' @importFrom bemovi.LEEF par_to.data par_video.description.folder par_raw.video.folder par_particle.data.folder par_trajectory.data.folder
-#' @importFrom bemovi.LEEF par_temp.overlay.folder par_overlay.folder par_merged.data.folder par_ijmacs.folder par_to.particlelinker
+#' @importFrom bemovi.LEEF par_to.data par_video.description.folder par_raw.video.folder
+#' @importFrom bemovi.LEEF par_particle.data.folder par_trajectory.data.folder
+#' @importFrom bemovi.LEEF par_temp.overlay.folder par_overlay.folder par_merged.data.folder
+#' @importFrom bemovi.LEEF par_ijmacs.folder par_to.particlelinker
 #' @importFrom bemovi.LEEF par_memory par_pixel_to_scale par_difference.lag par_thresholds par_min_size
 #' @importFrom utils write.table
 #' @importFrom parallel mclapply
@@ -24,8 +26,8 @@ extractor_bemovi_particle <- function(
 
   # Get avi file names ------------------------------------------------------
 
-  bemovi_path <- file.path( input, "bemovi" )
-  bemovi_path <- gsub("xxx", "", bemovi_path )
+  bemovi_path <- file.path(input, "bemovi")
+  bemovi_path <- gsub("xxx", "", bemovi_path)
   bemovi_files <- list.files(
     path = bemovi_path,
     pattern = "*.avi",
@@ -41,27 +43,32 @@ extractor_bemovi_particle <- function(
 
 
   # Load bemovi_extract.yml parameter ---------------------------------------
-  bemovi.LEEF::load_parameter( file.path(output, "bemovi", "bemovi_extract.yml") )
+  bemovi.LEEF::load_parameter(file.path(output, "bemovi", "bemovi_extract.yml"))
 
   # Paths for different OS
-  switch(
-    Sys.info()['sysname'],
+  switch(Sys.info()["sysname"],
     Darwin = {
-      bemovi.LEEF::par_java.path( file.path( tools_path(),  "Fiji.app", "java", "macosx",      "adoptopenjdk-8.jdk",  "jre", "Contents", "Home", "bin") )
-      bemovi.LEEF::par_IJ.path( file.path( tools_path(),    "Fiji.app", "Contents", "MacOS" ) )
+      bemovi.LEEF::par_java.path(
+        file.path(tools_path(), "Fiji.app", "java", "macosx", "adoptopenjdk-8.jdk", "jre", "Contents", "Home", "bin")
+      )
+      bemovi.LEEF::par_IJ.path(file.path(tools_path(), "Fiji.app", "Contents", "MacOS"))
     },
     Windows = {
-      bemovi.LEEF::par_java.path( file.path( tools_path(),  "Fiji.app", "java", "win64",       "jdk1.8.0_172", "jre", "bin") )
-      bemovi.LEEF::par_IJ.path( file.path( tools_path(),    "Fiji.app" ) )
+      bemovi.LEEF::par_java.path(
+        file.path(tools_path(), "Fiji.app", "java", "win64", "jdk1.8.0_172", "jre", "bin")
+      )
+      bemovi.LEEF::par_IJ.path(file.path(tools_path(), "Fiji.app"))
     },
     Linux = {
-      bemovi.LEEF::par_java.path( file.path( tools_path(),  "Fiji.app", "java", "linux-amd64", "jdk1.8.0_172", "jre", "bin" ) )
-      bemovi.LEEF::par_IJ.path( file.path( tools_path(),    "Fiji.app" ) )
+      bemovi.LEEF::par_java.path(
+        file.path(tools_path(), "Fiji.app", "java", "linux-amd64", "jdk1.8.0_172", "jre", "bin")
+      )
+      bemovi.LEEF::par_IJ.path(file.path(tools_path(), "Fiji.app"))
     },
     stop("OS not supported by bemoviu!")
   )
 
-  bemovi.LEEF::par_to.particlelinker( system.file( package = "LEEF.measurement.bemovi", "ParticleLinker" ) )
+  bemovi.LEEF::par_to.particlelinker(system.file(package = "LEEF.measurement.bemovi", "ParticleLinker"))
 
 # Locate and Measure Particles --------------------------------------------
 
@@ -71,10 +78,15 @@ extractor_bemovi_particle <- function(
   # lapply(
     bemovi_files,
     function(video) {
-      processing <- file.path(normalizePath(output), "bemovi", paste0("CALCULATING.PARTICLE.", basename(video), ".PROCESSING"))
-      error <- file.path(normalizePath(output), "bemovi", paste0("ERROR.PARTICLE.", basename(video), ".ERROR"))
-      on.exit(
-        {
+      processing <- file.path(
+        normalizePath(output), "bemovi",
+        paste0("CALCULATING.PARTICLE.", basename(video), ".PROCESSING")
+      )
+      error <- file.path(
+        normalizePath(output), "bemovi",
+        paste0("ERROR.PARTICLE.", basename(video), ".ERROR")
+      )
+      on.exit({
           if (file.exists(processing)) {
             unlink(processing)
             file.create(error)
@@ -82,22 +94,28 @@ extractor_bemovi_particle <- function(
         }
       )
       ##
-      file.create( processing )
+      file.create(processing)
       # Define and create temporary folder structure -------------------------------------------------
 
-      bemovi.LEEF::par_to.data( tempfile( pattern = "bemovi.") )
+      bemovi.LEEF::par_to.data(tempfile(pattern = "bemovi."))
 
       bemovi.LEEF::Create_folder_structure()
       file.symlink(
         from = normalizePath(video),
-        to = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_raw.video.folder() )
+        to = file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_raw.video.folder())
       )
 
       # Copy video.description.file -------------------------------------------
 
       file.copy(
-        from = file.path(output, "bemovi", bemovi.LEEF::par_video.description.folder(), bemovi.LEEF::par_video.description.file()),
-        to   = file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_video.description.folder(), bemovi.LEEF::par_video.description.file())
+        from = file.path(
+          output, "bemovi", bemovi.LEEF::par_video.description.folder(),
+          bemovi.LEEF::par_video.description.file()
+        ),
+        to = file.path(
+          bemovi.LEEF::par_to.data(), bemovi.LEEF::par_video.description.folder(),
+          bemovi.LEEF::par_video.description.file()
+        )
       )
 
       # Check Folder structure --------------------------------------------------
@@ -122,21 +140,20 @@ extractor_bemovi_particle <- function(
       bemovi.LEEF::locate_and_measure_particles()
 
       outfile <- gsub(".avi", ".ijout.txt", basename(video))
-      if (file.exists(file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_particle.data.folder(), outfile ))) {
+      if (file.exists(file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_particle.data.folder(), outfile))) {
         file.copy(
-          from = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_particle.data.folder(), outfile ),
-          to   = file.path( output, "bemovi", bemovi.LEEF::par_particle.data.folder(), outfile )
+          from = file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_particle.data.folder(), outfile),
+          to = file.path(output, "bemovi", bemovi.LEEF::par_particle.data.folder(), outfile)
         )
 
         # Delete input video ------------------------------------------------------
 
         # unlink(video)
-
       } else {
-        file.create( error )
+        file.create(error)
       }
       unlink(bemovi.LEEF::par_to.data(), recursive = TRUE)
-      unlink( processing )
+      unlink(processing)
     },
     mc.preschedule = FALSE
   )
@@ -147,10 +164,9 @@ extractor_bemovi_particle <- function(
   processing <- file.path(normalizePath(output), "bemovi", paste0("PROCESSING.MERGING.", "particle", ".PROCESSING"))
   error <- file.path(normalizePath(output), "bemovi", paste0("ERROR.MERGING.", "particle", ".ERROR"))
 
-  bemovi.LEEF::par_to.data( file.path(output, "bemovi") )
+  bemovi.LEEF::par_to.data(file.path(output, "bemovi"))
 
-  tryCatch(
-    {
+  tryCatch({
       file.create(processing)
       bemovi.LEEF::organise_particle_data()
       unlink(processing)

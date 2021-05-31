@@ -8,8 +8,10 @@
 #' @return invisibly \code{TRUE} when completed successful
 #'
 #' @importFrom bemovi.LEEF check_video_file_names locate_and_measure_particles link_particles merge_data
-#' @importFrom bemovi.LEEF par_to.data par_video.description.folder par_raw.video.folder par_particle.data.folder par_trajectory.data.folder
-#' @importFrom bemovi.LEEF par_temp.overlay.folder par_overlay.folder par_merged.data.folder par_ijmacs.folder par_to.particlelinker
+#' @importFrom bemovi.LEEF par_to.data par_video.description.folder par_raw.video.folder
+#' @importFrom bemovi.LEEF par_particle.data.folder par_trajectory.data.folder
+#' @importFrom bemovi.LEEF par_temp.overlay.folder par_overlay.folder par_merged.data.folder
+#' @importFrom bemovi.LEEF par_ijmacs.folder par_to.particlelinker
 #' @importFrom bemovi.LEEF par_memory par_pixel_to_scale par_difference.lag par_thresholds par_min_size
 #' @importFrom utils write.table
 #' @importFrom parallel mclapply
@@ -28,8 +30,7 @@ extractor_bemovi_overlay <- function(
 
   old_ijmacs.folder <- bemovi.LEEF::par_ijmacs.folder()
 
-  on.exit(
-    {
+  on.exit({
       if (file.exists(processing)) {
         unlink(processing)
         file.create(error)
@@ -39,11 +40,11 @@ extractor_bemovi_overlay <- function(
   )
 
   ##
-  file.create( processing )
+  file.create(processing)
 
   # Load bemovi_extract.yml parameter ---------------------------------------
 
-  bemovi.LEEF::load_parameter( file.path(output, "bemovi", "bemovi_extract.yml") )
+  bemovi.LEEF::load_parameter(file.path(output, "bemovi", "bemovi_extract.yml"))
   bemovi.LEEF::par_ijmacs.folder(bemovi.LEEF::par_temp.overlay.folder())
 
 

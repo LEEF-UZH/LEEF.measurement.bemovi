@@ -23,7 +23,7 @@ extractor_bemovi <- function(
   message("\n########################################################\n")
   message("\nExtracting bemovi...\n")
 
-  if ( length( list.files( file.path(input, "bemovi") ) ) == 0 ) {
+  if (length(list.files( file.path(input, "bemovi"))) == 0) {
     message("\nEmpty or missing bemovi directory - nothing to do.\n")
     message("\ndone\n")
     message("########################################################\n")
@@ -39,7 +39,7 @@ extractor_bemovi <- function(
     recursive = TRUE
   )
 
-  to_copy <- list.files( file.path(input, "bemovi"), full.names = TRUE )
+  to_copy <- list.files(file.path(input, "bemovi"), full.names = TRUE)
   to_copy <- grep(
     "\\.avi$|\\.metadata",
     to_copy,
@@ -55,7 +55,12 @@ extractor_bemovi <- function(
   dir.create(file.path(output, "bemovi", bemovi.LEEF::par_video.description.folder()), showWarnings = FALSE)
   file.copy(
     from = file.path(input, "bemovi", bemovi.LEEF::par_video.description.file()),
-    to   = file.path(output, "bemovi", bemovi.LEEF::par_video.description.folder(), bemovi.LEEF::par_video.description.file())
+    to   = file.path(
+      output,
+      "bemovi",
+      bemovi.LEEF::par_video.description.folder(),
+      bemovi.LEEF::par_video.description.file()
+    )
   )
 
 
@@ -64,22 +69,21 @@ extractor_bemovi <- function(
 
   bmc_org <- file.path(output, "bemovi", "bemovi_extract.ORGORGORG.yml")
   bmc <- file.path(output, "bemovi", "bemovi_extract.yml")
-  if ( file.exists( bmc ) ) {
+  if (file.exists(bmc)) {
     file.rename(
       from = bmc,
       to = bmc_org
     )
   }
 
-  on.exit(
-    {
-      unlink( bmc )
-      if ( file.exists( bmc_org ) ) {
+  on.exit({
+      unlink(bmc)
+      if (file.exists(bmc_org)) {
         file.copy(
           from = bmc_org,
           to = bmc
         )
-	      unlink( bmc_org )
+        unlink(bmc_org)
       }
     }
   )
@@ -105,7 +109,7 @@ extractor_bemovi <- function(
     extractor_bemovi_trajectory(input, output)
     extractor_bemovi_merge(input, output)
     extractor_bemovi_filter(input, output)
-    extractor_bemovi_id_species(input, output)
+    extractor_bemovi_classify(input, output)
     extractor_bemovi_overlay(input, output)
     #
 
@@ -118,7 +122,7 @@ extractor_bemovi <- function(
     )
     for (rds in final_files) {
       ##
-      dat <- readRDS( file.path(output, "bemovi", bemovi.LEEF::par_merged.data.folder(), rds) )
+      dat <- readRDS(file.path(output, "bemovi", bemovi.LEEF::par_merged.data.folder(), rds))
       dat <- cbind(timestamp = timestamp, dat)
       ##
       csv <- gsub("\\.rds$", ".csv", rds)
@@ -137,7 +141,4 @@ extractor_bemovi <- function(
   ##
   invisible(TRUE)
 }
-
-
-
 

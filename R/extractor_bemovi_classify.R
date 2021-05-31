@@ -8,13 +8,13 @@
 #'
 #' @import bemovi.LEEF
 #' @importFrom  stats predict
-#' @importFrom  data.table as.data.table setkey
+#' @importFrom  data.table as.data.table setkey as.data.table
 #' @importFrom dplyr group_by summarise mutate n filter
 #' @import randomForest
 #'
 #' @export
 
-extractor_bemovi_id_species <- function(
+extractor_bemovi_classify <- function(
   input,
   output
 ) {
@@ -29,32 +29,26 @@ extractor_bemovi_id_species <- function(
 
   # Load bemovi_extract.yml parameter ---------------------------------------
 
-  bemovi.LEEF::load_parameter( file.path(output, "bemovi", "bemovi_extract.yml") )
+bemovi.LEEF::load_parameter(file.path(output, "bemovi", "bemovi_extract.yml"))
 
-  # ID Species --------------------------------------------
+# ID Species --------------------------------------------
 
-  processing <- file.path(normalizePath(output), "bemovi", "PROCESSING.ID.SPECIES.PROCESSING")
-  error <- file.path(normalizePath(output), "bemovi", "ERROR.ID.SPECIES.ERROR")
-  on.exit(
-    {
-      if (file.exists(processing)) {
-        unlink(processing)
-        file.create(error)
-      }
-    }
-  )
+processing <- file.path(normalizePath(output), "bemovi", "PROCESSING.ID.SPECIES.PROCESSING")
+error <- file.path(normalizePath(output), "bemovi", "ERROR.ID.SPECIES.ERROR")
+on.exit({
+  if (file.exists(processing)) {
+    unlink(processing)
+    file.create(error)
+  }
+})
 
-  ##
-  file.create( processing )
+##
+file.create(processing)
 
-  # Define and create temporary folder structure -------------------------------------------------
+# Define and create temporary folder structure -------------------------------------------------
 
-  bemovi.LEEF::par_to.data( tempfile( pattern = "bemovi.") )
-  bemovi.LEEF::Create_folder_structure()
-  # file.copy(
-  #   from = file.path( output, "bemovi", bemovi.LEEF::par_video.description.folder(), bemovi.LEEF::par_video.description.file() ),
-  #   to   = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_video.description.folder(), bemovi.LEEF::par_video.description.file() ),
-  # )
+bemovi.LEEF::par_to.data(tempfile(pattern = "bemovi."))
+bemovi.LEEF::Create_folder_structure()
 
   # ID Species --------------------------------------------------
 
@@ -108,21 +102,24 @@ extractor_bemovi_id_species <- function(
 
   # 3. Predict species identities in the 32 dfs based on the 32 rf classifiers
 
-  for(i in 1:length(morph_mvt_list)){
-
+  for (i in seq_along(morph_mvt_list)) {
     df <- morph_mvt_list[[i]]
 
     temperature_treatment <- unique(df$temperature_treatment) # either "constant" or "increasing"
     composition_id <- unique(df$composition_id) # a char between c_01 and c_16
 
-    if (temperature_treatment == "constant"){
+    if (temperature_treatment == "constant") {
       df$species <- predict(classifiers_constant[[composition_id]], df) # species prediction
-      df$species_probability <- apply(predict(classifiers_constant[[composition_id]], df, type = "prob"),
-                                      1,max) # probability of each species prediction
+      df$species_probability <- apply(
+        predict(classifiers_constant[[composition_id]], df, type = "prob"),
+        1, max
+      ) # probability of each species prediction
     } else {
       df$species <- predict(classifiers_increasing[[composition_id]], df) # species prediction
-      df$species_probability <- apply(predict(classifiers_increasing[[composition_id]], df, type = "prob"),
-                                      1,max) # probability of each species prediction
+      df$species_probability <- apply(
+        predict(classifiers_increasing[[composition_id]], df, type = "prob"),
+        1, max
+      ) # probability of each species prediction
     }
     morph_mvt_list[[i]] <- df
   }
@@ -132,7 +129,7 @@ extractor_bemovi_id_species <- function(
   morph_mvt <- do.call("rbind", morph_mvt_list)
 
   # 5. Add species identity to trajectory.data
-  take_all <- as.data.table(morph_mvt)
+  take_all <- data.table::as.data.table(morph_mvt)
   take_all <- take_all[, list(id, species)]
   data.table::setkey(take_all, id)
   data.table::setkey(trajectory.data.filtered, id)
@@ -149,13 +146,33 @@ extractor_bemovi_id_species <- function(
   area_org <- bemovi.LEEF::par_width() * bemovi.LEEF::par_height()
 
   area_crop <-
-    ( max(bemovi.LEEF::par_crop_pixels()$xmin, 0) - min(bemovi.LEEF::par_crop_pixels()$xmax, bemovi.LEEF::par_width() ) ) *
-    ( max(bemovi.LEEF::par_crop_pixels()$ymin, 0) - min(bemovi.LEEF::par_crop_pixels()$ymax, bemovi.LEEF::par_height()))
+    (
+      max(
+        bemovi.LEEF::par_crop_pixels()$xmin, 0) - min(bemovi.LEEF::par_crop_pixels()$xmax,
+        bemovi.LEEF::par_width())
+    ) * (
+      max(
+        bemovi.LEEF::par_crop_pixels()$ymin, 0) - min(bemovi.LEEF::par_crop_pixels()$ymax,
+        bemovi.LEEF::par_height()
+      )
+    )
 
   cropping.factor <- area_org / area_crop
 
   count_per_frame <- trajectory.data %>%
-    group_by(file, date, species, bottle, composition_id, temperature_treatment, magnification, sample, video, frame, dilution_factor) %>%
+    group_by(
+      file,
+      date,
+      species,
+      bottle,
+      composition_id,
+      temperature_treatment,
+      magnification,
+      sample,
+      video,
+      frame,
+      dilution_factor
+    ) %>%
     summarise(count = n()) %>%
     mutate(dens.ml = count * bemovi.LEEF::par_extrapolation.factor() * cropping.factor * dilution_factor)
 
@@ -182,8 +199,8 @@ extractor_bemovi_id_species <- function(
   comps <- comps %>%
     dplyr::select(tidyselect::any_of(bemovi.LEEF::par_species_tracked()))
 
-  comps.list <- apply(comps, 1, function(x){
-    idx <- which(x==1)
+  comps.list <- apply(comps, 1, function(x) {
+    idx <- which(x == 1)
     names(idx)
   })
   names(comps.list) <- comp_id
@@ -193,13 +210,13 @@ extractor_bemovi_id_species <- function(
                                     drop = T)
 
 
-  for(i in 1:length(mean_density_per_ml_list)){
+  for (i in seq_along(mean_density_per_ml_list)) {
     df <- mean_density_per_ml_list[[i]]
     ID <- unique(df$composition_id)
     idx <- which(!is.element(unlist(comps.list[[ID]]), df$species))
-    if(length(idx)==0) next
-    for(j in idx){
-      new.entry <- tail(df,1)
+    if (length(idx) == 0) next
+    for (j in idx) {
+      new.entry <- tail(df, 1)
       new.entry$species <- comps.list[[ID]][j]
       new.entry$density <- 0
       df <- rbind(df, new.entry)
@@ -218,10 +235,22 @@ extractor_bemovi_id_species <- function(
 # Script end --------------------------------------------------------------
 
   outfiles <- c(
-    morph_file           = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), bemovi.LEEF::par_morph_mvt()    ),
-#    traj.unfiltered_file = file.path( bemovi.LEEF::par_to.data(), "/6 - merged data unfiltered",         bemovi.LEEF::par_master()),
-    traj.filtered_file   = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), bemovi.LEEF::par_master()       ),
-    mean.dens_file       = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), bemovi.LEEF::par_mean_density() )
+    morph_file = file.path(
+      bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(),
+      bemovi.LEEF::par_morph_mvt()
+    ),
+    #    traj.unfiltered_file = file.path(
+    # bemovi.LEEF::par_to.data(), "/6 - merged data unfiltered",
+    # bemovi.LEEF::par_master()
+    # ),
+    traj.filtered_file = file.path(
+      bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(),
+      bemovi.LEEF::par_master()
+    ),
+    mean.dens_file = file.path(
+      bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(),
+      bemovi.LEEF::par_mean_density()
+    )
   )
 
   saveRDS(
@@ -230,7 +259,7 @@ extractor_bemovi_id_species <- function(
   )
   saveRDS(
     # trajectory.data.filtered,
-    trajectory.data ,
+    trajectory.data,
     file = outfiles["traj.filtered_file"]
   )
   saveRDS(
@@ -240,18 +269,18 @@ extractor_bemovi_id_species <- function(
 
   # Finalize ----------------------------------------------------------------
 
-  if ( all(file.exists( outfiles )) ) {
+  if (all(file.exists(outfiles))) {
     file.copy(
-      from = file.path( outfiles ),
-      to   = file.path( output, "bemovi", bemovi.LEEF::par_merged.data.folder() ),
+      from = file.path(outfiles),
+      to = file.path(output, "bemovi", bemovi.LEEF::par_merged.data.folder()),
       overwrite = TRUE
     )
   } else {
-    file.create( error )
+    file.create(error)
   }
 
   unlink(bemovi.LEEF::par_to.data(), recursive = TRUE)
-  unlink( processing )
+  unlink(processing)
 
   message("\ndone\n")
   message("\n########################################################\n")
