@@ -19,20 +19,23 @@
 #' @importFrom bemovi.LEEF par_memory par_pixel_to_scale par_difference.lag par_thresholds par_min_size
 #' @importFrom utils write.table
 #' @importFrom parallel mclapply
+#' @import loggit
 #' @export
 
 extractor_bemovi_merge <- function(
   input,
   output
 ) {
-  message("\n########################################################\n")
-  message("Merging bemovi...\n")
-
   dir.create(
     file.path(output, "bemovi"),
     showWarnings = FALSE,
     recursive = TRUE
   )
+  loggit::set_logfile(file.path(output, "bemovi", "bemovi.log"))
+
+  message("########################################################")
+  message("   merging bemovi...")
+
 
   # Load bemovi_extract.yml parameter ---------------------------------------
 
@@ -97,8 +100,6 @@ extractor_bemovi_merge <- function(
     }
   )
 
-  message("### Done.")
-
 
 # Finalize ----------------------------------------------------------------
 
@@ -109,8 +110,8 @@ extractor_bemovi_merge <- function(
   # )
 
 
-  message("\ndone\n")
-  message("\n########################################################\n")
+  message("   done")
+  message("########################################################")
 
   invisible(TRUE)
 }

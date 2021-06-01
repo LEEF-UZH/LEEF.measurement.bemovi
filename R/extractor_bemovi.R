@@ -13,6 +13,7 @@
 #'
 #' @importFrom  yaml read_yaml
 #' @importFrom utils write.csv
+#' @import loggit
 #'
 #' @export
 
@@ -20,24 +21,24 @@ extractor_bemovi <- function(
   input,
   output
 ) {
-  message("\n########################################################\n")
-  message("\nExtracting bemovi...\n")
-
-  if (length(list.files( file.path(input, "bemovi"))) == 0) {
-    message("\nEmpty or missing bemovi directory - nothing to do.\n")
-    message("\ndone\n")
-    message("########################################################\n")
-    return(invisible(TRUE))
-  }
-
-  # prepare output folder ---------------------------------------------------
-
-
   dir.create(
     file.path(output, "bemovi"),
     showWarnings = FALSE,
     recursive = TRUE
   )
+  loggit::set_logfile(file.path(output, "bemovi", "bemovi.log"))
+
+  message("########################################################")
+  message("Extracting bemovi...")
+
+  if (length(list.files( file.path(input, "bemovi"))) == 0) {
+    message("Empty or missing bemovi directory - nothing to do.")
+    message("done")
+    message("########################################################")
+    return(invisible(TRUE))
+  }
+
+  # prepare output folder ---------------------------------------------------
 
   to_copy <- list.files(file.path(input, "bemovi"), full.names = TRUE)
   to_copy <- grep(
@@ -100,6 +101,9 @@ extractor_bemovi <- function(
   timestamp <- yaml::read_yaml(file.path(output, "bemovi", "sample_metadata.yml"))$timestamp
 
   for (bconf in bmcs) {
+    message("########################################################")
+    message("conf file: ", bconf, " ...")
+
     file.copy(
       from = bconf,
       to = bmc,
@@ -131,12 +135,14 @@ extractor_bemovi <- function(
         file.path(output, "bemovi", csv),
         row.names = FALSE
       )
+      message("done")
+      message("########################################################")
     }
     unlink(bmc)
   }
 
-  message("\ndone\n")
-  message("########################################################\n")
+  message("done")
+  message("########################################################")
 
   ##
   invisible(TRUE)

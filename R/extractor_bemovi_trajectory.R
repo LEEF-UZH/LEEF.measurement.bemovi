@@ -15,14 +15,23 @@
 #' @importFrom bemovi.LEEF par_memory par_pixel_to_scale par_difference.lag par_thresholds par_min_size
 #' @importFrom utils write.table
 #' @importFrom parallel mclapply
+#' @import loggit
 #' @export
 
 extractor_bemovi_trajectory <- function(
   input,
   output
 ) {
-  message("\n########################################################\n")
-  message("Identifying rajectories bemovi...\n")
+  dir.create(
+    file.path(output, "bemovi"),
+    showWarnings = FALSE,
+    recursive = TRUE
+  )
+  loggit::set_logfile(file.path(output, "bemovi", "bemovi.log"))
+
+
+  message("########################################################")
+  message("   trajectories bemovi...")
 
   dir.create(
     file.path(output, "bemovi"),
@@ -79,11 +88,15 @@ extractor_bemovi_trajectory <- function(
     pattern = "\\.ijout\\.txt",
     full.names = TRUE
   )
+
   if (length(ijouts) > 0) {
+    message("      PARALLEL BEGIN")
     parallel::mclapply(
       # lapply(
       ijouts,
       function(ijout) {
+        message("      processing ", ijout)
+
         processing <- file.path(
           normalizePath(output), "bemovi",
           paste0("CALCULATING.TRAJECTORIES.", basename(ijout), ".PROCESSING")
@@ -96,6 +109,7 @@ extractor_bemovi_trajectory <- function(
           if (file.exists(processing)) {
             unlink(processing)
             file.create(error)
+            message("      ERROR trajectories ", ijout)
           }
         })
         ##
@@ -125,13 +139,17 @@ extractor_bemovi_trajectory <- function(
         ##
         unlink(bemovi.LEEF::par_to.data(), recursive = TRUE)
         unlink(processing)
+        message("      done ", ijout)
       },
       mc.preschedule = FALSE
     )
+    message("      PARALLEL END")
   }
+
 
   # Combine outputs ---------------------------------------------------------
 
+  message("   combining outpute")
   processing <- file.path(
     normalizePath(output), "bemovi",
     paste0("PROCESSING.MERGING.", "particleLinker", ".PROCESSING")
@@ -158,8 +176,8 @@ extractor_bemovi_trajectory <- function(
 
   # Finalize ----------------------------------------------------------------
 
-  message("\ndone\n")
-  message("\n########################################################\n")
+  message("   done")
+  message("########################################################")
 
   invisible(TRUE)
 }

@@ -10,6 +10,7 @@
 #' @importFrom utils write.table
 #' @importFrom R.utils bzip2
 #' @importFrom parallel mclapply
+#' @import loggit
 #'
 #' @export
 #'
@@ -17,14 +18,21 @@ pre_processor_bemovi <- function(
   input,
   output
 ) {
-  message("\n########################################################\n")
-  message("Processing bemovi...\n")
+  dir.create(
+    file.path(output, "bemovi"),
+    showWarnings = FALSE,
+    recursive = TRUE
+  )
+  loggit::set_logfile(file.path(output, "bemovi", "bemovi.log"))
+
+  message("########################################################")
+  message("Processing bemovi...")
   ##
 
   if ( length( list.files( file.path(input, "bemovi") ) ) == 0 ) {
-    message("\nEmpty or missing bemovi directory - nothing to do.\n")
-    message("\ndone\n")
-    message("########################################################\n")
+    message("Empty or missing bemovi directory - nothing to do.")
+    message("done")
+    message("########################################################")
     return(invisible(TRUE))
   }
 
@@ -181,8 +189,8 @@ pre_processor_bemovi <- function(
   )
 
   ##
-  message("\ndone\n")
-  message("########################################################\n")
+  message("done")
+  message("########################################################")
 
   invisible(TRUE)
 }

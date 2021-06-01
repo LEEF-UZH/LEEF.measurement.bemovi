@@ -18,6 +18,7 @@ invisibly \code{TRUE} when completed successful
 Analyse all \code{.avi} files in \code{bemovi} folder and save as \code{.rds} file.
 }
 \details{
-This function is extracting data to be added to the database (and therefore make accessible for further analysis and forecasting)
+This function is extracting data to be added to the database
+(and therefore make accessible for further analysis and forecasting)
 from \code{.avi} files.
 }

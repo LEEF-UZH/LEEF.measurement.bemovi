@@ -15,15 +15,22 @@
 #' @importFrom bemovi.LEEF par_memory par_pixel_to_scale par_difference.lag par_thresholds par_min_size
 #' @importFrom utils write.table
 #' @importFrom parallel mclapply
+#' @import loggit
 #' @export
 
 extractor_bemovi_overlay <- function(
   input,
   output
 ) {
+  dir.create(
+    file.path(output, "bemovi"),
+    showWarnings = FALSE,
+    recursive = TRUE
+  )
+  loggit::set_logfile(file.path(output, "bemovi", "bemovi.log"))
 
-  message("\n########################################################\n")
-  message("Creating overlays bemovi...\n")
+  message("########################################################")
+  message("   overlay bemovi...")
 
   processing <- file.path(normalizePath(output), "bemovi", "CREATING.OVERLAYS.CREATING")
   error <- file.path(normalizePath(output), "bemovi", "ERROR.OVERLAYS.ERROR")
@@ -63,8 +70,8 @@ extractor_bemovi_overlay <- function(
 
   # Finalize ----------------------------------------------------------------
 
-  message("\ndone\n")
-  message("\n########################################################\n")
+  message("   done")
+  message("########################################################")
 
   invisible(TRUE)
 }

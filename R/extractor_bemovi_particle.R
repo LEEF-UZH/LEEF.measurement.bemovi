@@ -14,14 +14,23 @@
 #' @importFrom bemovi.LEEF par_memory par_pixel_to_scale par_difference.lag par_thresholds par_min_size
 #' @importFrom utils write.table
 #' @importFrom parallel mclapply
+#' @import loggit
 #' @export
 
 extractor_bemovi_particle <- function(
   input,
   output
 ) {
-  message("\n########################################################\n")
-  message("Identifying Particle bemovi...\n")
+  dir.create(
+    file.path(output, "bemovi"),
+    showWarnings = FALSE,
+    recursive = TRUE
+  )
+  loggit::set_logfile(file.path(output, "bemovi", "bemovi.log"))
+
+
+  message("########################################################")
+  message("   particle bemovi...")
 
 
   # Get avi file names ------------------------------------------------------
@@ -36,8 +45,8 @@ extractor_bemovi_particle <- function(
   )
 
   if (length(bemovi_files) == 0) {
-    message("nothing to extract\n")
-    message("\n########################################################\n")
+    message("   nothing to extract")
+    message("########################################################")
     return(invisible(FALSE))
   }
 
@@ -65,7 +74,7 @@ extractor_bemovi_particle <- function(
       )
       bemovi.LEEF::par_IJ.path(file.path(tools_path(), "Fiji.app"))
     },
-    stop("OS not supported by bemoviu!")
+    stop("OS not supported by bemovi!")
   )
 
   bemovi.LEEF::par_to.particlelinker(system.file(package = "LEEF.measurement.bemovi", "ParticleLinker"))
@@ -74,10 +83,12 @@ extractor_bemovi_particle <- function(
 
   dir.create(file.path(output, "bemovi", bemovi.LEEF::par_particle.data.folder()), showWarnings = FALSE)
 
+  message("      PARALLEL BEGIN")
   parallel::mclapply(
   # lapply(
     bemovi_files,
     function(video) {
+      message("      processing ", basename(video))
       processing <- file.path(
         normalizePath(output), "bemovi",
         paste0("CALCULATING.PARTICLE.", basename(video), ".PROCESSING")
@@ -90,6 +101,7 @@ extractor_bemovi_particle <- function(
           if (file.exists(processing)) {
             unlink(processing)
             file.create(error)
+            message("      ERROR particle", basename(video))
           }
         }
       )
@@ -136,7 +148,7 @@ extractor_bemovi_particle <- function(
       #
       # RESULT: file.path( particle.data.older, "particle.rds)
 
-      message("### Locate and measure particles ...")
+      message("      locate and measure ", basename(video))
       bemovi.LEEF::locate_and_measure_particles()
 
       outfile <- gsub(".avi", ".ijout.txt", basename(video))
@@ -154,9 +166,12 @@ extractor_bemovi_particle <- function(
       }
       unlink(bemovi.LEEF::par_to.data(), recursive = TRUE)
       unlink(processing)
+      message("      done ", basename(video))
     },
     mc.preschedule = FALSE
   )
+  message("      PARALLEL END")
+
 
 
 # Combine outputs ---------------------------------------------------------
@@ -182,8 +197,8 @@ extractor_bemovi_particle <- function(
 
 # Finalize ----------------------------------------------------------------
 
-  message("\ndone\n")
-  message("\n########################################################\n")
+  message("   done")
+  message("########################################################")
 
   invisible(TRUE)
 }

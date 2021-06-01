@@ -10,7 +10,10 @@
 #' @importFrom  stats predict
 #' @importFrom  data.table as.data.table setkey as.data.table
 #' @importFrom dplyr group_by summarise mutate n filter
-#' @import randomForest
+#' @importFrom tidyselect any_of
+#' @importFrom utils read.csv tail
+#' @import e1071
+#' @import loggit
 #'
 #' @export
 
@@ -18,14 +21,15 @@ extractor_bemovi_classify <- function(
   input,
   output
 ) {
-  message("\n########################################################\n")
-  message("Id Species bemovi...\n")
-
   dir.create(
     file.path(output, "bemovi"),
     showWarnings = FALSE,
     recursive = TRUE
   )
+  loggit::set_logfile(file.path(output, "bemovi", "bemovi.log"))
+
+  message("########################################################")
+  message("   classify bemovi...")
 
   # Load bemovi_extract.yml parameter ---------------------------------------
 
@@ -39,6 +43,7 @@ on.exit({
   if (file.exists(processing)) {
     unlink(processing)
     file.create(error)
+    message("   ERROR classify bemovi")
   }
 })
 
@@ -70,7 +75,7 @@ bemovi.LEEF::Create_folder_structure()
   )
 
 
-# Scripd begin ------------------------------------------------------------
+# Script begin ------------------------------------------------------------
 
 
   # 1. Load in random classifiers (rds)
@@ -108,18 +113,14 @@ bemovi.LEEF::Create_folder_structure()
     temperature_treatment <- unique(df$temperature_treatment) # either "constant" or "increasing"
     composition_id <- unique(df$composition_id) # a char between c_01 and c_16
 
-    if (temperature_treatment == "constant") {
-      df$species <- predict(classifiers_constant[[composition_id]], df) # species prediction
-      df$species_probability <- apply(
-        predict(classifiers_constant[[composition_id]], df, type = "prob"),
-        1, max
-      ) # probability of each species prediction
+    if (temperature_treatment == "constant"){
+      pr <- predict(classifiers_constant[[composition_id]], df, probability = T)
+      df$species <- pr # species prediction
+      df$species_probability <- apply(attributes(pr)$probabilities,1,max) # probability of each species prediction
     } else {
-      df$species <- predict(classifiers_increasing[[composition_id]], df) # species prediction
-      df$species_probability <- apply(
-        predict(classifiers_increasing[[composition_id]], df, type = "prob"),
-        1, max
-      ) # probability of each species prediction
+      pr <- predict(classifiers_increasing[[composition_id]], df, probability = T)
+      df$species <- pr # species prediction
+      df$species_probability <- apply(attributes(pr)$probabilities,1,max)  # probability of each species prediction
     }
     morph_mvt_list[[i]] <- df
   }
@@ -187,7 +188,7 @@ bemovi.LEEF::Create_folder_structure()
   # magnification & cropping specific!
 
 
-  comps <- read.csv(
+  comps <- utils::read.csv(
     file.path(
       output,
       "bemovi",
@@ -216,7 +217,7 @@ bemovi.LEEF::Create_folder_structure()
     idx <- which(!is.element(unlist(comps.list[[ID]]), df$species))
     if (length(idx) == 0) next
     for (j in idx) {
-      new.entry <- tail(df, 1)
+      new.entry <- utils::tail(df, 1)
       new.entry$species <- comps.list[[ID]][j]
       new.entry$density <- 0
       df <- rbind(df, new.entry)
@@ -282,8 +283,8 @@ bemovi.LEEF::Create_folder_structure()
   unlink(bemovi.LEEF::par_to.data(), recursive = TRUE)
   unlink(processing)
 
-  message("\ndone\n")
-  message("\n########################################################\n")
+  message("   done")
+  message("########################################################")
 
   invisible(TRUE)
 }

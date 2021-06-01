@@ -21,10 +21,12 @@ Imports:
     parallel,
     data.table,
     dplyr,
+    tidyselect,
     magrittr,
     yaml,
     rlang,
-    randomForest
+    e1071,
+    loggit
 Additional_repositories: https://leef-uzh.github.io/drat/
 Encoding: UTF-8
 LazyData: true

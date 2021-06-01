@@ -8,6 +8,7 @@
 #'
 #' @import bemovi.LEEF
 #' @importFrom  magrittr %>%
+#' @import loggit
 #'
 #' @export
 
@@ -15,8 +16,16 @@ extractor_bemovi_filter <- function(
   input,
   output
 ) {
-  message("\n########################################################\n")
-  message("Filtering Particles bemovi...\n")
+  dir.create(
+    file.path(output, "bemovi"),
+    showWarnings = FALSE,
+    recursive = TRUE
+  )
+  loggit::set_logfile(file.path(output, "bemovi", "bemovi.log"))
+
+
+  message("########################################################")
+  message("   filtering bemovi...")
 
   dir.create(
     file.path(output, "bemovi"),
@@ -169,8 +178,8 @@ extractor_bemovi_filter <- function(
   unlink(bemovi.LEEF::par_to.data(), recursive = TRUE)
   unlink(processing)
 
-  message("\ndone\n")
-  message("\n########################################################\n")
+  message("   done")
+  message("########################################################")
 
   invisible(TRUE)
 }
