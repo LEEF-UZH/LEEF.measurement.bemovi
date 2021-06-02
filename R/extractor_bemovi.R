@@ -29,11 +29,11 @@ extractor_bemovi <- function(
   loggit::set_logfile(file.path(output, "bemovi", "bemovi.log"))
 
   message("########################################################")
-  message("Extracting bemovi...")
+  message("BEGIN Extracting bemovi...")
 
   if (length(list.files( file.path(input, "bemovi"))) == 0) {
     message("Empty or missing bemovi directory - nothing to do.")
-    message("done")
+    message("END Extracting bemovi")
     message("########################################################")
     return(invisible(TRUE))
   }
@@ -102,7 +102,7 @@ extractor_bemovi <- function(
 
   for (bconf in bmcs) {
     message("########################################################")
-    message("conf file: ", bconf, " ...")
+    message("BEGIN conf file: ", bconf, "...")
 
     file.copy(
       from = bconf,
@@ -135,13 +135,13 @@ extractor_bemovi <- function(
         file.path(output, "bemovi", csv),
         row.names = FALSE
       )
-      message("done")
+      message("END conf file: ", bconf)
       message("########################################################")
     }
     unlink(bmc)
   }
 
-  message("done")
+  message("END Extracting bemovi")
   message("########################################################")
 
   ##

@@ -31,7 +31,7 @@ pre_processor_bemovi <- function(
 
   if ( length( list.files( file.path(input, "bemovi") ) ) == 0 ) {
     message("Empty or missing bemovi directory - nothing to do.")
-    message("done")
+    message("END")
     message("########################################################")
     return(invisible(TRUE))
   }
@@ -189,7 +189,7 @@ pre_processor_bemovi <- function(
   )
 
   ##
-  message("done")
+  message("END")
   message("########################################################")
 
   invisible(TRUE)

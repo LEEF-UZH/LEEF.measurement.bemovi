@@ -25,7 +25,7 @@ extractor_bemovi_filter <- function(
 
 
   message("########################################################")
-  message("   filtering bemovi...")
+  message("   BEGIN filtering bemovi...")
 
   dir.create(
     file.path(output, "bemovi"),
@@ -47,6 +47,8 @@ extractor_bemovi_filter <- function(
       if (file.exists(processing)) {
         unlink(processing)
         file.create(error)
+        message("   ERROR filtering bemovi")
+        message("   END filtering bemovi")
       }
     }
   )
@@ -178,7 +180,7 @@ extractor_bemovi_filter <- function(
   unlink(bemovi.LEEF::par_to.data(), recursive = TRUE)
   unlink(processing)
 
-  message("   done")
+  message("   END filtering bemovi")
   message("########################################################")
 
   invisible(TRUE)

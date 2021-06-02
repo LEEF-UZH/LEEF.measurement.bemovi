@@ -30,7 +30,7 @@ extractor_bemovi_particle <- function(
 
 
   message("########################################################")
-  message("   particle bemovi...")
+  message("   BEGIN particle bemovi...")
 
 
   # Get avi file names ------------------------------------------------------
@@ -83,12 +83,12 @@ extractor_bemovi_particle <- function(
 
   dir.create(file.path(output, "bemovi", bemovi.LEEF::par_particle.data.folder()), showWarnings = FALSE)
 
-  message("      PARALLEL BEGIN")
+  message("      BEGIN PARALLEL")
   parallel::mclapply(
   # lapply(
     bemovi_files,
     function(video) {
-      message("      processing ", basename(video))
+      message("      BEGIN processing ", basename(video))
       processing <- file.path(
         normalizePath(output), "bemovi",
         paste0("CALCULATING.PARTICLE.", basename(video), ".PROCESSING")
@@ -166,15 +166,16 @@ extractor_bemovi_particle <- function(
       }
       unlink(bemovi.LEEF::par_to.data(), recursive = TRUE)
       unlink(processing)
-      message("      done ", basename(video))
+      message("      END processing ", basename(video))
     },
     mc.preschedule = FALSE
   )
-  message("      PARALLEL END")
+  message("      END PARALLEL")
 
 
 
 # Combine outputs ---------------------------------------------------------
+  message("      organise particle")
 
   processing <- file.path(normalizePath(output), "bemovi", paste0("PROCESSING.MERGING.", "particle", ".PROCESSING"))
   error <- file.path(normalizePath(output), "bemovi", paste0("ERROR.MERGING.", "particle", ".ERROR"))
@@ -190,14 +191,14 @@ extractor_bemovi_particle <- function(
       if (file.exists(processing)) {
         unlink(processing)
         file.create(error)
-        stop("error in merging particles")
+        stop("error in organise particle")
       }
     }
   )
 
 # Finalize ----------------------------------------------------------------
 
-  message("   done")
+  message("   END particle bemovi")
   message("########################################################")
 
   invisible(TRUE)

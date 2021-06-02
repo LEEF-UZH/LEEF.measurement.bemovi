@@ -34,7 +34,7 @@ extractor_bemovi_merge <- function(
   loggit::set_logfile(file.path(output, "bemovi", "bemovi.log"))
 
   message("########################################################")
-  message("   merging bemovi...")
+  message("   BEGIN merging bemovi...")
 
 
   # Load bemovi_extract.yml parameter ---------------------------------------
@@ -110,7 +110,7 @@ extractor_bemovi_merge <- function(
   # )
 
 
-  message("   done")
+  message("   END merging bemovi")
   message("########################################################")
 
   invisible(TRUE)

@@ -30,7 +30,7 @@ extractor_bemovi_overlay <- function(
   loggit::set_logfile(file.path(output, "bemovi", "bemovi.log"))
 
   message("########################################################")
-  message("   overlay bemovi...")
+  message("   BEGIN overlay bemovi...")
 
   processing <- file.path(normalizePath(output), "bemovi", "CREATING.OVERLAYS.CREATING")
   error <- file.path(normalizePath(output), "bemovi", "ERROR.OVERLAYS.ERROR")
@@ -70,7 +70,7 @@ extractor_bemovi_overlay <- function(
 
   # Finalize ----------------------------------------------------------------
 
-  message("   done")
+  message("   END overlay")
   message("########################################################")
 
   invisible(TRUE)

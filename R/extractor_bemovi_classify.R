@@ -29,7 +29,7 @@ extractor_bemovi_classify <- function(
   loggit::set_logfile(file.path(output, "bemovi", "bemovi.log"))
 
   message("########################################################")
-  message("   classify bemovi...")
+  message("   BEGIN classify bemovi...")
 
   # Load bemovi_extract.yml parameter ---------------------------------------
 
@@ -44,6 +44,7 @@ on.exit({
     unlink(processing)
     file.create(error)
     message("   ERROR classify bemovi")
+    message("   END classify bemovi")
   }
 })
 
@@ -283,7 +284,7 @@ bemovi.LEEF::Create_folder_structure()
   unlink(bemovi.LEEF::par_to.data(), recursive = TRUE)
   unlink(processing)
 
-  message("   done")
+  message("   END classify bemovi")
   message("########################################################")
 
   invisible(TRUE)

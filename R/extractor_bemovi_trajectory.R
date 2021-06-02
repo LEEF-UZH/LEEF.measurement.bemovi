@@ -31,7 +31,7 @@ extractor_bemovi_trajectory <- function(
 
 
   message("########################################################")
-  message("   trajectories bemovi...")
+  message("   BEGIN trajectories bemovi...")
 
   dir.create(
     file.path(output, "bemovi"),
@@ -90,12 +90,12 @@ extractor_bemovi_trajectory <- function(
   )
 
   if (length(ijouts) > 0) {
-    message("      PARALLEL BEGIN")
+    message("      BEGIN PARALLEL")
     parallel::mclapply(
       # lapply(
       ijouts,
       function(ijout) {
-        message("      processing ", ijout)
+        message("      BEGIN processing ", ijout)
 
         processing <- file.path(
           normalizePath(output), "bemovi",
@@ -110,6 +110,7 @@ extractor_bemovi_trajectory <- function(
             unlink(processing)
             file.create(error)
             message("      ERROR trajectories ", ijout)
+            message("      END trajectories", ijout)
           }
         })
         ##
@@ -139,17 +140,17 @@ extractor_bemovi_trajectory <- function(
         ##
         unlink(bemovi.LEEF::par_to.data(), recursive = TRUE)
         unlink(processing)
-        message("      done ", ijout)
+        message("      END trajectories", ijout)
       },
       mc.preschedule = FALSE
     )
-    message("      PARALLEL END")
+    message("      END PARALLEL")
   }
 
 
   # Combine outputs ---------------------------------------------------------
 
-  message("   combining outpute")
+  message("   calculate mvt")
   processing <- file.path(
     normalizePath(output), "bemovi",
     paste0("PROCESSING.MERGING.", "particleLinker", ".PROCESSING")
@@ -169,14 +170,14 @@ extractor_bemovi_trajectory <- function(
       if (file.exists(processing)) {
         unlink(processing)
         file.create(error)
-        stop("error in merging trajectories")
+        stop("error in calculating mvt")
       }
     }
   )
 
   # Finalize ----------------------------------------------------------------
 
-  message("   done")
+  message("   END trajectories bemovi")
   message("########################################################")
 
   invisible(TRUE)
