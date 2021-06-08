@@ -64,7 +64,8 @@ pre_processor_bemovi <- function(
   bemovi.LEEF::convert_cxd_to_avi(
     cxd_file = file.path(input, "bemovi"),
     avi_dir = file.path(output, "bemovi"),
-    compression_level = 4
+    compression_level = 4,
+    delete_cxd = TRUE
   )
 
   file.copy(
