@@ -15,5 +15,30 @@ pre_processor_bemovi(input, output)
 invisibly \code{TRUE} when completed successful
 }
 \description{
-convert all \code{.cxd} files in \code{bemovi} folder to non-proprietory avi format and delete \code{.cxd} file.
+Convert all \code{.cxd} files in the \code{input/bemovi} folder to non-proprietary \code{avi} format.
+}
+\details{
+This function \strong{requires} the following files and directories:
+\itemize{
+\item one \code{input} directory which contains
+\itemize{
+\item a folder named \code{bemovi} with
+\itemize{
+\item the \code{.cxd} files
+\item a file \code{bemovi_extract.yml} containing all the parameter for the analysis.
+This parameter file will be loaded for the analysis.
+}
+\item a folder named \verb{00.general.parameter} at the same level as \code{input}
+}
+}
+
+This function \strong{creates} the following folder if it does not exist:
+\itemize{
+\item \verb{output\\bemovi} in which will contain
+\itemize{
+\item the \code{.avi} files (converted \code{.cxd} files)
+\item the \code{.metadata} text files containing the extracted metadata from the \code{.cxd} files
+\item the files recursively copied from the \verb{00.general.parameter} folder
+}
+}
 }

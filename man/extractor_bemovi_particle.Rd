@@ -15,5 +15,28 @@ extractor_bemovi_particle(input, output)
 invisibly \code{TRUE} when completed successful
 }
 \description{
-This function extracts the particles.
+This function \strong{requires} the following files and directories:
+}
+\details{
+\itemize{
+\item one \code{input} directory which contains
+\itemize{
+\item a folder named \code{bemovi} with
+\itemize{
+\item the \code{.avi} files
+\item a file \code{bemovi_extract.yml} containing all the parameter for the analysis.
+This parameter file will be loaded for the analysis.
+}
+\item a folder named \verb{00.general.parameter} at the same level as \code{input}
+}
+}
+
+This function \strong{creates} the following folder if it does not exist:
+\itemize{
+\item \verb{output\\bemovi} in which will contain
+\itemize{
+\item diverse output as created by \code{bemovi.LEEF::locate_and_measure_particles()}
+\item all metadata et al files in the \code{input/bemovi} folder which are \strong{not} \code{.avi} and \code{.metadata} files
+}
+}
 }

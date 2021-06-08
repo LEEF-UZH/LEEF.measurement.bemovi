@@ -1,6 +1,19 @@
 #' Extractor bemovi data particles
 #'
-#' This function extracts the particles.
+#' This function **requires** the following files and directories:
+#'
+#' - one `input` directory which contains
+#'    - a folder named `bemovi` with
+#'       - the `.avi` files
+#'       - a file `bemovi_extract.yml` containing all the parameter for the analysis.
+#'         This parameter file will be loaded for the analysis.
+#'    - a folder named `00.general.parameter` at the same level as `input`
+#'
+#' This function **creates** the following folder if it does not exist:
+#' - `output\bemovi` in which will contain
+#'    - diverse output as created by `bemovi.LEEF::locate_and_measure_particles()`
+#'    - all metadata et al files in the `input/bemovi` folder which are **not** `.avi` and `.metadata` files
+#' @md
 #' @param input directory from which to read the data
 #' @param output directory to which to write the data
 #'

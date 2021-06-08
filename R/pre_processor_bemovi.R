@@ -1,15 +1,29 @@
 #' Preprocessor bemovi data
 #'
-#' convert all \code{.cxd} files in \code{bemovi} folder to non-proprietory avi format and delete \code{.cxd} file.
+#' Convert all \code{.cxd} files in the \code{input/bemovi} folder to non-proprietary `avi` format.
+#'
+#' This function **requires** the following files and directories:
+#'
+#' - one `input` directory which contains
+#'    - a folder named `bemovi` with
+#'       - the `.cxd` files
+#'       - a file `bemovi_extract.yml` containing all the parameter for the analysis.
+#'         This parameter file will be loaded for the analysis.
+#'    - a folder named `00.general.parameter` at the same level as `input`
+#'
+#' This function **creates** the following folder if it does not exist:
+#' - `output\bemovi` in which will contain
+#'    - the `.avi` files (converted `.cxd` files)
+#'    - the `.metadata` text files containing the extracted metadata from the `.cxd` files
+#'    - the files recursively copied from the `00.general.parameter` folder
 #'
 #' @param input directory from which to read the data
 #' @param output directory to which to write the data
 #'
 #' @return invisibly \code{TRUE} when completed successful
 #'
-#' @importFrom utils write.table
-#' @importFrom R.utils bzip2
-#' @importFrom parallel mclapply
+#' @md
+#'
 #' @import loggit
 #'
 #' @export
@@ -29,7 +43,10 @@ pre_processor_bemovi <- function(
   message("Processing bemovi...")
   ##
 
-  if ( length( list.files( file.path(input, "bemovi") ) ) == 0 ) {
+  # Load bemovi_extract.yml parameter ---------------------------------------
+  bemovi.LEEF::load_parameter(file.path(input, "bemovi", "bemovi_extract.yml"))
+
+  if (length( list.files( file.path(input, "bemovi"))) == 0) {
     message("Empty or missing bemovi directory - nothing to do.")
     message("END")
     message("########################################################")
@@ -41,137 +58,24 @@ pre_processor_bemovi <- function(
     showWarnings = FALSE,
     recursive = TRUE
   )
-  file.copy(
-  	file.path( input, "..", "00.general.parameter", "." ),
-  	file.path( output, "bemovi" ),
-  	recursive = TRUE,
-  	overwrite = TRUE
+
+  ##
+
+  bemovi.LEEF::convert_cxd_to_avi(
+    cxd_file = file.path(input, "bemovi"),
+    avi_dir = file.path(output, "bemovi"),
+    compression_level = 4
   )
-  ##
-  cxds <- list.files(
-    path = file.path( input, "bemovi" ),
-    pattern = "*.cxd",
-    full.names = FALSE,
-    recursive = FALSE
-  )
-  ##
-  tmpdir <- tempfile()
-  dir.create( tmpdir, recursive = TRUE )
-  ##
-  parallel::mclapply(
-    cxds,
-    function(cxd) {
-      processing <- file.path(output, "bemovi", paste0("PROCESSING.", cxd, ".PROCESSING"))
-      error <- file.path(output, "bemovi", paste0("ERROR.", cxd, ".ERROR"))
-      on.exit(
-        {
-          if (file.exists(processing)) {
-            unlink(processing)
-            file.create(error)
-          }
-        }
-      )
-      ##
-      file.create( processing )
-      ##
-      outfile <- file.path( tmpdir, gsub(".cxd", ".avi", cxd) )
-      cmd <- file.path( file.path( tools_path(), "bftools", "bfconvert" ))
-      if (is.null(cmd)) {
-        stop("bftools not available in expected path!")
-      }
-      arguments <-  paste(
-        "-overwrite",
-        "-no-upgrade",
-        file.path( input, "bemovi", cxd ),
-        outfile,
-        sep = " "
-      )
-      message( "Processing ", cxd )
-      if (options()$LEEF.measurement.bemovi$debug) {
-        system2(
-          command = cmd,
-          args = arguments
-        )
-      } else {
-        system2(
-          command = cmd,
-          args = arguments,
-          stdout = NULL
-        )
-      }
-      if (file.exists(outfile)) {
-
-        # Compress ----------------------------------------------------------------
-
-        cmd <- file.path( file.path( tools_path(), "ffmpeg" ))
-        if (is.null(cmd)) {
-          stop("ffmpeg not available in expected path!")
-        }
-        arguments <-  paste(
-          "-i", file.path( outfile ),
-          "-vcodec png",
-          "-compression_level 10",
-          "-vtag 'PNG '",
-          file.path( output,  "bemovi", basename(outfile) ),
-          sep = " "
-        )
-        message( "Compressing ", outfile )
-        if (options()$LEEF.measurement.bemovi$debug) {
-          system2(
-            command = cmd,
-            args = arguments
-          )
-        } else {
-          system2(
-            command = cmd,
-            args = arguments,
-            stdout = NULL
-          )
-        }
-
-        # Extract Metadata --------------------------------------------------------
-
-        cmd <- file.path( file.path( tools_path(), "bftools", "showinf" ))
-        if (is.null(cmd)) {
-          stop("bftools not available in expected path!")
-        }
-        arguments <-  paste(
-          "-nopix",
-          "-no-upgrade",
-          file.path( input, "bemovi", cxd ),
-          sep = " "
-        )
-        message( "Extracting Metadata ", outfile )
-        system2(
-          command = cmd,
-          args = arguments,
-          stdout = file.path( output,  "bemovi", paste0(basename(cxd), ".metadata") )
-        )
-
-        unlink( file.path( input, "bemovi", cxd ) )
-
-      } else {
-        file.create( error )
-      }
-
-      # Delete cxd file ---------------------------------------------------------
-
-      unlink(processing)
-    },
-    mc.preschedule = FALSE
-  )
-
-  ##
-  unlink( tmpdir, recursive = TRUE )
-  ##
 
   file.copy(
-    from = file.path(input, "sample_metadata.yml"),
-    to = file.path(output, "bemovi", "sample_metadata.yml")
+    file.path(input, "..", "00.general.parameter", "."),
+    file.path(output, "bemovi"),
+    recursive = TRUE,
+    overwrite = TRUE
   )
 
   fn <- list.files(
-    path = file.path( input,  "bemovi" ),
+    path = file.path(input,  "bemovi"),
     recursive = FALSE,
     full.names = TRUE
   )
@@ -184,7 +88,7 @@ pre_processor_bemovi <- function(
 
   file.copy(
     from = fn,
-    to = file.path( output, "bemovi" ),
+    to = file.path(output, "bemovi"),
     overwrite = TRUE
   )
 
