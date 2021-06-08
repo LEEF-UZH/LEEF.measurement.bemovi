@@ -126,6 +126,18 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "tidyselect",
+      "name": "tidyselect",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=tidyselect"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "magrittr",
       "name": "magrittr",
       "provider": {
@@ -162,15 +174,27 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "randomForest",
-      "name": "randomForest",
+      "identifier": "e1071",
+      "name": "e1071",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=randomForest"
+      "sameAs": "https://CRAN.R-project.org/package=e1071"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "loggit",
+      "name": "loggit",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=loggit"
     }
   ],
   "codeRepository": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi",

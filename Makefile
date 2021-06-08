@@ -85,9 +85,9 @@ build: docs
 ####
 
 drat: docs build
-	cd 
+	cd
 	@Rscript -e "drat::insertPackage('./../$(PKGNAME)_$(PKGVERS).tar.gz', repodir = './../../drat/', commit = TRUE)"
-	
+
 ####
 
 build-cran: docs
@@ -144,4 +144,4 @@ list: list_variables list_targets
 
 #############
 
-.PHONY: list files clean
+.PHONY: list files clean docs
