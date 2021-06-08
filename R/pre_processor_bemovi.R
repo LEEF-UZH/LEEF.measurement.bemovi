@@ -45,6 +45,7 @@ pre_processor_bemovi <- function(
 
   # Load bemovi_extract.yml parameter ---------------------------------------
   bemovi.LEEF::load_parameter(file.path(input, "bemovi", "bemovi_extract.yml"))
+  bemovi.LEEF::par_mc.cores(getOption("mc.cores"))
 
   if (length( list.files( file.path(input, "bemovi"))) == 0) {
     message("Empty or missing bemovi directory - nothing to do.")

@@ -18,7 +18,6 @@
 #' @importFrom bemovi.LEEF par_ijmacs.folder par_to.particlelinker
 #' @importFrom bemovi.LEEF par_memory par_pixel_to_scale par_difference.lag par_thresholds par_min_size
 #' @importFrom utils write.table
-#' @importFrom parallel mclapply
 #' @import loggit
 #' @export
 
