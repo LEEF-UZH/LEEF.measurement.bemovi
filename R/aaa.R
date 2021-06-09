@@ -19,6 +19,9 @@ utils::globalVariables(
 		"predict_spec",
 		"species.composition",
 		"temperature",
-		"video"
+		"video",
+		"bottle",
+		"dilution_factor",
+		"species"
 	)
 )

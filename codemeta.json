@@ -5,8 +5,8 @@
   ],
   "@type": "SoftwareSourceCode",
   "identifier": "LEEF.measurement.bemovi",
-  "description": "More about what it does (maybe more than one line)\n    Use four spaces when indenting paragraphs within the Description.",
-  "name": "LEEF.measurement.bemovi: Prepares Movies for Analysis With Bemovi and Extracts Data",
+  "description": "Module for the LEEF pipeline to process bemovi data.",
+  "name": "LEEF.measurement.bemovi: Prepares Movies for Analysis with Bemovi and Extracts Data",
   "license": "https://spdx.org/licenses/MIT",
   "version": "0.8.18",
   "programmingLanguage": {
@@ -197,9 +197,12 @@
       "sameAs": "https://CRAN.R-project.org/package=loggit"
     }
   ],
-  "codeRepository": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi",
+  "codeRepository": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/",
   "readme": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/blob/master/Readme.md",
   "fileSize": "0KB",
-  "issueTracker": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/issues",
-  "relatedLink": "https://leef-uzh.github.io/LEEF.measurement.bemovi"
+  "issueTracker": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/issues/",
+  "relatedLink": [
+    "https://leef-uzh.github.io/LEEF.measurement.bemovi",
+    "https://leef-uzh.github.io/LEEF.measurement.bemovi/"
+  ]
 }

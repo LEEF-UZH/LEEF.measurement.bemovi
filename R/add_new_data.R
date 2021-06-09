@@ -59,8 +59,7 @@ add_new_data <- function(input, output) {
       processing <- file.path(input, paste0("CHECKING.", basename(cxd), ".CHECKING"))
       error <- file.path(input, paste0("ERROR.", basename(cxd), ".txt"))
 
-      on.exit(
-        {
+      on.exit({
           if (file.exists(processing)) {
             unlink(processing)
             utils::capture.output(print(result), file = error)
@@ -68,7 +67,7 @@ add_new_data <- function(input, output) {
         }
       )
       ##
-      file.create( processing )
+      file.create(processing)
       ##
       message("checking ", cxd)
       result <- list(
@@ -85,7 +84,7 @@ add_new_data <- function(input, output) {
       arguments <-  paste(
         "-nopix",
         "-no-upgrade",
-        file.path( cxd ),
+        file.path(cxd),
         sep = " "
       )
       result$metadata <- system2(
@@ -100,25 +99,26 @@ add_new_data <- function(input, output) {
         tfl <- grep("Field \\d+ Time_From_Last", result$metadata, value = TRUE)
         tfl <- read.delim(text = tfl, sep = " ", header = FALSE)
 
-        result$noframes = nrow(tfl) == 125
-        meantfl <- sum(tfl$V4) / (nrow(tfl)-1)
+        result$noframes <- nrow(tfl) == 125
+        meantfl <- sum(tfl$V4) / (nrow(tfl) - 1)
         result$framerate <-  meantfl > 0.035 & meantfl <= 0.045
         result$ok <- result$filesize & result$ok
       } else {
         result$ok <- FALSE
       }
 
-      if ( result$ok ) {
+      if (result$ok) {
         file.copy(
           from = cxd,
           to = file.path(output, "bemovi"),
           overwrite = TRUE
         )
-        unlink( cxd )
+        unlink(cxd)
         unlink(processing)
       }
       return(result)
-    }
+    },
+    mc.cores = getOption("mc.cores")
   )
   names(ok) <- cxds
   return(ok)

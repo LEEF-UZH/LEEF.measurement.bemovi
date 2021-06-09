@@ -181,7 +181,8 @@ extractor_bemovi_particle <- function(
       unlink(processing)
       message("      END processing ", basename(video))
     },
-    mc.preschedule = FALSE
+    mc.preschedule = FALSE,
+    mc.cores = getOption("mc.cores")
   )
   message("      END PARALLEL")
 

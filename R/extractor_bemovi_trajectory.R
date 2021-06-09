@@ -142,7 +142,8 @@ extractor_bemovi_trajectory <- function(
         unlink(processing)
         message("      END trajectories", ijout)
       },
-      mc.preschedule = FALSE
+      mc.preschedule = FALSE,
+    mc.cores = getOption("mc.cores")
     )
     message("      END PARALLEL")
   }

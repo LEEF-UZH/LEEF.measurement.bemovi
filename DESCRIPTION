@@ -1,16 +1,15 @@
 Package: LEEF.measurement.bemovi
 Type: Package
-Title: Prepares Movies for Analysis With Bemovi and Extracts Data
+Title: Prepares Movies for Analysis with Bemovi and Extracts Data
+Description: Module for the LEEF pipeline to process bemovi data.
 Version: 0.8.18
 Authors@R: c(
   person(given = "Rainer M.", family = "Krug", email = "Rainer.Krug@uzh.ch", role = c("aut", "cre")),
   person("SNF Project 310030_188431", role = "fnd")
   )
 Maintainer: Rainer M. Krug <Rainer.Krug@uzh.ch>
-BugReports: https://github.com/LEEF-UZH/LEEF.measurement.bemovi/issues
-URL: https://leef-uzh.github.io/LEEF.measurement.bemovi, https://github.com/LEEF-UZH/LEEF.measurement.bemovi
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+BugReports: https://github.com/LEEF-UZH/LEEF.measurement.bemovi/issues/
+URL: https://leef-uzh.github.io/LEEF.measurement.bemovi/, https://github.com/LEEF-UZH/LEEF.measurement.bemovi/
 License: MIT + file LICENSE
 Depends: 
     R (>= 3.5.0)
