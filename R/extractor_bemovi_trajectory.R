@@ -43,7 +43,7 @@ extractor_bemovi_trajectory <- function(
 # Load bemovi_extract.yml parameter ---------------------------------------
 
   bemovi.LEEF::load_parameter(file.path(output, "bemovi", "bemovi_extract.yml"))
-
+  bemovi.LEEF::par_mc.cores(getOption("mc.cores"))
   # Paths for different OS
   switch(Sys.info()["sysname"],
     Darwin = {

@@ -66,6 +66,7 @@ extractor_bemovi_particle <- function(
 
   # Load bemovi_extract.yml parameter ---------------------------------------
   bemovi.LEEF::load_parameter(file.path(output, "bemovi", "bemovi_extract.yml"))
+  bemovi.LEEF::par_mc.cores(getOption("mc.cores"))
 
   # Paths for different OS
   switch(Sys.info()["sysname"],
@@ -101,7 +102,7 @@ extractor_bemovi_particle <- function(
   # lapply(
     bemovi_files,
     function(video) {
-      message("      BEGIN processing ", basename(video))
+      message("      BEGIN particle ", basename(video))
       processing <- file.path(
         normalizePath(output), "bemovi",
         paste0("CALCULATING.PARTICLE.", basename(video), ".PROCESSING")
@@ -175,11 +176,12 @@ extractor_bemovi_particle <- function(
 
         # unlink(video)
       } else {
+        message("      ERROR locate and measure - no particles ", basename(video))
         file.create(error)
       }
       unlink(bemovi.LEEF::par_to.data(), recursive = TRUE)
       unlink(processing)
-      message("      END processing ", basename(video))
+      message("      END particle ", basename(video))
     },
     mc.preschedule = FALSE,
     mc.cores = getOption("mc.cores")

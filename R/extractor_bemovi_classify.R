@@ -113,15 +113,16 @@ bemovi.LEEF::Create_folder_structure()
 
     temperature_treatment <- unique(df$temperature_treatment) # either "constant" or "increasing"
     composition_id <- unique(df$composition_id) # a char between c_01 and c_16
+    noNAs <- !rowSums(is.na(df)) > 0
 
     if (temperature_treatment == "constant"){
-      pr <- predict(classifiers_constant[[composition_id]], df, probability = T)
-      df$species <- pr # species prediction
-      df$species_probability <- apply(attributes(pr)$probabilities,1,max) # probability of each species prediction
+      pr <- predict(classifiers_constant[[composition_id]], df, probability = TRUE)
+      df$species[noNAs] <- as.character(pr) # species prediction
+      df$species_probability[noNAs] <- apply(attributes(pr)$probabilities,1,max) # probability of each species prediction
     } else {
-      pr <- predict(classifiers_increasing[[composition_id]], df, probability = T)
-      df$species <- pr # species prediction
-      df$species_probability <- apply(attributes(pr)$probabilities,1,max)  # probability of each species prediction
+      pr <- predict(classifiers_increasing[[composition_id]], df, probability = TRUE)
+      df$species[noNAs] <- as.character(pr) # species prediction
+      df$species_probability[noNAs] <- apply(attributes(pr)$probabilities,1,max)  # probability of each species prediction
     }
     morph_mvt_list[[i]] <- df
   }
