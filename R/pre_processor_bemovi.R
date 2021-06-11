@@ -68,7 +68,7 @@ pre_processor_bemovi <- function(
     cxd_file = file.path(input, "bemovi"),
     avi_dir = file.path(output, "bemovi"),
     compression_level = 4,
-    delete_cxd = TRUE,
+    delete_cxd = FALSE,
     mc.cores = getOption("mc.cores")
   )
 
