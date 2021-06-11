@@ -2,7 +2,7 @@ Package: LEEF.measurement.bemovi
 Type: Package
 Title: Prepares Movies for Analysis with Bemovi and Extracts Data
 Description: Module for the LEEF pipeline to process bemovi data.
-Version: 0.8.21
+Version: 0.8.22
 Authors@R: c(
   person(given = "Rainer M.", family = "Krug", email = "Rainer.Krug@uzh.ch", role = c("aut", "cre")),
   person("SNF Project 310030_188431", role = "fnd")

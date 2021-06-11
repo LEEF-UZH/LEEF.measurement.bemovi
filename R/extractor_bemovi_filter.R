@@ -61,7 +61,7 @@ extractor_bemovi_filter <- function(
 
   bemovi.LEEF::load_parameter(file.path(output, "bemovi", "bemovi_extract.yml"))
   bemovi.LEEF::par_mc.cores(getOption("mc.cores"))
-  bemovi.LEEF::par_to.data(tempfile(pattern = "bemovi."))
+  bemovi.LEEF::par_to.data(file.path(output, "tmp.bemovi"))
   bemovi.LEEF::Create_folder_structure()
 
   file.copy(

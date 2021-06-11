@@ -123,7 +123,7 @@ extractor_bemovi_particle <- function(
       file.create(processing)
       # Define and create temporary folder structure -------------------------------------------------
 
-      bemovi.LEEF::par_to.data(tempfile(pattern = "bemovi."))
+      bemovi.LEEF::par_to.data(file.path(output, "tmp.bemovi"))
 
       bemovi.LEEF::Create_folder_structure()
       file.symlink(
