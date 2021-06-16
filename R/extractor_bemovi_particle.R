@@ -123,7 +123,8 @@ extractor_bemovi_particle <- function(
       file.create(processing)
       # Define and create temporary folder structure -------------------------------------------------
 
-      bemovi.LEEF::par_to.data(file.path(output, "tmp.bemovi"))
+      bemovi.LEEF::par_to.data(file.path(output, "bemovi", "tmp", basename(video)))
+      dir.create(bemovi.LEEF::par_to.data(), recursive = TRUE, showWarnings = FALSE)
 
       bemovi.LEEF::Create_folder_structure()
       file.symlink(
@@ -135,8 +136,7 @@ extractor_bemovi_particle <- function(
 
       file.copy(
         from = file.path(
-          output, "bemovi", bemovi.LEEF::par_video.description.folder(),
-          bemovi.LEEF::par_video.description.file()
+          input, "bemovi", bemovi.LEEF::par_video.description.file()
         ),
         to = file.path(
           bemovi.LEEF::par_to.data(), bemovi.LEEF::par_video.description.folder(),

@@ -117,7 +117,7 @@ extractor_bemovi_trajectory <- function(
         file.create(processing)
         # Define and create temporary folder structure -------------------------------------------------
 
-        bemovi.LEEF::par_to.data(file.path(output, "tmp.bemovi"))
+        bemovi.LEEF::par_to.data(file.path(output, "bemovi", "tmp", basename(ijout)))
 
         bemovi.LEEF::Create_folder_structure()
         file.symlink(

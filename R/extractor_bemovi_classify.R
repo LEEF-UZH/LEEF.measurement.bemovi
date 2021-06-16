@@ -37,8 +37,8 @@ bemovi.LEEF::load_parameter(file.path(output, "bemovi", "bemovi_extract.yml"))
 
 # ID Species --------------------------------------------
 
-processing <- file.path(normalizePath(output), "bemovi", "PROCESSING.ID.SPECIES.PROCESSING")
-error <- file.path(normalizePath(output), "bemovi", "ERROR.ID.SPECIES.ERROR")
+processing <- file.path(normalizePath(output), "bemovi", "PROCESSING.CLASSIFY.SPECIES.PROCESSING")
+error <- file.path(normalizePath(output), "bemovi", "ERROR.CLASSIFY.SPECIES.ERROR")
 on.exit({
   if (file.exists(processing)) {
     unlink(processing)
@@ -109,6 +109,7 @@ bemovi.LEEF::Create_folder_structure()
   # 3. Predict species identities in the 32 dfs based on the 32 rf classifiers
 
   for (i in seq_along(morph_mvt_list)) {
+    message("      classifying ", i)
     df <- morph_mvt_list[[i]]
 
     temperature_treatment <- unique(df$temperature_treatment) # either "constant" or "increasing"
