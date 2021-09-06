@@ -8,13 +8,13 @@
   "description": "Module for the LEEF pipeline to process bemovi data.",
   "name": "LEEF.measurement.bemovi: Prepares Movies for Analysis with Bemovi and Extracts Data",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.8.26",
+  "version": "0.8.27",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.0 (2021-05-18)",
+  "runtimePlatform": "R version 4.1.1 (2021-08-10)",
   "author": [
     {
       "@type": "Person",
@@ -126,6 +126,18 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "purrr",
+      "name": "purrr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=purrr"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "tidyselect",
       "name": "tidyselect",
       "provider": {
@@ -199,7 +211,7 @@
   ],
   "codeRepository": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/",
   "readme": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/blob/master/Readme.md",
-  "fileSize": "1877.401KB",
+  "fileSize": "1877.842KB",
   "issueTracker": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/issues/",
   "relatedLink": [
     "https://leef-uzh.github.io/LEEF.measurement.bemovi",

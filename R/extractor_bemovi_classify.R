@@ -9,7 +9,8 @@
 #' @import bemovi.LEEF
 #' @importFrom  stats predict
 #' @importFrom  data.table as.data.table setkey as.data.table
-#' @importFrom dplyr group_by summarise mutate n filter
+#' @importFrom dplyr group_by summarise mutate n filter full_join
+#' @importFrom purrr reduce
 #' @importFrom tidyselect any_of
 #' @importFrom utils read.csv tail
 #' @import e1071
@@ -120,17 +121,23 @@ bemovi.LEEF::Create_folder_structure()
       pr <- predict(classifiers_constant[[composition_id]], df, probability = TRUE)
       df$species[noNAs] <- as.character(pr) # species prediction
       df$species_probability[noNAs] <- apply(attributes(pr)$probabilities,1,max) # probability of each species prediction
+      probabilities <- attributes(pr)$probabilities
+      colnames(probabilities) <- paste0(colnames(probabilities),"_prob")
+      df <- cbind(df, probabilities)
     } else {
       pr <- predict(classifiers_increasing[[composition_id]], df, probability = TRUE)
       df$species[noNAs] <- as.character(pr) # species prediction
       df$species_probability[noNAs] <- apply(attributes(pr)$probabilities,1,max)  # probability of each species prediction
+      probabilities <- attributes(pr)$probabilities
+      colnames(probabilities) <- paste0(colnames(probabilities),"_prob")
+      df <- cbind(df, probabilities)
     }
     morph_mvt_list[[i]] <- df
   }
 
   # 4. Merge the 32 dfs back into a single df: morph_mvt
 
-  morph_mvt <- do.call("rbind", morph_mvt_list)
+  morph_mvt <- purrr::reduce(morph_mvt_list, dplyr::full_join)
 
   # 5. Add species identity to trajectory.data
   take_all <- data.table::as.data.table(morph_mvt)
