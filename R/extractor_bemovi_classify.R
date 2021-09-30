@@ -152,6 +152,28 @@ bemovi.LEEF::Create_folder_structure()
   # -----------------------------------------------------------------------------------------------------
   # calculate species densities -------------------------------------------------------------------------
 
+  # add temporary dummy variables in trajectory.data to be deleted afterwards
+
+  exp_design <- as.data.frame(
+    read.table(
+      file.path(input, "bemovi", par_video.description.file()),
+      sep = "\t",
+      header = TRUE,
+      stringsAsFactors = FALSE
+      )
+    )
+
+  empty_videos_ind <- which(!is.element(exp_design$file, unique(trajectory.data$file)))
+  empty_videos <- exp_design[empty_videos_ind,]
+
+  dummy_rows <- trajectory.data[1:nrow(empty_videos),]
+
+  dummy_rows <- dplyr::left_join(empty_videos, dummy_rows, by=colnames(empty_videos))
+  dummy_rows$frame <- 1
+  dummy_rows$species <- "dummy_species"
+
+  trajectory.data <- rbind(trajectory.data, dummy_rows)
+
   # density for each frame in each sample
 
   area_org <- bemovi.LEEF::par_width() * bemovi.LEEF::par_height()
