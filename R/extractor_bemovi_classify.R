@@ -210,8 +210,15 @@ bemovi.LEEF::Create_folder_structure()
     mutate(dens.ml = count * bemovi.LEEF::par_extrapolation.factor() * cropping.factor * dilution_factor)
 
   mean_density_per_ml <- count_per_frame %>%
-    group_by(date, species, composition_id, bottle, temperature_treatment, magnification, sample) %>%
-    summarise(density = mean(dens.ml))
+    group_by(
+      date,
+      species,
+      composition_id,
+      bottle,
+      temperature_treatment,
+      magnification,
+      sample) %>%
+    summarise(density = sum(dens.ml) / (3*125)) # previously: 'density = mean(dens.ml)'
 
 
   # -----------------------------------------------------------------------------------------------------
