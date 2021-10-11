@@ -123,14 +123,34 @@ bemovi.LEEF::Create_folder_structure()
       df$species_probability[noNAs] <- apply(attributes(pr)$probabilities,1,max) # probability of each species prediction
       probabilities <- attributes(pr)$probabilities
       colnames(probabilities) <- paste0(colnames(probabilities),"_prob")
-      df <- cbind(df, probabilities)
+      if (sum(!noNAs) == 0){
+        df <- cbind(df, probabilities)
+      } else {
+        df_noNAs <- cbind(df[noNAs,], probabilities)
+        probabilities[] <- NA
+        while (nrow(probabilities) < sum(!noNAs)) {
+          probabilities <- rbind(probabilities, NA)
+        }
+        df_NAs <- cbind(df[!noNAs,], as.data.frame(probabilities)[1:sum(!noNAs),])
+        df <- rbind(df_noNAs, df_NAs)
+      }
     } else {
       pr <- predict(classifiers_increasing[[composition_id]], df, probability = TRUE)
       df$species[noNAs] <- as.character(pr) # species prediction
       df$species_probability[noNAs] <- apply(attributes(pr)$probabilities,1,max)  # probability of each species prediction
       probabilities <- attributes(pr)$probabilities
       colnames(probabilities) <- paste0(colnames(probabilities),"_prob")
-      df <- cbind(df, probabilities)
+      if (sum(!noNAs) == 0){
+        df <- cbind(df, probabilities)
+      } else {
+        df_noNAs <- cbind(df[noNAs,], probabilities)
+        probabilities[] <- NA
+        while (nrow(probabilities) < sum(!noNAs)) {
+          probabilities <- rbind(probabilities, NA)
+        }
+        df_NAs <- cbind(df[!noNAs,], as.data.frame(probabilities)[1:sum(!noNAs),])
+        df <- rbind(df_noNAs, df_NAs)
+      }
     }
     morph_mvt_list[[i]] <- df
   }
