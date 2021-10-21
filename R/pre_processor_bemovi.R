@@ -32,6 +32,13 @@ pre_processor_bemovi <- function(
   input,
   output
 ) {
+  if ( length( list.files( file.path(input, "bemovi") ) ) == 0 ) {
+    message("\nEmpty or missing bemovi directory - nothing to do.\n")
+    message("\ndone\n")
+    message("########################################################\n")
+    return(invisible(TRUE))
+  }
+
   dir.create(
     file.path(output, "bemovi"),
     showWarnings = FALSE,

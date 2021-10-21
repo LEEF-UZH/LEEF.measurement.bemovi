@@ -21,22 +21,23 @@ extractor_bemovi <- function(
   input,
   output
 ) {
-  dir.create(
-    file.path(output, "bemovi"),
-    showWarnings = FALSE,
-    recursive = TRUE
-  )
-  loggit::set_logfile(file.path(output, "bemovi", "bemovi.log"))
-
-  message("########################################################")
-  message("BEGIN Extracting bemovi...")
-
   if (length(list.files( file.path(input, "bemovi"))) == 0) {
     message("Empty or missing bemovi directory - nothing to do.")
     message("END Extracting bemovi")
     message("########################################################")
     return(invisible(TRUE))
   }
+
+  dir.create(
+    file.path(output, "bemovi"),
+    showWarnings = FALSE,
+    recursive = TRUE
+  )
+
+  loggit::set_logfile(file.path(output, "bemovi", "bemovi.log"))
+
+  message("########################################################")
+  message("BEGIN Extracting bemovi...")
 
   # prepare output folder ---------------------------------------------------
 
