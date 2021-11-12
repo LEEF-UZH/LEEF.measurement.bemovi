@@ -184,16 +184,18 @@ bemovi.LEEF::Create_folder_structure()
     )
 
   empty_videos_ind <- which(!is.element(exp_design$file, unique(trajectory.data$file)))
-  empty_videos <- exp_design[empty_videos_ind,]
 
-  dummy_rows <- trajectory.data[1:nrow(empty_videos),]
+  if (length(empty_videos_ind) > 0) {
+    empty_videos <- exp_design[empty_videos_ind,]
 
-  dummy_rows <- dplyr::left_join(empty_videos, dummy_rows, by=colnames(empty_videos))
-  dummy_rows$frame <- 1
-  dummy_rows$species <- "dummy_species"
+    dummy_rows <- trajectory.data[1:nrow(empty_videos),]
 
-  trajectory.data <- rbind(trajectory.data, dummy_rows)
+    dummy_rows <- dplyr::left_join(empty_videos, dummy_rows, by=colnames(empty_videos))
+    dummy_rows$frame <- 1
+    dummy_rows$species <- "dummy_species"
 
+    trajectory.data <- rbind(trajectory.data, dummy_rows)
+  }
   # density for each frame in each sample
 
   area_org <- bemovi.LEEF::par_width() * bemovi.LEEF::par_height()

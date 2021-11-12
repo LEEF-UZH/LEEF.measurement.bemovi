@@ -8,13 +8,13 @@
   "description": "Module for the LEEF pipeline to process bemovi data.",
   "name": "LEEF.measurement.bemovi: Prepares Movies for Analysis with Bemovi and Extracts Data",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.8.31",
+  "version": "0.8.32",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.1 (2021-08-10)",
+  "runtimePlatform": "R version 4.1.2 (2021-11-01)",
   "author": [
     {
       "@type": "Person",
@@ -211,7 +211,7 @@
   ],
   "codeRepository": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/",
   "readme": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/blob/master/Readme.md",
-  "fileSize": "1879.623KB",
+  "fileSize": "1879.677KB",
   "issueTracker": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/issues/",
   "relatedLink": [
     "https://leef-uzh.github.io/LEEF.measurement.bemovi",
