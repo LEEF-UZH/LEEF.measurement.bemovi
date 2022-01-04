@@ -175,6 +175,20 @@ extractor_bemovi_filter <- function(
       recursive = TRUE,
       overwrite = TRUE
     )
+    # file.copy(
+    #   from = file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), bemovi.LEEF::par_master()),
+    #   to = file.path(output, "bemovi", gsub("\\.rds$", ".filtered.rds", bemovi.LEEF::par_master())),
+    #   overwrite = FALSE
+    # )
+    # file.copy(
+    #   from = file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), bemovi.LEEF::par_morph_mvt()),
+    #   to = file.path(output, "bemovi", gsub("\\.rds$", ".filtered.rds", bemovi.LEEF::par_morph_mvt())),
+    #   overwrite = FALSE
+    # )
+    # file.copy(
+    #   from = file.path(bemovi.LEEF::par_to.data(), "6 - merged data unfiltered", bemovi.LEEF::par_master()),
+    #   to = file.path(output, "bemovi", gsub("\\.rds$", ".unfiltered.rds", bemovi.LEEF::par_master()))
+    # )
   } else {
     file.create(error)
   }
