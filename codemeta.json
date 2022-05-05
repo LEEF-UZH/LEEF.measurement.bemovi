@@ -1,20 +1,20 @@
 {
-  "@context": [
-    "https://doi.org/10.5063/schema/codemeta-2.0",
-    "http://schema.org"
-  ],
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "LEEF.measurement.bemovi",
   "description": "Module for the LEEF pipeline to process bemovi data.",
   "name": "LEEF.measurement.bemovi: Prepares Movies for Analysis with Bemovi and Extracts Data",
+  "relatedLink": "https://leef-uzh.github.io/LEEF.measurement.bemovi/",
+  "codeRepository": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/",
+  "issueTracker": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/issues/",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.8.36",
+  "version": "0.8.37",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.2 (2021-11-01)",
+  "runtimePlatform": "R version 4.2.0 (2022-04-22)",
   "author": [
     {
       "@type": "Person",
@@ -23,8 +23,6 @@
       "email": "Rainer.Krug@uzh.ch"
     }
   ],
-  "contributor": {},
-  "copyrightHolder": {},
   "funder": [
     {
       "@type": "Organization",
@@ -65,20 +63,20 @@
       "sameAs": "https://CRAN.R-project.org/package=openssl"
     }
   ],
-  "softwareRequirements": [
-    {
+  "softwareRequirements": {
+    "1": {
       "@type": "SoftwareApplication",
       "identifier": "R",
       "name": "R",
       "version": ">= 3.5.0"
     },
-    {
+    "2": {
       "@type": "SoftwareApplication",
       "identifier": "bemovi.LEEF",
       "name": "bemovi.LEEF",
       "version": ">= 1.0.1"
     },
-    {
+    "3": {
       "@type": "SoftwareApplication",
       "identifier": "R.utils",
       "name": "R.utils",
@@ -90,17 +88,17 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=R.utils"
     },
-    {
+    "4": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
-    {
+    "5": {
       "@type": "SoftwareApplication",
       "identifier": "parallel",
       "name": "parallel"
     },
-    {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "data.table",
       "name": "data.table",
@@ -112,7 +110,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=data.table"
     },
-    {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "dplyr",
       "name": "dplyr",
@@ -124,7 +122,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=dplyr"
     },
-    {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "purrr",
       "name": "purrr",
@@ -136,7 +134,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=purrr"
     },
-    {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "tidyselect",
       "name": "tidyselect",
@@ -148,7 +146,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=tidyselect"
     },
-    {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "magrittr",
       "name": "magrittr",
@@ -160,7 +158,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=magrittr"
     },
-    {
+    "11": {
       "@type": "SoftwareApplication",
       "identifier": "yaml",
       "name": "yaml",
@@ -172,7 +170,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=yaml"
     },
-    {
+    "12": {
       "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
@@ -184,7 +182,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=rlang"
     },
-    {
+    "13": {
       "@type": "SoftwareApplication",
       "identifier": "e1071",
       "name": "e1071",
@@ -196,7 +194,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=e1071"
     },
-    {
+    "14": {
       "@type": "SoftwareApplication",
       "identifier": "loggit",
       "name": "loggit",
@@ -207,14 +205,9 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=loggit"
-    }
-  ],
-  "codeRepository": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/",
-  "readme": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/blob/master/Readme.md",
-  "fileSize": "1889.213KB",
-  "issueTracker": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/issues/",
-  "relatedLink": [
-    "https://leef-uzh.github.io/LEEF.measurement.bemovi",
-    "https://leef-uzh.github.io/LEEF.measurement.bemovi/"
-  ]
+    },
+    "SystemRequirements": null
+  },
+  "fileSize": "1889.312KB",
+  "readme": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/blob/master/Readme.md"
 }
