@@ -184,13 +184,17 @@ classify <- function(
     idx <- which(!is.element(unlist(composition.list[[ID]]), df$species))
     if (length(idx) == 0) next
     for (j in idx) {
-      new.entry <- utils::tail(df, 1)
-      new.entry$species <- composition.list[[ID]][j]
-      new.entry$density <- 0
-      df <- rbind(df, new.entry)
+      if (composition.list[[ID]][j] %in% bemovi.LEEF::par_species_tracked()) {
+        new.entry <- utils::tail(df, 1)
+        new.entry$species <- composition.list[[ID]][j]
+        new.entry$density <- 0
+        df <- rbind(df, new.entry)
+      }
+      mean_density_per_ml_list[[i]] <- df
     }
-    mean_density_per_ml_list[[i]] <- df
+
   }
+
 
   mean_density_per_ml <- do.call("rbind", mean_density_per_ml_list) %>%
     dplyr::filter(species %in% bemovi.LEEF::par_species_tracked())
