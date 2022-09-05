@@ -83,6 +83,11 @@ classify <- function(
 
   # 5. Add species identity to trajectory_data
 
+  species_column <- which(names(morph_mvt) == "species")
+  if (length(species_column) > 0){
+    morph_mvt <- morph_mvt[,-species_column]
+  }
+
   take_all <- data.table::as.data.table(morph_mvt)
   take_all <- take_all[, list(id, species)]
   data.table::setkey(take_all, id)
