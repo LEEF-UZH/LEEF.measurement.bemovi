@@ -8,7 +8,7 @@
   "codeRepository": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/",
   "issueTracker": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/issues/",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.8.38",
+  "version": "0.8.40",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -208,6 +208,6 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "1881.388KB",
+  "fileSize": "1881.486KB",
   "readme": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/blob/master/Readme.md"
 }
