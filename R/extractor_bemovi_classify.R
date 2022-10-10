@@ -7,8 +7,9 @@
 #' @return invisibly \code{TRUE} when completed successful
 #'
 #' @import bemovi.LEEF
-#' @importFrom  stats predict
-#' @importFrom  data.table as.data.table setkey as.data.table
+#' @importFrom tools file_path_sans_ext
+#' @importFrom stats predict
+#' @importFrom data.table as.data.table setkey as.data.table
 #' @importFrom dplyr group_by summarise mutate n filter full_join
 #' @importFrom purrr reduce
 #' @importFrom tidyselect any_of
@@ -49,7 +50,25 @@ extractor_bemovi_classify <- function(
 
   bemovi.LEEF::load_parameter(file.path(output, "bemovi", "bemovi_extract.yml"))
 
-  classified <- classify(
+
+  # Read classifiers into list ----------------------------------------------
+
+
+  dir_classifiers <- file.path(normalizePath(output), "bemovi", par_classifiers())
+
+  class_files <- list.files(dir_classifiers, pattern = "\\.rds$", full.names = TRUE)
+  classifiers <- lapply(
+    class_files,
+    readRDS
+  )
+  names(classifiers) <- tools::file_path_sans_ext(basename(class_files))
+  classifiers$comment <- readLines(file.path(dir_classifiers, "README.txt"))
+
+
+  # Classify ----------------------------------------------------------------
+
+
+  classified <- classify_LEEF_2(
     bemovi_extract = file.path(output, "bemovi", "bemovi_extract.yml"),
     morph_mvt = readRDS(file.path(output, "bemovi", bemovi.LEEF::par_merged.data.folder(), bemovi.LEEF::par_morph_mvt())),
     trajectory_data = readRDS(file.path(output, "bemovi", bemovi.LEEF::par_merged.data.folder(), bemovi.LEEF::par_master())),
