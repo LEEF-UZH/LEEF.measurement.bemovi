@@ -72,21 +72,27 @@ extractor_bemovi_particle <- function(
   switch(Sys.info()["sysname"],
     Darwin = {
       bemovi.LEEF::par_java.path(
-        file.path(tools_path(), "Fiji.app", "java", "macosx", "adoptopenjdk-8.jdk", "jre", "Contents", "Home", "bin")
+        normalizePath(
+          file.path(tools_path(), "Fiji.app", "java", "macosx", "adoptopenjdk-8.jdk", "jre", "Contents", "Home", "bin")
+        )
       )
-      bemovi.LEEF::par_IJ.path(file.path(tools_path(), "Fiji.app", "Contents", "MacOS"))
+      bemovi.LEEF::par_IJ.path(normalizePath(file.path(tools_path(), "Fiji.app", "Contents", "MacOS")))
     },
     Windows = {
       bemovi.LEEF::par_java.path(
-        file.path(tools_path(), "Fiji.app", "java", "win64", "jdk1.8.0_172", "jre", "bin")
+        normalizePath(
+          file.path(tools_path(), "Fiji.app", "java", "win64", "jdk1.8.0_172", "jre", "bin")
+        )
       )
-      bemovi.LEEF::par_IJ.path(file.path(tools_path(), "Fiji.app"))
+      bemovi.LEEF::par_IJ.path(normalizePath(file.path(tools_path(), "Fiji.app")))
     },
     Linux = {
       bemovi.LEEF::par_java.path(
-        file.path(tools_path(), "Fiji.app", "java", "linux-amd64", "jdk1.8.0_172", "jre", "bin")
+        normalizePath(
+          file.path(tools_path(), "Fiji.app", "java", "linux-amd64", "jdk1.8.0_172", "jre", "bin")
+        )
       )
-      bemovi.LEEF::par_IJ.path(file.path(tools_path(), "Fiji.app"))
+      bemovi.LEEF::par_IJ.path(normalizePath(file.path(tools_path(), "Fiji.app")))
     },
     stop("OS not supported by bemovi!")
   )
