@@ -41,9 +41,9 @@ extractor_bemovi <- function(
 
   # prepare output folder ---------------------------------------------------
 
-  to_copy <- list.files(file.path(input, "bemovi"), full.names = TRUE)
+  to_copy <- list.files(file.path(input, "bemovi"), full.names = TRUE, recursive = FALSE)
   to_copy <- grep(
-    "\\.avi$|\\.metadata",
+    "\\.avi$|\\.metadata$",
     to_copy,
     value = TRUE,
     invert = TRUE
@@ -53,6 +53,22 @@ extractor_bemovi <- function(
     file.path(output, "bemovi"),
     overwrite = TRUE
   )
+
+  to_copy <- list.dirs(file.path(input, "bemovi"), full.names = TRUE, recursive = FALSE)
+  to_copy <- grep(
+    "tmp",
+    to_copy,
+    value = TRUE,
+    invert = TRUE
+  )
+  dir.create(file.path(output, "bemovi", basename(to_copy)))
+  file.copy(
+    to_copy,
+    file.path(output, "bemovi", ""),
+    overwrite = TRUE,
+    recursive = TRUE
+  )
+
 
   dir.create(file.path(output, "bemovi", bemovi.LEEF::par_video.description.folder()), showWarnings = FALSE)
   file.copy(

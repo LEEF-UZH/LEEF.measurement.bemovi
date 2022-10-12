@@ -118,7 +118,7 @@ add_new_data <- function(input, output) {
       }
       return(result)
     },
-    mc.cores = getOption("mc.cores")
+    mc.cores = getOption("mc.cores", 1)
   )
   names(ok) <- cxds
   return(ok)

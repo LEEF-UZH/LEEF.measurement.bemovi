@@ -66,7 +66,7 @@ extractor_bemovi_particle <- function(
 
   # Load bemovi_extract.yml parameter ---------------------------------------
   bemovi.LEEF::load_parameter(file.path(output, "bemovi", "bemovi_extract.yml"))
-  bemovi.LEEF::par_mc.cores(getOption("mc.cores"))
+  bemovi.LEEF::par_mc.cores(getOption("mc.cores", 1))
 
   # Paths for different OS
   switch(Sys.info()["sysname"],
@@ -190,7 +190,7 @@ extractor_bemovi_particle <- function(
       message("      END particle ", basename(video))
     },
     mc.preschedule = FALSE,
-    mc.cores = getOption("mc.cores")
+    mc.cores = getOption("mc.cores", 1)
   )
   message("      END PARALLEL")
 

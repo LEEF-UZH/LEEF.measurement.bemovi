@@ -18,7 +18,7 @@
 tools_path <- function(
   tools_path
 ){
-  opt <- getOption("LEEF.measurement.bemovi")
+  opt <- getOption("LEEF.measurement.bemovi", 1)
   if (is.null(opt)) {
     stop("Something is wrong - Options not initialized!")
   }

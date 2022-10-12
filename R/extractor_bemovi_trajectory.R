@@ -43,7 +43,7 @@ extractor_bemovi_trajectory <- function(
 # Load bemovi_extract.yml parameter ---------------------------------------
 
   bemovi.LEEF::load_parameter(file.path(output, "bemovi", "bemovi_extract.yml"))
-  bemovi.LEEF::par_mc.cores(getOption("mc.cores"))
+  bemovi.LEEF::par_mc.cores(getOption("mc.cores", 1))
   # Paths for different OS
   switch(Sys.info()["sysname"],
     Darwin = {
@@ -143,7 +143,7 @@ extractor_bemovi_trajectory <- function(
         message("      END trajectories", ijout)
       },
       mc.preschedule = FALSE,
-    mc.cores = getOption("mc.cores")
+    mc.cores = getOption("mc.cores", 1)
     )
     message("      END PARALLEL")
   }

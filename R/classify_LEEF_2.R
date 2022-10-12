@@ -1,15 +1,7 @@
 #' Classify `morph_mvt` nad calculates densities
 #'
 #' @param morph_mvt merged track data - one row per particle
-#' @param classifiers_TC_NC_SC classifier TC (Temperature Constant),   NC (Nutrient Constant),   SC (Salt Constant)
-#' @param classifiers_TI_NC_SC classifier TI (Temperature Increasing), NC (Nutrient Constant),   SC (Salt Constant)
-#' @param classifiers_TC_NI_SC classifier TC (Temperature Constant),   NI (Nutrient Increasing), SC (Salt Constant)
-#' @param classifiers_TC_NC_SI classifier TC (Temperature Constant),   NC (Nutrient Constant),   SI (Salt Increasing)
-#' @param classifiers_TI_NI_SC classifier TI (Temperature Increasing), NI (Nutrient Increasing), SC (Salt Constant)
-#' @param classifiers_TI_NC_SI classifier TI (Temperature Increasing), NC (Nutrient Constant),   SI (Salt Increasing)
-#' @param classifiers_TC_NI_SI classifier TC (Temperature Constant),   NI (Nutrient Increasing), SI (Salt Increasing)
-#' @param classifiers_TI_NI_SI classifier TI (Temperature Increasing), NI (Nutrient Increasing), SI (Salt Increasing)
-#'
+#' @param classifiers list of classifiers TI (Temperature Increasing), NI (Nutrient Increasing), SI (Salt Increasing)
 #' @param classifiers_constant constant temperature classifier
 #' @param classifiers_increasing increasing temperature classifier
 #'
@@ -23,14 +15,7 @@ classify_LEEF_2 <- function(
   bemovi_extract,
   morph_mvt,
   trajectory_data,
-  classifiers_TC_NC_SC,
-  classifiers_TI_NC_SC,
-  classifiers_TC_NI_SC,
-  classifiers_TC_NC_SI,
-  classifiers_TI_NI_SC,
-  classifiers_TI_NC_SI,
-  classifiers_TC_NI_SI,
-  classifiers_TI_NI_SI,
+  classifiers,
   video_description_file,
   composition
 ){
@@ -75,29 +60,37 @@ classify_LEEF_2 <- function(
 
     df <- morph_mvt_list[[i]]
 
-    TTreat <- unique(df$temperature_treatment) # either "constant" or "increasing"
-    NTreat <- unique(df$nutrient_treatment) # either "constant" or "increasing"
-    STreat <- unique(df$salt_treatment) # either "constant" or "increasing"
+    x <- unique(df$temperature) # either "constant" or "increasing"
+    if (x == "increasing") {
+      TTreat <- "TI"
+    } else if (x == "constant") {
+      TTreat <- "TC"
+    } else {
+      stop("Undefined value for `temperature` in experimental design table!")
+    }
+
+    x <- unique(df$resources) # either "constant" or "increasing"
+    if (x == "increasing") {
+      NTreat <- "NI"
+    } else if (x == "constant") {
+      NTreat <- "NC"
+    } else {
+      stop("Undefined value for `resources` in experimental design table!")
+    }
+
+    x <- unique(df$salinity) # either "constant" or "increasing"
+    if (x == "increasing") {
+      STreat <- "SI"
+    } else if (x == "constant") {
+      STreat <- "SC"
+    } else {
+      stop("Undefined value for `salinity` in experimental design table!")
+    }
+
+    classifier_name <- paste(TTreat, NTreat, STreat, sep = "_")
 
     noNAs <- !rowSums(is.na(df)) > 0
-
-    if(TTreat=="constant" & NTreat=="constant" & STreat=="constant") {
-      df <- LeefClass(classifiers_TC_NC_SC, df, noNAs)
-    } else if(TTreat=="inreasing" & NTreat=="constant" & STreat=="constant") {
-      df <- LeefClass(classifiers_TI_NC_SC, df, noNAs)
-    } else if(TTreat=="constant" & NTreat=="inreasing" & STreat=="constant") {
-      df <- LeefClass(classifiers_TC_NI_SC, df, noNAs)
-    } else if(TTreat=="constant" & NTreat=="constant" & STreat=="inreasing") {
-      df <- LeefClass(classifiers_TC_NC_SI, df, noNAs)
-    } else if(TTreat=="inreasing" & NTreat=="inreasing" & STreat=="constant") {
-      df <- LeefClass(classifiers_TI_NI_SC, df, noNAs)
-    } else if(TTreat=="inreasing" & NTreat=="constant" & STreat=="inreasing") {
-      df <- LeefClass(classifiers_TI_NC_SI, df, noNAs)
-    } else if(TTreat=="constant" & NTreat=="inreasing" & STreat=="inreasing") {
-      df <- LeefClass(classifiers_TC_NI_SI, df, noNAs)
-    } else {
-      df <- LeefClass(classifiers_TI_NI_SI, df, noNAs)
-    }
+    df <- LeefClass(classifiers[[classifier_name]], df, noNAs)
 
     morph_mvt_list[[i]] <- df
   }

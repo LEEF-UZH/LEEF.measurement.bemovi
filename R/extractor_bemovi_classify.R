@@ -54,7 +54,7 @@ extractor_bemovi_classify <- function(
   # Read classifiers into list ----------------------------------------------
 
 
-  dir_classifiers <- file.path(normalizePath(output), "bemovi", par_classifiers())
+  dir_classifiers <- file.path(normalizePath(output), "bemovi",  bemovi.LEEF::par_classifiers())
 
   class_files <- list.files(dir_classifiers, pattern = "\\.rds$", full.names = TRUE)
   classifiers <- lapply(
@@ -72,8 +72,7 @@ extractor_bemovi_classify <- function(
     bemovi_extract = file.path(output, "bemovi", "bemovi_extract.yml"),
     morph_mvt = readRDS(file.path(output, "bemovi", bemovi.LEEF::par_merged.data.folder(), bemovi.LEEF::par_morph_mvt())),
     trajectory_data = readRDS(file.path(output, "bemovi", bemovi.LEEF::par_merged.data.folder(), bemovi.LEEF::par_master())),
-    classifiers_constant = readRDS(file.path(output, "bemovi", bemovi.LEEF::par_classifier_constant())),
-    classifiers_increasing = readRDS(file.path(output, "bemovi", bemovi.LEEF::par_classifier_increasing())),
+    classifiers = classifiers,
     video_description_file = as.data.frame(read.table(file.path(input, "bemovi", bemovi.LEEF::par_video.description.file()), sep = "\t", header = TRUE, stringsAsFactors = FALSE)),
     composition = utils::read.csv(file.path(output, "bemovi", "compositions.csv"))
   )

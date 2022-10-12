@@ -33,7 +33,7 @@ extractor_bemovi_overlay <- function(
 
   # Load bemovi_extract.yml parameter ---------------------------------------
   bemovi.LEEF::load_parameter(file.path(output, "bemovi", "bemovi_extract.yml"))
-  bemovi.LEEF::par_mc.cores(getOption("mc.cores"))
+  bemovi.LEEF::par_mc.cores(getOption("mc.cores", 1))
 
   processing <- file.path(normalizePath(output), "bemovi", "CREATING.OVERLAYS.CREATING")
   error <- file.path(normalizePath(output), "bemovi", "ERROR.OVERLAYS.ERROR")
