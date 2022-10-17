@@ -31,7 +31,7 @@ classify_LEEF_2 <- function(
 
   # 3. Predict species identities in the 32 dfs based on the 32 rf classifiers
   LeefClass <- function(classifier, df, noNAs){
-    pr <- predict(classifier, df, probability = T)
+    pr <- predict(classifier, df, probability = TRUE)
     df$species[noNAs] <- as.character(pr) # species prediction
     df$species_probability[noNAs] <- apply(attributes(pr)$probabilities,1,max) # probability of each species prediction
     probabilities <- attributes(pr)$probabilities

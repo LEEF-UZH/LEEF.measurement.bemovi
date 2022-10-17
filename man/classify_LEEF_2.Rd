@@ -8,14 +8,7 @@ classify_LEEF_2(
   bemovi_extract,
   morph_mvt,
   trajectory_data,
-  classifiers_TC_NC_SC,
-  classifiers_TI_NC_SC,
-  classifiers_TC_NI_SC,
-  classifiers_TC_NC_SI,
-  classifiers_TI_NI_SC,
-  classifiers_TI_NC_SI,
-  classifiers_TC_NI_SI,
-  classifiers_TI_NI_SI,
+  classifiers,
   video_description_file,
   composition
 )
@@ -23,21 +16,7 @@ classify_LEEF_2(
 \arguments{
 \item{morph_mvt}{merged track data - one row per particle}
 
-\item{classifiers_TC_NC_SC}{classifier TC (Temperature Constant),   NC (Nutrient Constant),   SC (Salt Constant)}
-
-\item{classifiers_TI_NC_SC}{classifier TI (Temperature Increasing), NC (Nutrient Constant),   SC (Salt Constant)}
-
-\item{classifiers_TC_NI_SC}{classifier TC (Temperature Constant),   NI (Nutrient Increasing), SC (Salt Constant)}
-
-\item{classifiers_TC_NC_SI}{classifier TC (Temperature Constant),   NC (Nutrient Constant),   SI (Salt Increasing)}
-
-\item{classifiers_TI_NI_SC}{classifier TI (Temperature Increasing), NI (Nutrient Increasing), SC (Salt Constant)}
-
-\item{classifiers_TI_NC_SI}{classifier TI (Temperature Increasing), NC (Nutrient Constant),   SI (Salt Increasing)}
-
-\item{classifiers_TC_NI_SI}{classifier TC (Temperature Constant),   NI (Nutrient Increasing), SI (Salt Increasing)}
-
-\item{classifiers_TI_NI_SI}{classifier TI (Temperature Increasing), NI (Nutrient Increasing), SI (Salt Increasing)}
+\item{classifiers}{list of classifiers TI (Temperature Increasing), NI (Nutrient Increasing), SI (Salt Increasing)}
 
 \item{classifiers_constant}{constant temperature classifier}
 
