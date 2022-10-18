@@ -38,7 +38,7 @@ classify_LEEF_2 <- function(
     colnames(probabilities[noNAs,]) <- paste0(colnames(probabilities),"_prob")
 
     # in script
-    df <- cbind(df, probabilities)
+    # df <- cbind(df, probabilities)
     # in pipeline
     if (sum(!noNAs) == 0){
       df <- cbind(df, probabilities)
@@ -189,35 +189,27 @@ classify_LEEF_2 <- function(
 
   # magnification & cropping specific!
 
-  comp_id <- unique(composition$composition)
+
   composition <- composition %>%
     dplyr::select(tidyselect::any_of(bemovi.LEEF::par_species_tracked()))
 
-  composition.list <- apply(composition, 1, function(x) {
-    idx <- which(x == 1)
-    names(idx)
-  })
-  names(composition.list) <- comp_id
+  composition <- composition[which(composition  == 1)]
 
   mean_density_per_ml_list <- split(x = mean_density_per_ml,
                                     f = mean_density_per_ml$bottle,
                                     drop = TRUE)
 
-
-  for (i in seq_along(mean_density_per_ml_list)) {
+  for(i in seq_along(mean_density_per_ml_list)){
     df <- mean_density_per_ml_list[[i]]
-    ID <- unique(df$composition_id)
-    idx <- which(!is.element(unlist(composition.list[[ID]]), df$species))
-    if (length(idx) == 0) next
-    for (j in idx) {
-      if (composition.list[[ID]][j] %in% bemovi.LEEF::par_species_tracked()) {
-        new.entry <- utils::tail(df, 1)
-        new.entry$species <- composition.list[[ID]][j]
-        new.entry$density <- 0
-        df <- rbind(df, new.entry)
-      }
-      mean_density_per_ml_list[[i]] <- df
+    idx <- which(!is.element(bemovi.LEEF::par_species_tracked(), df$species))
+    if(length(idx)==0) next
+    for(j in idx){
+      new.entry <- tail(df,1)
+      new.entry$species <- bemovi.LEEF::par_species_tracked()[j]
+      new.entry$density <- 0
+      df <- rbind(df, new.entry)
     }
+    mean_density_per_ml_list[[i]] <- df
   }
 
 
