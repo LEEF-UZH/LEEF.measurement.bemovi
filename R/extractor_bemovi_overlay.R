@@ -53,7 +53,7 @@ extractor_bemovi_overlay <- function(
 
   bemovi.LEEF::create_overlays_subtitle(
     to.data = file.path(output, "bemovi"),
-    raw.video.folder = "1.pre-processed.data/bemovi/",
+    raw.video.folder = file.path(input, "bemovi"),  # "1.pre-processed.data/bemovi/",
     overlay.type = "label",
     label = "species",
     ffmpeg = file.path(tools_path(), "ffmpeg"),
