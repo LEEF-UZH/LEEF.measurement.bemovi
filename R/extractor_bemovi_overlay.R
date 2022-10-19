@@ -33,7 +33,7 @@ extractor_bemovi_overlay <- function(
 
   # Load bemovi_extract.yml parameter ---------------------------------------
   bemovi.LEEF::load_parameter(file.path(output, "bemovi", "bemovi_extract.yml"))
-  bemovi.LEEF::par_mc.cores(getOption("mc.cores"))
+  bemovi.LEEF::par_mc.cores(getOption("mc.cores", 1))
 
   processing <- file.path(normalizePath(output), "bemovi", "CREATING.OVERLAYS.CREATING")
   error <- file.path(normalizePath(output), "bemovi", "ERROR.OVERLAYS.ERROR")
@@ -53,7 +53,7 @@ extractor_bemovi_overlay <- function(
 
   bemovi.LEEF::create_overlays_subtitle(
     to.data = file.path(output, "bemovi"),
-    raw.video.folder = "1.pre-processed.data/bemovi/",
+    raw.video.folder = file.path(input, "bemovi"),  # "1.pre-processed.data/bemovi/",
     overlay.type = "label",
     label = "species",
     ffmpeg = file.path(tools_path(), "ffmpeg"),

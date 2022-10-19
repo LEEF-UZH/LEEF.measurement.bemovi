@@ -51,10 +51,13 @@ pre_processor_bemovi <- function(
   ##
 
   # Load bemovi_extract.yml parameter ---------------------------------------
-  bemovi.LEEF::par_showinf(file.path(input, "..", LEEF::opt_directories()$tools, "bftools", "showinf"))
-  bemovi.LEEF::par_bfconvert(file.path(input, "..", LEEF::opt_directories()$tools, "bftools", "bfconvert"))
-  bemovi.LEEF::par_ffmpeg(file.path(input, "..", LEEF::opt_directories()$tools, "ffmpeg"))
-  bemovi.LEEF::par_mc.cores(getOption("mc.cores"))
+  # bemovi.LEEF::par_showinf(file.path(input, "..", LEEF::opt_directories()$tools, "bftools", "showinf"))
+  bemovi.LEEF::par_showinf(normalizePath(file.path(input, "..", "tools", "bftools", "showinf")))
+  # bemovi.LEEF::par_bfconvert(file.path(input, "..", LEEF::opt_directories()$tools, "bftools", "bfconvert"))
+  bemovi.LEEF::par_bfconvert(normalizePath(file.path(input, "..", "tools", "bftools", "bfconvert")))
+  # bemovi.LEEF::par_ffmpeg(file.path(input, "..", LEEF::opt_directories()$tools, "ffmpeg"))
+  bemovi.LEEF::par_ffmpeg(normalizePath(file.path(input, "..", "tools", "ffmpeg")))
+  bemovi.LEEF::par_mc.cores(getOption("mc.cores", 1))
 
   if (length( list.files( file.path(input, "bemovi"))) == 0) {
     message("Empty or missing bemovi directory - nothing to do.")
@@ -76,7 +79,7 @@ pre_processor_bemovi <- function(
     avi_dir = file.path(output, "bemovi"),
     compression_level = 4,
     delete_cxd = FALSE,
-    mc.cores = getOption("mc.cores")
+    mc.cores = getOption("mc.cores", 1)
   )
 
   file.copy(

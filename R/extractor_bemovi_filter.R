@@ -36,7 +36,7 @@ extractor_bemovi_filter <- function(
   # Load bemovi_extract.yml parameter ---------------------------------------
 
   bemovi.LEEF::load_parameter(file.path(output, "bemovi", "bemovi_extract.yml"))
-  bemovi.LEEF::par_mc.cores(getOption("mc.cores"))
+  bemovi.LEEF::par_mc.cores(getOption("mc.cores", 1))
 
   # Filter Particles Particles --------------------------------------------
 
@@ -60,7 +60,7 @@ extractor_bemovi_filter <- function(
   # Define and create temporary folder structure -------------------------------------------------
 
   bemovi.LEEF::load_parameter(file.path(output, "bemovi", "bemovi_extract.yml"))
-  bemovi.LEEF::par_mc.cores(getOption("mc.cores"))
+  bemovi.LEEF::par_mc.cores(getOption("mc.cores", 1))
   bemovi.LEEF::par_to.data(file.path(output, "tmp.bemovi"))
   bemovi.LEEF::Create_folder_structure()
 
@@ -119,6 +119,10 @@ extractor_bemovi_filter <- function(
     # to.data,
     # merged.data.folder
   )
+  morph_mvt <- readRDS(file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.rds"))
+  exp_design <- read.csv(file.path(input, "bemovi", "experimental_design.csv"))
+  morph_mvt <- merge(morph_mvt, exp_design, by.x = "bottle", by.y = "bottles", all.x = TRUE, all.y = FALSE, suffixes = c(".video_descr", ""))
+  saveRDS(morph_mvt, file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.rds"))
 
   # file.rename(
   #   from = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.rds" ),
@@ -146,6 +150,10 @@ extractor_bemovi_filter <- function(
     # to.data,
     # merged.data.folder
   )
+  morph_mvt <- readRDS(file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.rds"))
+  exp_design <- read.csv(file.path(input, "bemovi", "experimental_design.csv"))
+  morph_mvt <- merge(morph_mvt, exp_design, by.x = "bottle", by.y = "bottles", all.x = TRUE, all.y = FALSE, suffixes = c(".video_descr", ""))
+  saveRDS(morph_mvt, file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.rds"))
 
   # file.rename(
   #   from = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.rds" ),

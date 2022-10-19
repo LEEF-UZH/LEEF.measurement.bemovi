@@ -7,8 +7,9 @@
 #' @return invisibly \code{TRUE} when completed successful
 #'
 #' @import bemovi.LEEF
-#' @importFrom  stats predict
-#' @importFrom  data.table as.data.table setkey as.data.table
+#' @importFrom tools file_path_sans_ext
+#' @importFrom stats predict
+#' @importFrom data.table as.data.table setkey as.data.table
 #' @importFrom dplyr group_by summarise mutate n filter full_join
 #' @importFrom purrr reduce
 #' @importFrom tidyselect any_of
@@ -49,12 +50,15 @@ extractor_bemovi_classify <- function(
 
   bemovi.LEEF::load_parameter(file.path(output, "bemovi", "bemovi_extract.yml"))
 
-  classified <- classify(
+
+  # Classify ----------------------------------------------------------------
+
+
+  classified <- classify_LEEF_2(
     bemovi_extract = file.path(output, "bemovi", "bemovi_extract.yml"),
     morph_mvt = readRDS(file.path(output, "bemovi", bemovi.LEEF::par_merged.data.folder(), bemovi.LEEF::par_morph_mvt())),
     trajectory_data = readRDS(file.path(output, "bemovi", bemovi.LEEF::par_merged.data.folder(), bemovi.LEEF::par_master())),
-    classifiers_constant = readRDS(file.path(output, "bemovi", bemovi.LEEF::par_classifier_constant())),
-    classifiers_increasing = readRDS(file.path(output, "bemovi", bemovi.LEEF::par_classifier_increasing())),
+    classifiers = readRDS(file.path(normalizePath(output), "bemovi",  bemovi.LEEF::par_classifiers())),
     video_description_file = as.data.frame(read.table(file.path(input, "bemovi", bemovi.LEEF::par_video.description.file()), sep = "\t", header = TRUE, stringsAsFactors = FALSE)),
     composition = utils::read.csv(file.path(output, "bemovi", "compositions.csv"))
   )
