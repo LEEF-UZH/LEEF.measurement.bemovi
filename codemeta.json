@@ -8,13 +8,13 @@
   "codeRepository": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/",
   "issueTracker": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/issues/",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.2.1 (2022-06-23)",
+  "runtimePlatform": "R version 4.2.2 (2022-10-31)",
   "author": [
     {
       "@type": "Person",
