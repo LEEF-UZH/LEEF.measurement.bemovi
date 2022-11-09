@@ -64,7 +64,7 @@ extractor_bemovi_merge <- function(
   )
 
   bemovi.LEEF::par_to.data(file.path(output, "bemovi"))
-  bemovi.LEEF::par_to.particlelinker(system.file(package = "LEEF.measurement.bemovi", "ParticleLinker"))
+  bemovi.LEEF::par_to.particlelinker(system.file(package = "LEEF.2.measurement.bemovi", "ParticleLinker"))
 
 # Merge Morphological data and Trajectories in single data.frame ----------
 

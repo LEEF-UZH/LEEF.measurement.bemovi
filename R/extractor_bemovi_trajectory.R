@@ -67,7 +67,7 @@ extractor_bemovi_trajectory <- function(
     stop("OS not supported by bemovi!")
   )
 
-  bemovi.LEEF::par_to.particlelinker(system.file(package = "LEEF.measurement.bemovi", "ParticleLinker"))
+  bemovi.LEEF::par_to.particlelinker(system.file(package = "LEEF.2.measurement.bemovi", "ParticleLinker"))
 
 
 # Identify Trajectories ---------------------------------------------------
