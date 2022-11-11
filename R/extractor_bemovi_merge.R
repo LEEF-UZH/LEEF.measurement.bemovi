@@ -106,7 +106,7 @@ extractor_bemovi_merge <- function(
 
   master <- readRDS(file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Master.rds"))
   exp_design <- read.csv(file.path(input, "bemovi", "experimental_design.csv"))
-  master <- merge(master, exp_design, by.x = "bottle", by.y = "bottles", all.x = TRUE, all.y = FALSE, suffixes = c(".video_descr", ""))
+  master <- merge(master, exp_design, by.x = "bottle", by.y = "bottle", all.x = TRUE, all.y = FALSE, suffixes = c(".video_descr", ""))
   saveRDS(master, file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Master.rds"))
 
   # file.copy(
