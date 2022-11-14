@@ -74,7 +74,7 @@ extractor_bemovi_merge <- function(
   # video file names. For the exact meaning of each of the columns, please refer
   # to the locate_and_measure_particles() and link_particles() functions.
   #
-  # RESULT: file.path( merged.data.folder, "Master.rds")
+  # RESULT: file.path( par_merged.data.folder(), par_master())
 
   dir.create(file.path(output, "bemovi", bemovi.LEEF::par_merged.data.folder()), showWarnings = FALSE)
 
@@ -104,14 +104,14 @@ extractor_bemovi_merge <- function(
 
   # Merge experimental design in --------------------------------------------
 
-  master <- readRDS(file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Master.rds"))
+  master <- readRDS(file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), bemovi.LEEF::par_master()))
   exp_design <- read.csv(file.path(input, "bemovi", "experimental_design.csv"))
   master <- merge(master, exp_design, by.x = "bottle", by.y = "bottle", all.x = TRUE, all.y = FALSE, suffixes = c(".video_descr", ""))
-  saveRDS(master, file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Master.rds"))
+  saveRDS(master, file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), bemovi.LEEF::par_master()))
 
   # file.copy(
-  #   from = file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Master.rds"),
-  #   to = file.path( output, "bemovi", "Master.rds" ),
+  #   from = file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), bemovi.LEEF::par_master()),
+  #   to = file.path( output, "bemovi", bemovi.LEEF::par_master() ),
   #   overwrite = TRUE
   # )
 

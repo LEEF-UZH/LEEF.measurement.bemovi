@@ -119,13 +119,13 @@ extractor_bemovi_filter <- function(
     # to.data,
     # merged.data.folder
   )
-  morph_mvt <- readRDS(file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.rds"))
+  morph_mvt <- readRDS(file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), par_morph_mvt()))
   exp_design <- read.csv(file.path(input, "bemovi", "experimental_design.csv"))
   morph_mvt <- merge(morph_mvt, exp_design, by.x = "bottle", by.y = "bottle", all.x = TRUE, all.y = FALSE, suffixes = c(".video_descr", ""))
-  saveRDS(morph_mvt, file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.rds"))
+  saveRDS(morph_mvt, file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), par_morph_mvt()))
 
   # file.rename(
-  #   from = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.rds" ),
+  #   from = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), par_morph_mvt() ),
   #   to = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.F1.rds" )
   # )
 
@@ -150,13 +150,13 @@ extractor_bemovi_filter <- function(
     # to.data,
     # merged.data.folder
   )
-  morph_mvt <- readRDS(file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.rds"))
+  morph_mvt <- readRDS(file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), par_morph_mvt()))
   exp_design <- read.csv(file.path(input, "bemovi", "experimental_design.csv"))
   morph_mvt <- merge(morph_mvt, exp_design, by.x = "bottle", by.y = "bottle", all.x = TRUE, all.y = FALSE, suffixes = c(".video_descr", ""))
-  saveRDS(morph_mvt, file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.rds"))
+  saveRDS(morph_mvt, file.path(bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), par_morph_mvt()))
 
   # file.rename(
-  #   from = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.rds" ),
+  #   from = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), par_morph_mvt() ),
   #   to = file.path( bemovi.LEEF::par_to.data(), bemovi.LEEF::par_merged.data.folder(), "Morph_mvt.F2.rds" )
   # )
 
