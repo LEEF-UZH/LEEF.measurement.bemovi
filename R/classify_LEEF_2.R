@@ -35,7 +35,7 @@ classify_LEEF_2 <- function(
     df$species[noNAs] <- as.character(pr) # species prediction
     df$species_probability[noNAs] <- apply(attributes(pr)$probabilities,1,max) # probability of each species prediction
     probabilities <- attributes(pr)$probabilities
-    colnames(probabilities[noNAs,]) <- paste0(colnames(probabilities),"_prob")
+    colnames(probabilities) <- paste0(colnames(probabilities),"_prob")
 
     # in script
     # df <- cbind(df, probabilities)
