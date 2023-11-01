@@ -182,7 +182,12 @@ classify_LEEF_2 <- function(
       sample,
       replicate
     ) %>%
-    summarise(density = sum(dens.ml)/(3*125))
+    summarise(
+      numberOfVideos = length(unique(file)),
+      density = sum(dens.ml) / (numberOfVideos * 125)
+    ) %>%
+    mutate(numberOfVideos = NULL)
+
 
   # -----------------------------------------------------------------------------------------------------
   # add density = 0 for extinct species ------------------------------------------------------------

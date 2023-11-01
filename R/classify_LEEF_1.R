@@ -158,7 +158,12 @@ classify <- function(
       magnification,
       sample
     ) %>%
-    summarise(density = sum(dens.ml) / (3*125)) # previously: 'density = mean(dens.ml)'
+    summarise(
+      numberOfVideos = length(unique(file)),
+      density = sum(dens.ml) / (numberOfVideos * 125)
+    ) %>%
+    mutate(numberOfVideos = NULL)
+ # previously: 'density = mean(dens.ml)'
 
 
   # -----------------------------------------------------------------------------------------------------
