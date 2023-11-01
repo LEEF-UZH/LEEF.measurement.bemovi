@@ -8,13 +8,13 @@
   "codeRepository": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/",
   "issueTracker": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/issues/",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.8.40",
+  "version": "0.8.50",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.2.1 (2022-06-23)",
+  "runtimePlatform": "R version 4.3.1 (2023-06-16)",
   "author": [
     {
       "@type": "Person",
@@ -208,6 +208,6 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "1881.486KB",
-  "readme": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/blob/master/Readme.md"
+  "fileSize": "1881.596KB",
+  "readme": "https://github.com/LEEF-UZH/LEEF.measurement.bemovi/blob/LEEF-2/Readme.md"
 }
