@@ -159,7 +159,7 @@ classify <- function(
       sample
     ) %>%
     summarise(
-      numberOfVideos = length(unique(file)),
+      numberOfVideos = 3, # length(unique(file)),
       density = sum(dens.ml) / (numberOfVideos * 125)
     ) %>%
     mutate(numberOfVideos = NULL) # previously: 'density = mean(dens.ml)'
