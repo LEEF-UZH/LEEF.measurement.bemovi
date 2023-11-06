@@ -183,7 +183,7 @@ classify_LEEF_2 <- function(
       replicate
     ) %>%
     summarise(
-      numberOfVideos = length(unique(file)),
+      numberOfVideos = 3, # length(unique(file)),
       density = sum(dens.ml) / (numberOfVideos * 125)
     ) %>%
     mutate(numberOfVideos = NULL)
